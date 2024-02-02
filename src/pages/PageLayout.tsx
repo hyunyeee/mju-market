@@ -11,6 +11,7 @@ const PageLayout = ({ children }: Pages) => {
 const PageContainer = styled.div`
   width: 100vw;
   height: 100%;
+  padding: 20px;
   color: ${({ theme }) => theme.colors.TXT_GRAY};
 `;
 export default PageLayout;

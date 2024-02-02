@@ -19,6 +19,8 @@ const GlobalStyle = createGlobalStyle`
   input{
     margin: 0;
     padding: 0;
+    border: none;
+    background-color: transparent;
   }
   input:focus, textarea:focus {
     outline: none;
