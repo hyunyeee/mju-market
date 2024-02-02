@@ -1,16 +1,32 @@
 import styled from 'styled-components';
+import { UseFormRegister } from 'react-hook-form';
+import { FormValues } from './AuthForm';
 
 type InputType = {
   children: React.ReactNode;
   type: string;
+  name: 'id' | 'password';
+  placeholder: string;
+  register: UseFormRegister<FormValues>;
+  errorMsg?: string;
 };
 
-const AuthInput = ({ children, type }: InputType) => {
+const AuthInput = ({
+  children,
+  type,
+  name,
+  placeholder,
+  register,
+  errorMsg,
+}: InputType) => {
   return (
-    <InputBox>
-      {children}
-      <Input type={type} />
-    </InputBox>
+    <div>
+      <InputBox>
+        {children}
+        <Input type={type} placeholder={placeholder} {...register(name)} />
+      </InputBox>
+      {errorMsg && <HelperText>{errorMsg}</HelperText>}
+    </div>
   );
 };
 
@@ -25,5 +41,10 @@ const InputBox = styled.div`
 const Input = styled.input`
   width: 100%;
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
+`;
+const HelperText = styled.p`
+  margin: 4px;
+  color: ${({ theme }) => theme.colors.RED};
+  ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
 export default AuthInput;

@@ -2,6 +2,7 @@ import { DefaultTheme, RuleSet, css } from 'styled-components';
 
 export type Colors = {
   LIGHT_GRAY: string;
+  RED: string;
   BLUE_1: string;
   BLUE_2: string;
   BLUE_3: string;
@@ -18,6 +19,7 @@ export type TypoGraphies = {
 export const theme: DefaultTheme = {
   colors: {
     LIGHT_GRAY: '#CCCCCC',
+    RED: '#FF8989',
     BLUE_1: '#A4B4CB',
     BLUE_2: '#597AAF',
     BLUE_3: '#0E1D54',
