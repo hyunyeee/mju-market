@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import { Outlet } from 'react-router-dom';
 
 type Pages = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const PageLayout = ({ children }: Pages) => {
-  return <PageContainer>{children}</PageContainer>;
+  return <PageContainer>{children || <Outlet />}</PageContainer>;
 };
 
 const PageContainer = styled.div`

@@ -8,9 +8,11 @@ const AppRoutes: React.FC = () => {
   return (
     <PageLayout>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route element={<PageLayout />}>
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Route>
       </Routes>
     </PageLayout>
   );
