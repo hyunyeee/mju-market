@@ -1,16 +1,18 @@
 import styled from 'styled-components';
-import AuthForm from '../components/UI/AuthForm';
+import { useNavigate } from 'react-router-dom';
+import LogInForm from '../components/UI/LogInForm';
 import BACK_ICON from '../assets/back_icon.svg';
 
 const LogIn: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <BackButton>
         <img src={BACK_ICON} alt="뒤로가기 버튼" />
       </BackButton>
       <Title>로그인</Title>
-      <AuthForm />
-      <SignUpButton>회원가입</SignUpButton>
+      <LogInForm />
+      <SignUpButton onClick={() => navigate('/signup')}>회원가입</SignUpButton>
     </Container>
   );
 };

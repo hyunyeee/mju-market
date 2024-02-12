@@ -9,7 +9,7 @@ export type FormValues = {
   password: string;
 };
 
-const AuthForm: React.FC = () => {
+const LogInForm: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -62,4 +62,4 @@ const Button = styled.button`
   ${({ theme }) => theme.typographies.BIG_TXT};
   background-color: ${({ theme }) => theme.colors.BLUE_2};
 `;
-export default AuthForm;
+export default LogInForm;

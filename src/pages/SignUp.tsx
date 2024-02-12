@@ -1,8 +1,10 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import SignUpForm from '../components/UI/SignUpForm';
 import BACK_ICON from '../assets/back_icon.svg';
 
 const SignUp: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <BackButton>
@@ -10,7 +12,7 @@ const SignUp: React.FC = () => {
       </BackButton>
       <Title>회원가입</Title>
       <SignUpForm />
-      <SignUpButton>로그인</SignUpButton>
+      <SignUpButton onClick={() => navigate('/login')}>로그인</SignUpButton>
     </Container>
   );
 };
