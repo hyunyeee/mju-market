@@ -1,4 +1,4 @@
-import ProductListItem from '../components/UI/ProductListItem';
+import ProductListItem from '../components/UI/market/ProductListItem';
 
 const Market: React.FC = () => {
   return (

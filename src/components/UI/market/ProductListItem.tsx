@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import heart_empty from '../../assets/heart-empty.svg';
+import heart_empty from '../../../assets/heart-empty.svg';
 
 const ProductListItem: React.FC = () => {
   return (
