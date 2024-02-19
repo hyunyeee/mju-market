@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ProductActionBar from '../components/UI/market/ProductActionBar';
 
 const Detail: React.FC = () => {
   return (
@@ -13,11 +14,14 @@ const Detail: React.FC = () => {
         <Category>Category</Category>
         <TextBody>Content</TextBody>
       </Content>
+      <MenuBar />
     </Container>
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  height: 100vh;
+`;
 const ImageBox = styled.section`
   height: 50vh;
   margin: -20px -20px 0;
@@ -51,5 +55,11 @@ const TextBody = styled.div`
   margin-top: 20px;
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
 `;
-
+const MenuBar = styled(ProductActionBar)`
+  width: 100%;
+  height: 70px;
+  margin-left: -20px;
+  position: fixed;
+  bottom: 0;
+`;
 export default Detail;
