@@ -16,11 +16,14 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     background-color: transparent;
   }
-  input{
+  input, textarea{
+    width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
     border: none;
     background-color: transparent;
+    resize: none;
   }
   input:focus, textarea:focus {
     outline: none;

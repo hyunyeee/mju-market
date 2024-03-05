@@ -19,9 +19,7 @@ const Detail: React.FC = () => {
   );
 };
 
-const Container = styled.div`
-  height: 100vh;
-`;
+const Container = styled.div``;
 const ImageBox = styled.section`
   height: 50vh;
   margin: -20px -20px 0;
