@@ -1,17 +1,24 @@
 import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import NavigationBar from '../components/UI/NavigationBar';
 
 type Pages = {
   children?: React.ReactNode;
 };
 
 const PageLayout = ({ children }: Pages) => {
-  return <PageContainer>{children || <Outlet />}</PageContainer>;
+  const hasBottomNav = ['/', '/board'];
+  const location = useLocation();
+
+  return (
+    <PageContainer>
+      {children || <Outlet />}
+      {hasBottomNav.includes(location.pathname) && <NavigationBar />}
+    </PageContainer>
+  );
 };
 
 const PageContainer = styled.div`
-  width: 100vw;
-  height: 100%;
   padding: 20px;
   color: ${({ theme }) => theme.colors.TXT_GRAY};
 `;
