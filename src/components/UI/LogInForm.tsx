@@ -4,10 +4,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '../../validation/schema';
 import AuthInput from './AuthInput';
 
-export type FormValues = {
+export interface FormValues {
   id: string;
   password: string;
-};
+}
 
 const LogInForm: React.FC = () => {
   const {

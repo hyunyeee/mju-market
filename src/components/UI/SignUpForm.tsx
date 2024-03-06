@@ -1,15 +1,14 @@
 import styled from 'styled-components';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signup_schema } from '../../validation/schema';
 import AuthInput from './AuthInput';
-import { useEffect } from 'react';
+import { FormValues } from './LogInForm';
 
-export type SignUpFormValues = {
-  id: string;
-  password: string;
+interface SignUpFormValues extends FormValues {
   password_check: string;
-};
+}
 
 const SignUpForm: React.FC = () => {
   const {
