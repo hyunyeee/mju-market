@@ -2,23 +2,24 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '../../validation/schema';
-import AuthInput from './AuthInput';
 
-export interface FormValues {
-  id: string;
-  password: string;
-}
+import { AuthFormValues } from '../../types';
+import { submitAuthForm } from '../../api/auth';
+import AuthInput from './AuthInput';
 
 const LogInForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<AuthFormValues>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
-  const onSubmit = (data: FormValues) => console.log(data);
+  const onSubmit = async (data: AuthFormValues) => {
+    const token = await submitAuthForm(data, 'login');
+    localStorage.setItem('token', token);
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
