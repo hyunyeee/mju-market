@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '../../validation/schema';
@@ -16,9 +17,13 @@ const LogInForm: React.FC = () => {
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
+  const navigate = useNavigate();
   const onSubmit = async (data: AuthFormValues) => {
     const token = await submitAuthForm(data, 'login');
     localStorage.setItem('token', token);
+    if (token !== undefined) {
+      navigate('/');
+    }
   };
 
   return (

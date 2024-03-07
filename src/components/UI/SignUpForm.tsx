@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signup_schema } from '../../validation/schema';
@@ -22,9 +23,13 @@ const SignUpForm: React.FC = () => {
     resolver: yupResolver(signup_schema),
     mode: 'onChange',
   });
+  const navigate = useNavigate();
   const onSubmit = async (data: SignUpForm) => {
     const token = await submitAuthForm(data, 'signup');
     localStorage.setItem('token', token);
+    if (token !== undefined) {
+      navigate('/');
+    }
   };
 
   useEffect(() => {

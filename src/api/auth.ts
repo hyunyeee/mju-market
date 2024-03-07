@@ -8,7 +8,9 @@ export const submitAuthForm = async (data: AuthFormValues, path: string) => {
       email: data.id,
       password: data.password,
     });
-    if (response.status === 200) return response.data.token;
+    if (response.status === 200) {
+      return response.data.token;
+    }
   } catch (error) {
     if (axios.isAxiosError(error)) {
       alert(error?.response?.data);
