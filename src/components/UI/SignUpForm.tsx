@@ -1,16 +1,17 @@
 import styled from 'styled-components';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signup_schema } from '../../validation/schema';
+
+import { AuthFormValues } from '../../types';
+import { submitAuthForm } from '../../api/auth';
 import AuthInput from './AuthInput';
-import { useEffect } from 'react';
 
-export type SignUpFormValues = {
-  id: string;
-  password: string;
+interface SignUpForm extends AuthFormValues {
   password_check: string;
-};
-
+}
 const SignUpForm: React.FC = () => {
   const {
     register,
@@ -18,11 +19,18 @@ const SignUpForm: React.FC = () => {
     watch,
     trigger,
     formState: { errors },
-  } = useForm<SignUpFormValues>({
+  } = useForm<SignUpForm>({
     resolver: yupResolver(signup_schema),
     mode: 'onChange',
   });
-  const onSubmit = (data: SignUpFormValues) => console.log(data);
+  const navigate = useNavigate();
+  const onSubmit = async (data: SignUpForm) => {
+    const token = await submitAuthForm(data, 'signup');
+    localStorage.setItem('token', token);
+    if (token !== undefined) {
+      navigate('/');
+    }
+  };
 
   useEffect(() => {
     const subscription = watch((value, { name }) => {
@@ -36,21 +44,21 @@ const SignUpForm: React.FC = () => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <InputContainer>
-        <AuthInput<SignUpFormValues>
+        <AuthInput<SignUpForm>
           type="text"
           name="id"
           placeholder="아이디"
           register={register}
           errorMsg={errors?.id?.message ?? ''}
         />
-        <AuthInput<SignUpFormValues>
+        <AuthInput<SignUpForm>
           type="password"
           name="password"
           placeholder="비밀번호"
           register={register}
           errorMsg={errors?.password?.message ?? ''}
         />
-        <AuthInput<SignUpFormValues>
+        <AuthInput<SignUpForm>
           type="password"
           name="password_check"
           placeholder="비밀번호 재입력"
