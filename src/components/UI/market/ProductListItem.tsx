@@ -1,14 +1,19 @@
 import styled from 'styled-components';
+import { product } from '../../../pages/Market';
 import heart_empty from '../../../assets/heart-empty.svg';
 
-const ProductListItem: React.FC = () => {
+interface ProductListItemProps {
+  product: product;
+}
+
+const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
   return (
     <ItemBox>
       <Content>
         <Image />
         <Description>
-          <Title>Title</Title>
-          <Price>Price</Price>
+          <Title>{product.title}</Title>
+          <Price>{product.price}</Price>
         </Description>
       </Content>
       <Like>

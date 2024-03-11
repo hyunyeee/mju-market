@@ -1,13 +1,30 @@
+import { Dispatch } from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { getProducts } from '../../../api/market';
+import { product } from '../../../pages/Market';
 
 interface clickedStyle {
   $index: number;
   $clickedIndex: number;
 }
-const SelectCategory = () => {
-  const [clickedIndex, setClickedIndex] = useState<number>(0);
-  const dummy_category = ['1', '2', '3', '4', '5', '6'];
+interface selectCategoryProps {
+  dummy_category: string[];
+  clickedIndex: number;
+  setClickedIndex: Dispatch<number>;
+  setProductList: Dispatch<product[]>;
+}
+
+const SelectCategory: React.FC<selectCategoryProps> = ({
+  dummy_category,
+  clickedIndex,
+  setClickedIndex,
+  setProductList,
+}) => {
+  const selectCategory = async (index: number) => {
+    setClickedIndex(index);
+    const products = getProducts(index);
+    await setProductList(await products);
+  };
 
   return (
     <CategoryBox>
@@ -15,7 +32,7 @@ const SelectCategory = () => {
         <Category
           key={category}
           $index={index}
-          onClick={() => setClickedIndex(index)}
+          onClick={() => selectCategory(index)}
           $clickedIndex={clickedIndex}
         >
           {category}
