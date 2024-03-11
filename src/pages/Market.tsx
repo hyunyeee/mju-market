@@ -1,9 +1,32 @@
+import { useState } from 'react';
+import SelectCategory from '../components/UI/market/SelectCategory';
 import ProductListItem from '../components/UI/market/ProductListItem';
 
-const Market: React.FC = () => {
+export interface product {
+  price: number;
+  productId: number;
+  title: string;
+}
+
+const Market = () => {
+  const [clickedIndex, setClickedIndex] = useState<number>(0);
+  const [productList, setProductList] = useState<product[]>([]);
+  const dummy_category: string[] = ['1', '2', '3', '4', '5', '6'];
   return (
     <div>
-      <ProductListItem />
+      <SelectCategory
+        dummy_category={dummy_category}
+        clickedIndex={clickedIndex}
+        setClickedIndex={setClickedIndex}
+        setProductList={setProductList}
+      />
+      {productList?.length !== 0 && (
+        <>
+          {productList.map((product) => (
+            <ProductListItem product={product} key={product.productId} />
+          ))}
+        </>
+      )}
     </div>
   );
 };
