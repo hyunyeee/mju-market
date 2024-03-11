@@ -20,7 +20,7 @@ const Market = () => {
         setClickedIndex={setClickedIndex}
         setProductList={setProductList}
       />
-      {productList.length !== 0 && (
+      {productList?.length !== 0 && (
         <>
           {productList.map((product) => (
             <ProductListItem product={product} key={product.productId} />

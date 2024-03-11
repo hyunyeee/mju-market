@@ -1,6 +1,11 @@
+import axios from 'axios';
 import { Axios } from './Axios';
+import { NavigateFunction } from 'react-router-dom';
 
-export const getProducts = async (categoryId: number) => {
+export const getProducts = async (
+  categoryId: number,
+  navigate: NavigateFunction,
+) => {
   const token = localStorage.getItem('token');
 
   try {
@@ -14,6 +19,10 @@ export const getProducts = async (categoryId: number) => {
     );
     return response.data.products;
   } catch (error) {
-    console.log(error);
+    if (axios.isAxiosError(error)) {
+      if (error?.response?.status === 401) {
+        navigate('/login');
+      }
+    }
   }
 };

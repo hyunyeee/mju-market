@@ -1,5 +1,6 @@
 import { Dispatch } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../../../api/market';
 import { product } from '../../../pages/Market';
 
@@ -20,9 +21,11 @@ const SelectCategory: React.FC<selectCategoryProps> = ({
   setClickedIndex,
   setProductList,
 }) => {
+  const navigate = useNavigate();
+
   const selectCategory = async (index: number) => {
     setClickedIndex(index);
-    const products = getProducts(index);
+    const products = getProducts(index, navigate);
     await setProductList(await products);
   };
 
