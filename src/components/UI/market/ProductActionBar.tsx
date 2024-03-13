@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 import heart_empty from '../../../assets/heart-empty.svg';
 
-const ProductActionBar = ({ ...attrProps }) => {
+type Price = {
+  price: number | undefined;
+};
+const ProductActionBar: React.FC<Price> = ({ price, ...atterProps }) => {
   return (
-    <Container {...attrProps}>
+    <Container {...atterProps}>
       <LikeButton>
         <img src={heart_empty} />
       </LikeButton>
       <Line />
-      <Price>price</Price>
+      <Price>{price}원</Price>
       <ChatButton>1:1 채팅하기</ChatButton>
     </Container>
   );

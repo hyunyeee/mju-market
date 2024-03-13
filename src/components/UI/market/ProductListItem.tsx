@@ -1,14 +1,25 @@
 import styled from 'styled-components';
-import { product } from '../../../pages/Market';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ProductContext } from '../../../ProductContext';
+import { Iproduct } from '../../../pages/Market';
 import heart_empty from '../../../assets/heart-empty.svg';
 
 interface ProductListItemProps {
-  product: product;
+  product: Iproduct;
 }
 
 const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
+  const productContext = useContext(ProductContext);
+  const navigate = useNavigate();
+
+  const clickItem = () => {
+    navigate(`/${product.productId}`);
+    productContext.setProductId(product.productId);
+  };
+
   return (
-    <ItemBox>
+    <ItemBox onClick={() => clickItem()}>
       <Content>
         <Image />
         <Description>
@@ -24,10 +35,11 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
   );
 };
 
-const ItemBox = styled.article`
+const ItemBox = styled.div`
   padding: 20px 0;
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
   border-bottom: 1px solid ${({ theme }) => theme.colors.LIGHT_GRAY};
   ${({ theme }) => theme.typographies.DEFAULT};
 `;
@@ -38,9 +50,9 @@ const Content = styled.div`
 const Image = styled.div`
   width: 62px;
   height: 62px;
+  flex-shrink: 1;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
-  flex-shrink: 1;
 `;
 const Description = styled.div``;
 const Title = styled.h2`

@@ -5,18 +5,21 @@ import Detail from '../pages/Detail';
 import Write from '../pages/Write';
 import LogIn from '../pages/LogIn';
 import SignUp from '../pages/SignUp';
+import ProductProvider from '../ProductProvider';
 
 const AppRoutes: React.FC = () => {
   return (
-    <Routes>
-      <Route element={<PageLayout />}>
-        <Route path="/" element={<Market />} />
-        <Route path="/:productId" element={<Detail />} />
-        <Route path="/write" element={<Write />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Route>
-    </Routes>
+    <ProductProvider>
+      <Routes>
+        <Route element={<PageLayout />}>
+          <Route path="/" element={<Market />} />
+          <Route path="/:productId" element={<Detail />} />
+          <Route path="/write" element={<Write />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Route>
+      </Routes>
+    </ProductProvider>
   );
 };
 

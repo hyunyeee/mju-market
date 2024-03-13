@@ -1,30 +1,28 @@
-import { Dispatch } from 'react';
 import styled from 'styled-components';
+import { Dispatch, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../../../api/market';
-import { product } from '../../../pages/Market';
+import { Iproduct } from '../../../pages/Market';
+import { ProductContext } from '../../../ProductContext';
 
 interface clickedStyle {
   $index: number;
-  $clickedIndex: number;
+  $categoryIndex: number;
 }
 interface selectCategoryProps {
   dummy_category: string[];
-  clickedIndex: number;
-  setClickedIndex: Dispatch<number>;
-  setProductList: Dispatch<product[]>;
+  setProductList: Dispatch<Iproduct[]>;
 }
 
 const SelectCategory: React.FC<selectCategoryProps> = ({
   dummy_category,
-  clickedIndex,
-  setClickedIndex,
   setProductList,
 }) => {
+  const productContext = useContext(ProductContext);
   const navigate = useNavigate();
 
   const selectCategory = async (index: number) => {
-    setClickedIndex(index);
+    productContext.setCategoryIndex(index);
     const products = getProducts(index, navigate);
     await setProductList(await products);
   };
@@ -36,7 +34,7 @@ const SelectCategory: React.FC<selectCategoryProps> = ({
           key={category}
           $index={index}
           onClick={() => selectCategory(index)}
-          $clickedIndex={clickedIndex}
+          $categoryIndex={productContext.categoryIndex}
         >
           {category}
         </Category>
@@ -56,13 +54,13 @@ const CategoryBox = styled.div`
 const Category = styled.button<clickedStyle>`
   width: 90px;
   height: 40px;
-  color: ${({ $clickedIndex, $index, theme }) =>
-    $clickedIndex === $index ? theme.colors.BLUE_2 : '#969696'};
+  color: ${({ $categoryIndex, $index, theme }) =>
+    $categoryIndex === $index ? theme.colors.BLUE_2 : '#969696'};
   border: 1px solid
-    ${({ $clickedIndex, $index, theme }) =>
-      $clickedIndex === $index ? theme.colors.BLUE_2 : '#dbdbdb'};
-  background-color: ${({ $clickedIndex, $index }) =>
-    $clickedIndex === $index ? '#D9E4F4' : 'white'};
+    ${({ $categoryIndex, $index, theme }) =>
+      $categoryIndex === $index ? theme.colors.BLUE_2 : '#dbdbdb'};
+  background-color: ${({ $categoryIndex, $index }) =>
+    $categoryIndex === $index ? '#D9E4F4' : 'white'};
   flex-shrink: 0;
   border-radius: 25px;
 `;

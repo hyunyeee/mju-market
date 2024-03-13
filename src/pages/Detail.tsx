@@ -1,20 +1,56 @@
 import styled from 'styled-components';
 import ProductActionBar from '../components/UI/market/ProductActionBar';
+import { getProduct } from '../api/market';
+import { useContext, useEffect, useState } from 'react';
+import { ProductContext } from '../ProductContext';
+import { useNavigate } from 'react-router-dom';
 
+interface ProductDetail {
+  content: string;
+  ownerId: number;
+  price: number;
+  productId: number;
+  title: string;
+}
 const Detail: React.FC = () => {
+  const productContext = useContext(ProductContext);
+  const [productObj, setProductObj] = useState<ProductDetail | undefined>(
+    undefined,
+  );
+  const navigate = useNavigate();
+
+  const { content, ownerId, price, productId, title } = productObj || {};
+
+  const fetchData = async () => {
+    const response = await getProduct(
+      productContext.categoryIndex,
+      productContext.productId,
+      navigate,
+    );
+    setProductObj(response);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Container>
-      <ImageBox>image</ImageBox>
-      <Information>
-        <Author>Author &gt; </Author>
-        <Counts>찜3 &nbsp; &nbsp; 조회10</Counts>
-      </Information>
-      <Content>
-        <Title>Title</Title>
-        <Category>Category</Category>
-        <TextBody>Content</TextBody>
-      </Content>
-      <MenuBar />
+      {productObj && (
+        <>
+          <ImageBox>image</ImageBox>
+          <Information>
+            <Author>Author {ownerId} &gt; </Author>
+            <Counts>찜3 &nbsp; &nbsp; 조회10</Counts>
+          </Information>
+          <Content>
+            <Title>{title}</Title>
+            <Category>Category {productContext.categoryIndex}</Category>
+            <TextBody>{content}</TextBody>
+          </Content>
+          <MenuBar price={price} />
+        </>
+      )}
     </Container>
   );
 };
@@ -26,9 +62,12 @@ const ImageBox = styled.section`
   background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
 `;
 const Information = styled.section`
+  margin: 0 -20px;
+  padding: 10px;
   height: 60px;
   display: flex;
   justify-content: space-between;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
   align-items: center;
   ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
