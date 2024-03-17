@@ -9,6 +9,7 @@ interface clickedStyle {
   $index: number;
   $categoryIndex: number;
 }
+
 interface selectCategoryProps {
   dummy_category: string[];
   setProductList: Dispatch<Product[]>;

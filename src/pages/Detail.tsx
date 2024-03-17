@@ -12,6 +12,7 @@ interface ProductDetail {
   productId: number;
   title: string;
 }
+
 const Detail: React.FC = () => {
   const productContext = useContext(ProductContext);
   const [productObj, setProductObj] = useState<ProductDetail | undefined>(

@@ -4,6 +4,7 @@ import heart_empty from '../../../assets/heart-empty.svg';
 type Price = {
   price: number | undefined;
 };
+
 const ProductActionBar: React.FC<Price> = ({ price, ...atterProps }) => {
   return (
     <Container {...atterProps}>
