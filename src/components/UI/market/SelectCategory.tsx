@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Dispatch, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../../../api/market';
-import { Iproduct } from '../../../pages/Market';
+import { Product } from '../../../pages/Market';
 import { ProductContext } from '../../../ProductContext';
 
 interface clickedStyle {
@@ -11,7 +11,7 @@ interface clickedStyle {
 }
 interface selectCategoryProps {
   dummy_category: string[];
-  setProductList: Dispatch<Iproduct[]>;
+  setProductList: Dispatch<Product[]>;
 }
 
 const SelectCategory: React.FC<selectCategoryProps> = ({

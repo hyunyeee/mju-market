@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import ProductActionBar from '../components/UI/market/ProductActionBar';
-import { getProduct } from '../api/market';
-import { useContext, useEffect, useState } from 'react';
 import { ProductContext } from '../ProductContext';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getProduct } from '../api/market';
+import ProductActionBar from '../components/UI/market/ProductActionBar';
 
 interface ProductDetail {
   content: string;

@@ -2,14 +2,14 @@ import { useState } from 'react';
 import SelectCategory from '../components/UI/market/SelectCategory';
 import ProductListItem from '../components/UI/market/ProductListItem';
 
-export interface Iproduct {
+export interface Product {
   price: number;
   productId: number;
   title: string;
 }
 
 const Market = () => {
-  const [productList, setProductList] = useState<Iproduct[]>([]);
+  const [productList, setProductList] = useState<Product[]>([]);
   const dummy_category: string[] = ['1', '2', '3', '4', '5', '6'];
 
   return (
