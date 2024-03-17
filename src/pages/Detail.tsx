@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import axios from 'axios';
 import { ProductContext } from '../ProductContext';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -23,12 +24,19 @@ const Detail: React.FC = () => {
   const { content, ownerId, price, productId, title } = productObj || {};
 
   const fetchData = async () => {
-    const response = await getProduct(
-      productContext.categoryIndex,
-      productContext.productId,
-      navigate,
-    );
-    setProductObj(response);
+    try {
+      const response = await getProduct(
+        productContext.categoryIndex,
+        productContext.productId,
+      );
+      setProductObj(response);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      }
+    }
   };
 
   useEffect(() => {

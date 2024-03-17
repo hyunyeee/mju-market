@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import axios from 'axios';
 import { Dispatch, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../../../api/market';
@@ -23,9 +24,17 @@ const SelectCategory: React.FC<selectCategoryProps> = ({
   const navigate = useNavigate();
 
   const selectCategory = async (index: number) => {
-    setCategoryIndex(index);
-    const products = getProducts(index, navigate);
-    await setProductList(await products);
+    try {
+      setCategoryIndex(index);
+      const products = getProducts(index);
+      setProductList(await products);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      }
+    }
   };
 
   return (
