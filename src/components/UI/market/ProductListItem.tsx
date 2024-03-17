@@ -13,13 +13,13 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
   const productContext = useContext(ProductContext);
   const navigate = useNavigate();
 
-  const clickItem = () => {
+  const onItemClick = () => {
     navigate(`/${product.productId}`);
     productContext.setProductId(product.productId);
   };
 
   return (
-    <ItemBox onClick={() => clickItem()}>
+    <ItemBox onClick={onItemClick}>
       <Content>
         <Image />
         <Description>

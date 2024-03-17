@@ -5,9 +5,9 @@ type Price = {
   price: number | undefined;
 };
 
-const ProductActionBar: React.FC<Price> = ({ price, ...atterProps }) => {
+const ProductActionBar: React.FC<Price> = ({ price, ...attrProps }) => {
   return (
-    <Container {...atterProps}>
+    <Container {...attrProps}>
       <LikeButton>
         <img src={heart_empty} />
       </LikeButton>
