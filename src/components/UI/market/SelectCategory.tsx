@@ -19,11 +19,11 @@ const SelectCategory: React.FC<selectCategoryProps> = ({
   dummy_category,
   setProductList,
 }) => {
-  const productContext = useContext(ProductContext);
+  const { setCategoryIndex, categoryIndex } = useContext(ProductContext);
   const navigate = useNavigate();
 
   const selectCategory = async (index: number) => {
-    productContext.setCategoryIndex(index);
+    setCategoryIndex(index);
     const products = getProducts(index, navigate);
     await setProductList(await products);
   };
@@ -35,7 +35,7 @@ const SelectCategory: React.FC<selectCategoryProps> = ({
           key={category}
           $index={index}
           onClick={() => selectCategory(index)}
-          $categoryIndex={productContext.categoryIndex}
+          $categoryIndex={categoryIndex}
         >
           {category}
         </Category>
