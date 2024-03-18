@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import { ProductContext } from '../ProductContext';
 import { useContext, useEffect, useState } from 'react';
+import { ProductContext } from '../ProductContext';
 import { useNavigate } from 'react-router-dom';
 import { getProduct } from '../api/market';
 import ProductActionBar from '../components/UI/market/ProductActionBar';
@@ -16,16 +16,20 @@ interface ProductDetail {
 
 const Detail: React.FC = () => {
   const productContext = useContext(ProductContext);
+  const navigate = useNavigate();
   const [productObj, setProductObj] = useState<ProductDetail | undefined>(
     undefined,
   );
-  const navigate = useNavigate();
-
   const { content, ownerId, price, productId, title } = productObj || {};
 
   const fetchData = async () => {
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+      }
       const response = await getProduct(
+        token,
         productContext.categoryIndex,
         productContext.productId,
       );

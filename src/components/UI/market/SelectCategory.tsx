@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import { Dispatch, useContext } from 'react';
+import { ProductContext } from '../../../ProductContext';
 import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../../../api/market';
 import { Product } from '../../../pages/Market';
-import { ProductContext } from '../../../ProductContext';
 
 interface clickedStyle {
   $index: number;
@@ -26,7 +26,11 @@ const SelectCategory: React.FC<selectCategoryProps> = ({
   const selectCategory = async (index: number) => {
     try {
       setCategoryIndex(index);
-      const products = getProducts(index);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+      }
+      const products = getProducts(token, index);
       setProductList(await products);
     } catch (error) {
       if (axios.isAxiosError(error)) {

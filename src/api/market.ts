@@ -1,8 +1,6 @@
 import { Axios } from './Axios';
 
-const token = localStorage.getItem('token');
-
-export const getProducts = async (categoryId: number) => {
+export const getProducts = async (token: string | null, categoryId: number) => {
   const response = await Axios.get(
     `/api/categories/${categoryId + 1}/products`,
     {
@@ -14,7 +12,11 @@ export const getProducts = async (categoryId: number) => {
   return response.data.products;
 };
 
-export const getProduct = async (categoryId: number, productId: number) => {
+export const getProduct = async (
+  token: string | null,
+  categoryId: number,
+  productId: number,
+) => {
   const response = await Axios.get(
     `/api/categories/${categoryId + 1}/products/${productId}`,
     {
