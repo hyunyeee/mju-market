@@ -15,14 +15,13 @@ interface ProductDetail {
 }
 
 const Detail: React.FC = () => {
-  const productId = useParams();
+  const { productId } = useParams();
   const { categoryIndex } = useContext(ProductContext);
   const navigate = useNavigate();
   const [productObj, setProductObj] = useState<ProductDetail | undefined>(
     undefined,
   );
   const { content, ownerId, price, title } = productObj || {};
-
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');

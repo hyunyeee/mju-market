@@ -15,7 +15,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
   const navigate = useNavigate();
 
   const onItemClick = () => {
-    navigate(`/${productId}`);
+    navigate(`/products/${productId}`);
     setProductId(productId);
   };
 
