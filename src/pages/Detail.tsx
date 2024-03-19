@@ -20,7 +20,7 @@ const Detail: React.FC = () => {
   const [productObj, setProductObj] = useState<ProductDetail | undefined>(
     undefined,
   );
-  const { content, ownerId, price, title } = productObj || {};
+  const { content, ownerId, price = 0, title } = productObj || {};
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import heart_empty from '../../../assets/heart-empty.svg';
 
 type Price = {
-  price: number | undefined;
+  price: number;
 };
 
 const ProductActionBar: React.FC<Price> = ({ price, ...attrProps }) => {
