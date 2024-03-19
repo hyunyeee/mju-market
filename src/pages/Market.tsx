@@ -4,7 +4,7 @@ import ProductListItem from '../components/UI/market/ProductListItem';
 
 export interface Product {
   price: number;
-  productId: number;
+  id: number;
   title: string;
 }
 
@@ -21,7 +21,7 @@ const Market = () => {
       {productList?.length !== 0 && (
         <>
           {productList.map((product) => (
-            <ProductListItem product={product} key={product.productId} />
+            <ProductListItem product={product} key={product.id} />
           ))}
         </>
       )}

@@ -33,7 +33,8 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({
       const products = getProducts(token, index);
       setProductList(await products);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
+      if (error instanceof Error) alert(error.message);
+      else if (axios.isAxiosError(error)) {
         if (error?.response?.status === 401) {
           navigate('/login');
         }

@@ -11,12 +11,12 @@ interface ProductListItemProps {
 
 const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
   const { setProductId } = useContext(ProductContext);
-  const { productId, title, price } = product;
+  const { id, title, price } = product;
   const navigate = useNavigate();
 
   const onItemClick = () => {
-    navigate(`/products/${productId}`);
-    setProductId(productId);
+    navigate(`/products/${id}`);
+    setProductId(id);
   };
 
   return (
