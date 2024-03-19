@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import { ProductContext } from '../ProductContext';
-import { useNavigate } from 'react-router-dom';
 import { getProduct } from '../api/market';
 import ProductActionBar from '../components/UI/market/ProductActionBar';
 
@@ -15,12 +15,13 @@ interface ProductDetail {
 }
 
 const Detail: React.FC = () => {
-  const productContext = useContext(ProductContext);
+  const productId = useParams();
+  const { categoryIndex } = useContext(ProductContext);
   const navigate = useNavigate();
   const [productObj, setProductObj] = useState<ProductDetail | undefined>(
     undefined,
   );
-  const { content, ownerId, price, productId, title } = productObj || {};
+  const { content, ownerId, price, title } = productObj || {};
 
   const fetchData = async () => {
     try {
@@ -30,8 +31,8 @@ const Detail: React.FC = () => {
       }
       const response = await getProduct(
         token,
-        productContext.categoryIndex,
-        productContext.productId,
+        categoryIndex,
+        Number(productId),
       );
       setProductObj(response);
     } catch (error) {
@@ -58,7 +59,7 @@ const Detail: React.FC = () => {
           </Information>
           <Content>
             <Title>{title}</Title>
-            <Category>Category {productContext.categoryIndex}</Category>
+            <Category>Category {categoryIndex}</Category>
             <TextBody>{content}</TextBody>
           </Content>
           <MenuBar price={price} />
