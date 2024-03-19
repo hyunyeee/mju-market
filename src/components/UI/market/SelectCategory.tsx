@@ -6,18 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../../../api/market';
 import { Product } from '../../../pages/Market';
 
-interface clickedStyle {
+interface ClickedStyle {
   $index: number;
   $categoryIndex: number;
 }
 
-interface selectCategoryProps {
-  dummy_category: string[];
+interface SelectCategoryProps {
+  dummyCategory: string[];
   setProductList: Dispatch<Product[]>;
 }
 
-const SelectCategory: React.FC<selectCategoryProps> = ({
-  dummy_category,
+const SelectCategory: React.FC<SelectCategoryProps> = ({
+  dummyCategory,
   setProductList,
 }) => {
   const { setCategoryIndex, categoryIndex } = useContext(ProductContext);
@@ -43,7 +43,7 @@ const SelectCategory: React.FC<selectCategoryProps> = ({
 
   return (
     <CategoryBox>
-      {dummy_category.map((category: string, index: number) => (
+      {dummyCategory.map((category: string, index: number) => (
         <Category
           key={category}
           $index={index}
@@ -65,7 +65,7 @@ const CategoryBox = styled.div`
   overflow-x: scroll;
   background-color: ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
 `;
-const Category = styled.button<clickedStyle>`
+const Category = styled.button<ClickedStyle>`
   width: 90px;
   height: 40px;
   color: ${({ $categoryIndex, $index, theme }) =>

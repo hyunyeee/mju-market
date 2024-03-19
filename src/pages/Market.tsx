@@ -10,12 +10,12 @@ export interface Product {
 
 const Market = () => {
   const [productList, setProductList] = useState<Product[]>([]);
-  const dummy_category: string[] = ['1', '2', '3', '4', '5', '6'];
+  const dummyCategory: string[] = ['1', '2', '3', '4', '5', '6'];
 
   return (
     <div>
       <SelectCategory
-        dummy_category={dummy_category}
+        dummyCategory={dummyCategory}
         setProductList={setProductList}
       />
       {productList?.length !== 0 && (
