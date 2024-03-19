@@ -3,13 +3,9 @@ import { createContext } from 'react';
 interface ProductContext {
   categoryIndex: number;
   setCategoryIndex: (index: number) => void;
-  productId: number;
-  setProductId: (index: number) => void;
 }
 
 export const ProductContext = createContext<ProductContext>({
   categoryIndex: 0,
   setCategoryIndex: () => {},
-  productId: 1,
-  setProductId: () => {},
 });

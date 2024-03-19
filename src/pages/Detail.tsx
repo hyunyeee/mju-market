@@ -10,7 +10,6 @@ interface ProductDetail {
   content: string;
   ownerId: number;
   price: number;
-  productId: number;
   title: string;
 }
 

@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ProductContext } from '../../../ProductContext';
 import { Product } from '../../../pages/Market';
 import heart_empty from '../../../assets/heart-empty.svg';
 
@@ -10,13 +8,11 @@ interface ProductListItemProps {
 }
 
 const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
-  const { setProductId } = useContext(ProductContext);
   const { id, title, price } = product;
   const navigate = useNavigate();
 
   const onItemClick = () => {
     navigate(`/products/${id}`);
-    setProductId(id);
   };
 
   return (
