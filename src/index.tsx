@@ -11,8 +11,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <ThemeProvider theme={theme}>
-    <GlobalStyle />
-    <GlobalFont />
-    <App />
+    <React.StrictMode>
+      <GlobalStyle />
+      <GlobalFont />
+      <App />
+    </React.StrictMode>
   </ThemeProvider>,
 );
