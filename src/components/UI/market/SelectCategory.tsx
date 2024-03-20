@@ -34,10 +34,10 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({
       setProductList(await products);
     } catch (error) {
       if (error instanceof Error) alert(error.message);
-      else if (axios.isAxiosError(error)) {
-        if (error?.response?.status === 401) {
-          navigate('/login');
-        }
+      else if (axios.isAxiosError(error) && error?.response?.status === 401) {
+        navigate('/login');
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
       }
     }
   };

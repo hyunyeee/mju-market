@@ -17,10 +17,9 @@ const Detail: React.FC = () => {
   const { productId } = useParams();
   const { categoryIndex } = useContext(ProductContext);
   const navigate = useNavigate();
-  const [productObj, setProductObj] = useState<ProductDetail | undefined>(
-    undefined,
-  );
+  const [productObj, setProductObj] = useState<ProductDetail>();
   const { content, ownerId, price = 0, title } = productObj || {};
+
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -35,10 +34,10 @@ const Detail: React.FC = () => {
       setProductObj(response);
     } catch (error) {
       if (error instanceof Error) alert(error.message);
-      else if (axios.isAxiosError(error)) {
-        if (error?.response?.status === 401) {
-          navigate('/login');
-        }
+      else if (axios.isAxiosError(error) && error?.response?.status === 401) {
+        navigate('/login');
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
       }
     }
   };
