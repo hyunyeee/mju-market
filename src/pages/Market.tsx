@@ -18,13 +18,9 @@ const Market = () => {
         dummyCategory={dummyCategory}
         setProductList={setProductList}
       />
-      {productList?.length !== 0 && (
-        <>
-          {productList.map((product) => (
-            <ProductListItem product={product} key={product.id} />
-          ))}
-        </>
-      )}
+      {productList.map((product) => (
+        <ProductListItem product={product} key={product.id} />
+      ))}
     </div>
   );
 };
