@@ -28,7 +28,9 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({
       setCategoryIndex(index);
       const token = localStorage.getItem('token');
       if (!token) {
+        alert('로그인이 필요합니다.');
         navigate('/login');
+        return;
       }
       const products = getProducts(token, index);
       setProductList(await products);

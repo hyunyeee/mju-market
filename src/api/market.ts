@@ -1,6 +1,6 @@
 import { Axios } from './Axios';
 
-export const getProducts = async (token: string | null, categoryId: number) => {
+export const getProducts = async (token: string, categoryId: number) => {
   if (!token) {
     throw new Error('로그인 정보가 유효하지 않습니다.');
   }
@@ -16,7 +16,7 @@ export const getProducts = async (token: string | null, categoryId: number) => {
 };
 
 export const getProduct = async (
-  token: string | null,
+  token: string,
   categoryId: number,
   productId: number,
 ) => {

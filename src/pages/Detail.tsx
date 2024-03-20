@@ -24,7 +24,9 @@ const Detail: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
+        alert('로그인 정보가 유효하지 않습니다.');
         navigate('/login');
+        return;
       }
       const response = await getProduct(
         token,
