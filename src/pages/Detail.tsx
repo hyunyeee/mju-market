@@ -16,9 +16,10 @@ interface ProductDetail {
 const Detail: React.FC = () => {
   const { productId } = useParams();
   const { categoryIndex } = useContext(ProductContext);
-  const navigate = useNavigate();
   const [productObj, setProductObj] = useState<ProductDetail>();
   const { content, ownerId, price = 0, title } = productObj || {};
+
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
@@ -28,16 +29,23 @@ const Detail: React.FC = () => {
         navigate('/login');
         return;
       }
-      const response = await getProduct(
-        token,
-        categoryIndex,
-        Number(productId),
-      );
+      const id = Number(productId);
+      if (isNaN(id)) {
+        alert('잘못된 접근입니다.');
+        navigate('/');
+        return;
+      }
+      const response = await getProduct(token, categoryIndex, id);
       setProductObj(response);
     } catch (error) {
-      if (error instanceof Error) alert(error.message);
-      else if (axios.isAxiosError(error) && error?.response?.status === 401) {
-        navigate('/login');
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+        navigate('/');
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      } else if (error instanceof Error) {
+        alert(error.message);
       } else {
         alert('알 수 없는 에러가 발생했습니다.');
       }

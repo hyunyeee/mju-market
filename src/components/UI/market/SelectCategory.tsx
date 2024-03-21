@@ -32,12 +32,16 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({
         navigate('/login');
         return;
       }
-      const products = getProducts(token, index);
-      setProductList(await products);
+      const products = await getProducts(token, index);
+      setProductList(products);
     } catch (error) {
-      if (error instanceof Error) alert(error.message);
-      else if (axios.isAxiosError(error) && error?.response?.status === 401) {
-        navigate('/login');
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      } else if (error instanceof Error) {
+        alert(error.message);
       } else {
         alert('알 수 없는 에러가 발생했습니다.');
       }
