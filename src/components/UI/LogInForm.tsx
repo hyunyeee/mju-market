@@ -31,6 +31,10 @@ const LogInForm: React.FC = () => {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error?.response?.data);
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
       }
     }
   };
