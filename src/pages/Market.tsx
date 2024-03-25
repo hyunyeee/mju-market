@@ -1,34 +1,37 @@
 import { useState } from 'react';
 import SelectCategory from '../components/UI/market/SelectCategory';
 import ProductListItem from '../components/UI/market/ProductListItem';
+import styled from 'styled-components';
 
-export interface product {
+export interface Product {
   price: number;
-  productId: number;
+  id: number;
   title: string;
 }
 
 const Market = () => {
-  const [clickedIndex, setClickedIndex] = useState<number>(0);
-  const [productList, setProductList] = useState<product[]>([]);
-  const dummy_category: string[] = ['1', '2', '3', '4', '5', '6'];
+  const [productList, setProductList] = useState<Product[]>([]);
+  const dummyCategory: string[] = ['1', '2', '3', '4', '5', '6'];
+
   return (
-    <div>
+    <Container>
       <SelectCategory
-        dummy_category={dummy_category}
-        clickedIndex={clickedIndex}
-        setClickedIndex={setClickedIndex}
+        dummyCategory={dummyCategory}
         setProductList={setProductList}
       />
-      {productList?.length !== 0 && (
-        <>
-          {productList.map((product) => (
-            <ProductListItem product={product} key={product.productId} />
-          ))}
-        </>
-      )}
-    </div>
+      <ListContainer>
+        {productList.map((product) => (
+          <ProductListItem product={product} key={product.id} />
+        ))}
+      </ListContainer>
+    </Container>
   );
 };
 
+const Container = styled.div`
+  background-color: pink;
+`;
+const ListContainer = styled.div`
+  margin-top: 60px;
+`;
 export default Market;

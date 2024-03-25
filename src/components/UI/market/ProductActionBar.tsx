@@ -1,14 +1,18 @@
 import styled from 'styled-components';
 import heart_empty from '../../../assets/heart-empty.svg';
 
-const ProductActionBar = ({ ...attrProps }) => {
+type Price = {
+  price: number;
+};
+
+const ProductActionBar: React.FC<Price> = ({ price, ...attrProps }) => {
   return (
     <Container {...attrProps}>
       <LikeButton>
         <img src={heart_empty} />
       </LikeButton>
       <Line />
-      <Price>price</Price>
+      <PriceTag>{price}원</PriceTag>
       <ChatButton>1:1 채팅하기</ChatButton>
     </Container>
   );
@@ -30,8 +34,9 @@ const Line = styled.div`
   height: 60%;
   background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
 `;
-const Price = styled.div`
+const PriceTag = styled.div`
   ${({ theme }) => theme.typographies.BIG_TXT};
+  white-space: nowrap;
 `;
 const ChatButton = styled.button`
   width: 170px;

@@ -1,19 +1,27 @@
-import { ThemeProvider } from 'styled-components';
-import { BrowserRouter } from 'react-router-dom';
-import { theme } from './styles/theme';
-import GlobalStyle from './styles/GlobalStyle';
-import { GlobalFont } from './styles/GlobalFont';
-import AppRoutes from './components/AppRoutes';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ProductProvider from './ProductProvider';
+import PageLayout from './pages/PageLayout';
+import Market from './pages/Market';
+import Detail from './pages/Detail';
+import Write from './pages/Write';
+import LogIn from './pages/LogIn';
+import SignUp from './pages/SignUp';
 
 const App: React.FC = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <GlobalFont />
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ProductProvider>
+        <Routes>
+          <Route element={<PageLayout />}>
+            <Route path="/" element={<Market />} />
+            <Route path="/products/:productId" element={<Detail />} />
+            <Route path="/write" element={<Write />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/signup" element={<SignUp />} />
+          </Route>
+        </Routes>
+      </ProductProvider>
+    </BrowserRouter>
   );
 };
 
