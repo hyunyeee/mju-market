@@ -80,11 +80,9 @@ const Detail: React.FC = () => {
 const Container = styled.div``;
 const ImageBox = styled.section`
   height: 50vh;
-  margin: -20px -20px 0;
   background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
 `;
 const Information = styled.section`
-  margin: 0 -20px;
   padding: 10px;
   height: 60px;
   display: flex;
@@ -100,7 +98,7 @@ const Counts = styled.div`
   color: ${({ theme }) => theme.colors.TXT_LIGHT_GRAY};
 `;
 const Content = styled.section`
-  margin-top: 30px;
+  padding: 20px;
 `;
 const Title = styled.h1`
   ${({ theme }) => theme.typographies.BIG_TXT};
@@ -117,7 +115,6 @@ const TextBody = styled.div`
 const MenuBar = styled(ProductActionBar)`
   width: 100%;
   height: 70px;
-  margin-left: -20px;
   position: fixed;
   bottom: 0;
 `;

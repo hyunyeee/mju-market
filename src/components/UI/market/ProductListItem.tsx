@@ -33,7 +33,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
 };
 
 const ItemBox = styled.div`
-  padding: 20px 0;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   cursor: pointer;

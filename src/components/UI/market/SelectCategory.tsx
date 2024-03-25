@@ -65,8 +65,10 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({
 };
 
 const CategoryBox = styled.div`
-  margin: 0 -20px;
+  width: 100vw;
   padding: 10px;
+  position: fixed;
+  top: 0;
   display: flex;
   gap: 20px;
   overflow-x: scroll;
