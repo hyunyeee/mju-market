@@ -3,9 +3,8 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
-
 import { signup_schema } from '../../validation/schema';
+
 import { AuthFormValues } from '../../types';
 import { submitAuthForm } from '../../api/auth';
 import AuthInput from './AuthInput';
@@ -26,22 +25,10 @@ const SignUpForm: React.FC = () => {
   });
   const navigate = useNavigate();
   const onSubmit = async (data: SignUpForm) => {
-    try {
-      const token = await submitAuthForm(data, 'signup');
-      localStorage.setItem('token', token);
-      if (token !== undefined) {
-        navigate('/');
-      } else {
-        alert('로그인 정보가 유효하지 않습니다.');
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert(error?.response?.data);
-      } else if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert('알 수 없는 에러가 발생했습니다.');
-      }
+    const token = await submitAuthForm(data, 'signup');
+    localStorage.setItem('token', token);
+    if (token !== undefined) {
+      navigate('/');
     }
   };
 

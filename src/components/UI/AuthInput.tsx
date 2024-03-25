@@ -11,7 +11,6 @@ interface InputType<T extends FieldValues> {
   register: UseFormRegister<T>;
   errorMsg?: string;
 }
-
 type InputBoxProps = {
   $isFocus: boolean;
   $isError: boolean;

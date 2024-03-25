@@ -59,7 +59,6 @@ const Write: React.FC = () => {
 };
 
 const Container = styled.div`
-  padding: 20px;
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;

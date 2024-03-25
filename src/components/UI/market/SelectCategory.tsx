@@ -1,61 +1,42 @@
+import { Dispatch } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
-import { Dispatch, useContext } from 'react';
-import { ProductContext } from '../../../ProductContext';
 import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../../../api/market';
-import { Product } from '../../../pages/Market';
+import { product } from '../../../pages/Market';
 
-interface ClickedStyle {
+interface clickedStyle {
   $index: number;
-  $categoryIndex: number;
+  $clickedIndex: number;
+}
+interface selectCategoryProps {
+  dummy_category: string[];
+  clickedIndex: number;
+  setClickedIndex: Dispatch<number>;
+  setProductList: Dispatch<product[]>;
 }
 
-interface SelectCategoryProps {
-  dummyCategory: string[];
-  setProductList: Dispatch<Product[]>;
-}
-
-const SelectCategory: React.FC<SelectCategoryProps> = ({
-  dummyCategory,
+const SelectCategory: React.FC<selectCategoryProps> = ({
+  dummy_category,
+  clickedIndex,
+  setClickedIndex,
   setProductList,
 }) => {
-  const { setCategoryIndex, categoryIndex } = useContext(ProductContext);
   const navigate = useNavigate();
 
   const selectCategory = async (index: number) => {
-    try {
-      setCategoryIndex(index);
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('로그인이 필요합니다.');
-        navigate('/login', { replace: true });
-        return;
-      }
-      const products = await getProducts(token, index);
-      setProductList(products);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert(error?.response?.data);
-        if (error?.response?.status === 401) {
-          navigate('/login');
-        }
-      } else if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert('알 수 없는 에러가 발생했습니다.');
-      }
-    }
+    setClickedIndex(index);
+    const products = getProducts(index, navigate);
+    await setProductList(await products);
   };
 
   return (
     <CategoryBox>
-      {dummyCategory.map((category: string, index: number) => (
+      {dummy_category.map((category: string, index: number) => (
         <Category
           key={category}
           $index={index}
           onClick={() => selectCategory(index)}
-          $categoryIndex={categoryIndex}
+          $clickedIndex={clickedIndex}
         >
           {category}
         </Category>
@@ -65,25 +46,23 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({
 };
 
 const CategoryBox = styled.div`
-  width: 100vw;
+  margin: 0 -20px;
   padding: 10px;
-  position: fixed;
-  top: 0;
   display: flex;
   gap: 20px;
   overflow-x: scroll;
   background-color: ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
 `;
-const Category = styled.button<ClickedStyle>`
+const Category = styled.button<clickedStyle>`
   width: 90px;
   height: 40px;
-  color: ${({ $categoryIndex, $index, theme }) =>
-    $categoryIndex === $index ? theme.colors.BLUE_2 : '#969696'};
+  color: ${({ $clickedIndex, $index, theme }) =>
+    $clickedIndex === $index ? theme.colors.BLUE_2 : '#969696'};
   border: 1px solid
-    ${({ $categoryIndex, $index, theme }) =>
-      $categoryIndex === $index ? theme.colors.BLUE_2 : '#dbdbdb'};
-  background-color: ${({ $categoryIndex, $index }) =>
-    $categoryIndex === $index ? '#D9E4F4' : 'white'};
+    ${({ $clickedIndex, $index, theme }) =>
+      $clickedIndex === $index ? theme.colors.BLUE_2 : '#dbdbdb'};
+  background-color: ${({ $clickedIndex, $index }) =>
+    $clickedIndex === $index ? '#D9E4F4' : 'white'};
   flex-shrink: 0;
   border-radius: 25px;
 `;
