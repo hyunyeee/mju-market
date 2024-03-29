@@ -7,12 +7,12 @@ import { postProduct } from '../../../api/market';
 
 export interface ProductFormValues {
   title: string;
-  price: string;
+  price: number | string;
   content: string;
 }
 
 const ProductForm = () => {
-  const [categoryId, setCategoryId] = useState<number>();
+  const [categoryId, setCategoryId] = useState<number>(0);
   const [formData, setFormData] = useState<ProductFormValues>({
     title: '',
     price: '',
@@ -26,14 +26,15 @@ const ProductForm = () => {
     const { name, value } = event.currentTarget;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: name === 'price' ? parseFloat(value) : value,
+      [name]: name === 'price' ? parseInt(value) : value,
     }));
   };
 
   const isFormValid = () => {
     return (
       formData.title.trim() !== '' &&
-      formData.price.trim() !== '' &&
+      formData.price !== 0 &&
+      formData.price !== '' &&
       formData.content.trim() !== ''
     );
   };
