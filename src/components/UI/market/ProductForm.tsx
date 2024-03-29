@@ -1,19 +1,24 @@
 import styled from 'styled-components';
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProductInput from './ProductInput';
+import { postProduct } from '../../../api/market';
 
-interface ProductFormValues {
+export interface ProductFormValues {
   title: string;
   price: string;
   content: string;
 }
 
 const ProductForm = () => {
+  const [categoryId, setCategoryId] = useState<number>();
   const [formData, setFormData] = useState<ProductFormValues>({
     title: '',
     price: '',
     content: '',
   });
+  const navigate = useNavigate();
 
   const onChange = (
     event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -25,9 +30,41 @@ const ProductForm = () => {
     }));
   };
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const isFormValid = () => {
+    return (
+      formData.title.trim() !== '' &&
+      formData.price.trim() !== '' &&
+      formData.content.trim() !== ''
+    );
+  };
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(formData);
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('로그인 정보가 유효하지 않습니다.');
+        navigate('/login');
+        return;
+      }
+      if (categoryId === 0) {
+        alert('카테고리를 선택해주세요.');
+        return;
+      }
+      if (isFormValid()) {
+        await postProduct(token, formData, categoryId);
+      } else {
+        alert('모든 입력 필드를 채워주세요.');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
+      }
+    }
   };
   return (
     <Form onSubmit={onSubmit}>
@@ -47,8 +84,14 @@ const ProductForm = () => {
           onChange={onChange}
         />
         <Category>
-          <select>
-            <option value="default">카테고리 선택</option>
+          <select onChange={(e) => setCategoryId(Number(e.target.value))}>
+            <option value="0">카테고리 선택</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
           </select>
         </Category>
       </Content>

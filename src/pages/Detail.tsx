@@ -67,7 +67,7 @@ const Detail: React.FC = () => {
           </Information>
           <Content>
             <Title>{title}</Title>
-            <Category>Category {categoryIndex}</Category>
+            <Category>Category {categoryIndex + 1}</Category>
             <TextBody>{content}</TextBody>
           </Content>
           <MenuBar price={price} />

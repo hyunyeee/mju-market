@@ -1,4 +1,5 @@
 import { Axios } from './Axios';
+import { ProductFormValues } from '../components/UI/market/ProductForm';
 
 export const getProducts = async (token: string, categoryId: number) => {
   if (!token) {
@@ -32,4 +33,23 @@ export const getProduct = async (
     },
   );
   return response.data;
+};
+
+export const postProduct = async (
+  token: string,
+  formData: ProductFormValues,
+  categoryId: number | undefined,
+) => {
+  if (categoryId === 0) {
+    throw new Error('카테고리를 선택해주세요.');
+  }
+  await Axios.post(
+    `/api/categories/${categoryId}/products`,
+    {
+      title: formData.title,
+      price: formData.price,
+      content: formData.content,
+    },
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
 };
