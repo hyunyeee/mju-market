@@ -40,12 +40,10 @@ export const postProduct = async (
   formData: ProductFormValues,
   categoryId: number | undefined,
 ) => {
-  if (categoryId === 0) {
+  if (!categoryId) {
     throw new Error('카테고리를 선택해주세요.');
   }
-  await Axios.post(
-    `/api/categories/${categoryId}/products`,
-    { formData },
-    { headers: { Authorization: `Bearer ${token}` } },
-  );
+  await Axios.post(`/api/categories/${categoryId}/products`, formData, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };
