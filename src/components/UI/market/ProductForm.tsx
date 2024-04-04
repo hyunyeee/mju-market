@@ -12,7 +12,7 @@ export interface ProductFormValues {
 }
 
 const ProductForm = () => {
-  const [categoryId, setCategoryId] = useState<number>(0);
+  const [categoryId, setCategoryId] = useState(0);
   const [formData, setFormData] = useState<ProductFormValues>({
     title: '',
     price: '',
