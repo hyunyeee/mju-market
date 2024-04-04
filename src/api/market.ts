@@ -45,11 +45,7 @@ export const postProduct = async (
   }
   await Axios.post(
     `/api/categories/${categoryId}/products`,
-    {
-      title: formData.title,
-      price: formData.price,
-      content: formData.content,
-    },
+    { formData },
     { headers: { Authorization: `Bearer ${token}` } },
   );
 };
