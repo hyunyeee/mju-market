@@ -37,7 +37,7 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({
 
   useEffect(() => {
     if (!isLoading && !isError && data) {
-      const products = data.pages[0] || [];
+      const products = data.pages.flat();
       setProductList(products);
     }
   }, [data, isLoading, isError, setProductList]);
@@ -58,6 +58,7 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({
           {category}
         </Category>
       ))}
+      <button onClick={() => fetchNextPage()}>다음 페이지</button>
     </CategoryBox>
   );
 };
