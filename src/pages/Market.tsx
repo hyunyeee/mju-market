@@ -28,9 +28,7 @@ const Market = () => {
   );
 };
 
-const Container = styled.div`
-  background-color: pink;
-`;
+const Container = styled.div``;
 const ListContainer = styled.div`
   margin-top: 60px;
 `;

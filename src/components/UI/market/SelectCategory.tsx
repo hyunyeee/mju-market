@@ -1,10 +1,8 @@
 import styled from 'styled-components';
-import axios from 'axios';
-import { Dispatch, useContext } from 'react';
+import { Dispatch, useContext, useEffect } from 'react';
 import { ProductContext } from '../../../ProductContext';
-import { useNavigate } from 'react-router-dom';
-import { getProducts } from '../../../api/market';
 import { Product } from '../../../pages/Market';
+import useCategoryProductQuery from '../../../hooks/useCategoryProductQuery';
 
 interface ClickedStyle {
   $index: number;
@@ -16,36 +14,36 @@ interface SelectCategoryProps {
   setProductList: Dispatch<Product[]>;
 }
 
+// useCategoryProductQuery에서 반환된 data와
+// 로딩 상태(isLoading, isError 등)를 이용해 UI를 조건부로 렌더링한다.
 const SelectCategory: React.FC<SelectCategoryProps> = ({
   dummyCategory,
   setProductList,
 }) => {
   const { setCategoryIndex, categoryIndex } = useContext(ProductContext);
-  const navigate = useNavigate();
+  const token = localStorage.getItem('token') || '';
 
-  const selectCategory = async (index: number) => {
-    try {
-      setCategoryIndex(index);
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('로그인이 필요합니다.');
-        navigate('/login', { replace: true });
-        return;
-      }
-      const products = await getProducts(token, index);
+  const { data, isLoading, isError, error, fetchNextPage, isFetchingNextPage } =
+    useCategoryProductQuery({
+      token,
+      categoryId: categoryIndex,
+      pageSize: 5,
+    });
+
+  if (isError) {
+    const errorMessage = (error as Error)?.message;
+    return <div>에러가 발생했습니다: {errorMessage}</div>;
+  }
+
+  useEffect(() => {
+    if (!isLoading && !isError && data) {
+      const products = data.pages[0] || [];
       setProductList(products);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert(error?.response?.data);
-        if (error?.response?.status === 401) {
-          navigate('/login');
-        }
-      } else if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert('알 수 없는 에러가 발생했습니다.');
-      }
     }
+  }, [data, isLoading, isError, setProductList]);
+
+  const selectCategory = (index: number) => {
+    setCategoryIndex(index);
   };
 
   return (
