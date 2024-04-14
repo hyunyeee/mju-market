@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { ProductContext } from '../ProductContext';
 import SelectCategory from '../components/UI/market/SelectCategory';
 import ProductListItem from '../components/UI/market/ProductListItem';
@@ -15,6 +16,7 @@ const Market = () => {
   const [productList, setProductList] = useState<Product[]>([]);
   const dummyCategory: string[] = ['1', '2', '3', '4', '5', '6'];
   const { categoryIndex } = useContext(ProductContext);
+  const { ref, inView } = useInView();
 
   const token = localStorage.getItem('token') || '';
 
@@ -22,7 +24,7 @@ const Market = () => {
     useCategoryProductQuery({
       token,
       categoryId: categoryIndex,
-      pageSize: 5,
+      pageSize: 10,
     });
 
   if (isError) {
@@ -31,11 +33,19 @@ const Market = () => {
   }
 
   useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
+  useEffect(() => {
     if (!isLoading && !isError && data) {
       const products = data.pages.flat();
       setProductList(products);
     }
   }, [data, isLoading, isError, setProductList]);
+
+  const setRef = ref as React.RefCallback<HTMLDivElement>;
 
   return (
     <Container>
@@ -48,8 +58,7 @@ const Market = () => {
       {isFetchingNextPage ? (
         <div>로딩중!!!!!!!!!!!!</div>
       ) : (
-        //TODO 바닥에 닿았을 때 이게 실행 되도록 바꿔야함!
-        <button onClick={() => fetchNextPage()}>다음 페이지</button>
+        <div ref={setRef} />
       )}
     </Container>
   );
