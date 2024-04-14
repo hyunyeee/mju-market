@@ -1,8 +1,6 @@
 import styled from 'styled-components';
-import { Dispatch, useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { ProductContext } from '../../../ProductContext';
-import { Product } from '../../../pages/Market';
-import useCategoryProductQuery from '../../../hooks/useCategoryProductQuery';
 
 interface ClickedStyle {
   $index: number;
@@ -11,36 +9,10 @@ interface ClickedStyle {
 
 interface SelectCategoryProps {
   dummyCategory: string[];
-  setProductList: Dispatch<Product[]>;
 }
 
-// useCategoryProductQuery에서 반환된 data와
-// 로딩 상태(isLoading, isError 등)를 이용해 UI를 조건부로 렌더링한다.
-const SelectCategory: React.FC<SelectCategoryProps> = ({
-  dummyCategory,
-  setProductList,
-}) => {
+const SelectCategory: React.FC<SelectCategoryProps> = ({ dummyCategory }) => {
   const { setCategoryIndex, categoryIndex } = useContext(ProductContext);
-  const token = localStorage.getItem('token') || '';
-
-  const { data, isLoading, isError, error, fetchNextPage, isFetchingNextPage } =
-    useCategoryProductQuery({
-      token,
-      categoryId: categoryIndex,
-      pageSize: 5,
-    });
-
-  if (isError) {
-    const errorMessage = (error as Error)?.message;
-    return <div>에러가 발생했습니다: {errorMessage}</div>;
-  }
-
-  useEffect(() => {
-    if (!isLoading && !isError && data) {
-      const products = data.pages.flat();
-      setProductList(products);
-    }
-  }, [data, isLoading, isError, setProductList]);
 
   const selectCategory = (index: number) => {
     setCategoryIndex(index);
@@ -58,7 +30,6 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({
           {category}
         </Category>
       ))}
-      <button onClick={() => fetchNextPage()}>다음 페이지</button>
     </CategoryBox>
   );
 };
