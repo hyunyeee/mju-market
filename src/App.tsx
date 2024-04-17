@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ProductProvider from './ProductProvider';
+import AuthProvider from './context/AuthProvider';
+import ProductProvider from './context/ProductProvider';
 import PageLayout from './pages/PageLayout';
 import Market from './pages/Market';
 import Detail from './pages/Detail';
@@ -14,17 +15,19 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <ProductProvider>
-          <Routes>
-            <Route element={<PageLayout />}>
-              <Route path="/" element={<Market />} />
-              <Route path="/products/:productId" element={<Detail />} />
-              <Route path="/write" element={<Write />} />
-              <Route path="/login" element={<LogIn />} />
-              <Route path="/signup" element={<SignUp />} />
-            </Route>
-          </Routes>
-        </ProductProvider>
+        <AuthProvider>
+          <ProductProvider>
+            <Routes>
+              <Route element={<PageLayout />}>
+                <Route path="/" element={<Market />} />
+                <Route path="/products/:productId" element={<Detail />} />
+                <Route path="/write" element={<Write />} />
+                <Route path="/login" element={<LogIn />} />
+                <Route path="/signup" element={<SignUp />} />
+              </Route>
+            </Routes>
+          </ProductProvider>
+        </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );

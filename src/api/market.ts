@@ -2,14 +2,11 @@ import { Axios } from './Axios';
 import { ProductFormValues } from '../components/UI/market/ProductForm';
 
 export const getProducts = async (
-  token: string,
+  token: string | null,
   categoryId: number,
   productId: number | null,
   pageSize: number,
 ) => {
-  if (!token) {
-    throw new Error('로그인 정보가 유효하지 않습니다.');
-  }
   const response = await Axios.get(
     `/api/categories/${categoryId + 1}/products?${productId ? `productId=${productId}&` : ''}pageSize=${pageSize}`,
     {
@@ -22,7 +19,7 @@ export const getProducts = async (
 };
 
 export const getProduct = async (
-  token: string,
+  token: string | null,
   categoryId: number,
   productId: number,
 ) => {
@@ -41,7 +38,7 @@ export const getProduct = async (
 };
 
 export const postProduct = async (
-  token: string,
+  token: string | null,
   formData: ProductFormValues,
   categoryId: number | undefined,
 ) => {

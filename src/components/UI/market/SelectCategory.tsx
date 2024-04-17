@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
-import { ProductContext } from '../../../ProductContext';
+import { ProductContext } from '../../../context/ProductContext';
 
 interface ClickedStyle {
   $index: number;
