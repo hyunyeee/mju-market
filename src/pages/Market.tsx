@@ -5,12 +5,7 @@ import { ProductContext } from '../context/ProductContext';
 import SelectCategory from '../components/UI/market/SelectCategory';
 import ProductListItem from '../components/UI/market/ProductListItem';
 import useCategoryProductQuery from '../hooks/useCategoryProductQuery';
-
-export interface Product {
-  price: number;
-  id: number;
-  title: string;
-}
+import { Product } from '../types';
 
 const Market = () => {
   const [productList, setProductList] = useState<Product[]>([]);

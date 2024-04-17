@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
 
 import { signup_schema } from '../../validation/schema';
 import { AuthFormValues } from '../../types';

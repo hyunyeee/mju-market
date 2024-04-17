@@ -4,7 +4,7 @@ import { ProductFormValues } from '../components/UI/market/ProductForm';
 export const getProducts = async (
   token: string | null,
   categoryId: number,
-  productId: number | null,
+  productId: unknown,
   pageSize: number,
 ) => {
   const response = await Axios.get(
