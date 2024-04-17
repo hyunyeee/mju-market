@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { Product } from '../../../pages/Market';
+import { Product } from '../../../types';
 import heart_empty from '../../../assets/heart-empty.svg';
 
 interface ProductListItemProps {

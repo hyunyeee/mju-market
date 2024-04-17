@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { ProductContext } from '../ProductContext';
+import { ProductContext } from '../context/ProductContext';
 import { getProduct } from '../api/market';
+import useToken from '../hooks/useToken';
 import ProductActionBar from '../components/UI/market/ProductActionBar';
 
 interface ProductDetail {
@@ -18,14 +19,12 @@ const Detail: React.FC = () => {
   const { categoryIndex } = useContext(ProductContext);
   const [productObj, setProductObj] = useState<ProductDetail>();
   const { content, ownerId, price = 0, title } = productObj || {};
-
+  const token = useToken();
   const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem('token');
       if (!token) {
-        alert('로그인 정보가 유효하지 않습니다.');
         navigate('/login');
         return;
       }
@@ -53,8 +52,10 @@ const Detail: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (token) {
+      fetchData();
+    }
+  }, [token]);
 
   return (
     <Container>

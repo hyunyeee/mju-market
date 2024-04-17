@@ -1,10 +1,6 @@
 import styled from 'styled-components';
-import axios from 'axios';
-import { Dispatch, useContext } from 'react';
-import { ProductContext } from '../../../ProductContext';
-import { useNavigate } from 'react-router-dom';
-import { getProducts } from '../../../api/market';
-import { Product } from '../../../pages/Market';
+import { useContext } from 'react';
+import { ProductContext } from '../../../context/ProductContext';
 
 interface ClickedStyle {
   $index: number;
@@ -13,39 +9,13 @@ interface ClickedStyle {
 
 interface SelectCategoryProps {
   dummyCategory: string[];
-  setProductList: Dispatch<Product[]>;
 }
 
-const SelectCategory: React.FC<SelectCategoryProps> = ({
-  dummyCategory,
-  setProductList,
-}) => {
+const SelectCategory: React.FC<SelectCategoryProps> = ({ dummyCategory }) => {
   const { setCategoryIndex, categoryIndex } = useContext(ProductContext);
-  const navigate = useNavigate();
 
-  const selectCategory = async (index: number) => {
-    try {
-      setCategoryIndex(index);
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('로그인이 필요합니다.');
-        navigate('/login', { replace: true });
-        return;
-      }
-      const products = await getProducts(token, index);
-      setProductList(products);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert(error?.response?.data);
-        if (error?.response?.status === 401) {
-          navigate('/login');
-        }
-      } else if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert('알 수 없는 에러가 발생했습니다.');
-      }
-    }
+  const selectCategory = (index: number) => {
+    setCategoryIndex(index);
   };
 
   return (

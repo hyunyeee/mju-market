@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductInput from './ProductInput';
 import { postProduct } from '../../../api/market';
+import useToken from '../../../hooks/useToken';
 
 export interface ProductFormValues {
   title: string;
@@ -18,6 +19,7 @@ const ProductForm = () => {
     price: '',
     content: '',
   });
+  const token = useToken();
   const navigate = useNavigate();
 
   const onChange = (
@@ -42,9 +44,7 @@ const ProductForm = () => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const token = localStorage.getItem('token');
       if (!token) {
-        alert('로그인 정보가 유효하지 않습니다.');
         navigate('/login');
         return;
       }
