@@ -12,6 +12,7 @@ export interface ProductDetail {
   title: string;
   content: string;
   price: number;
+  categoryId?: number;
   visitedCount: number;
   createDate: string;
   ownerNickname: string;

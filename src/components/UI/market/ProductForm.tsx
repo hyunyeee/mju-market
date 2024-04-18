@@ -6,6 +6,7 @@ import { postProduct, updateProduct } from '../../../api/market';
 import useToken from '../../../hooks/useToken';
 import ProductInput from './ProductInput';
 import { ProductDetail, ProductFormValues } from '../../../types';
+import { categories } from '../../../assets/data/categories';
 
 interface ProductFormProps {
   productObj?: ProductDetail | undefined;
@@ -20,9 +21,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
 
   const [formData, setFormData] = useState<ProductFormValues>({
     title: productObj ? productObj.title : '',
-    price: productObj ? productObj.price.toString() : '',
+    price: productObj ? productObj.price : '',
     content: productObj ? productObj.content : '',
-    categoryId: categoryId,
+    categoryId: productObj ? productObj.categoryId : categoryId,
   });
 
   const onChange = (
@@ -81,8 +82,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
         title: productObj.title,
         price: productObj.price,
         content: productObj.content,
-        categoryId: categoryId,
+        categoryId: productObj.categoryId,
       });
+      setCategoryId(productObj.categoryId ?? 0);
     }
   }, [productObj]);
 
@@ -105,6 +107,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
         />
         <Category>
           <select
+            value={categoryId}
             onChange={(e) => {
               const newCategoryId = Number(e.target.value);
               setCategoryId(newCategoryId);
@@ -114,13 +117,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
               }));
             }}
           >
-            <option value="0">카테고리 선택</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </Category>
       </Content>

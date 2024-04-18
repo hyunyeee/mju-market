@@ -33,7 +33,6 @@ const Write: React.FC = () => {
         Number(productId),
       );
       setProductObj(response);
-      // console.log(response);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error?.response?.data);
