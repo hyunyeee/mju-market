@@ -6,21 +6,24 @@ import { ProductContext } from '../context/ProductContext';
 import { getProduct } from '../api/market';
 import useToken from '../hooks/useToken';
 import ProductActionBar from '../components/UI/market/ProductActionBar';
-
-interface ProductDetail {
-  content: string;
-  ownerId: number;
-  price: number;
-  title: string;
-}
+import { calculate_time } from '../hooks/calculate_time';
+import { ProductDetail } from '../types';
 
 const Detail: React.FC = () => {
   const { productId } = useParams();
   const { categoryIndex } = useContext(ProductContext);
   const [productObj, setProductObj] = useState<ProductDetail>();
-  const { content, ownerId, price = 0, title } = productObj || {};
+  const {
+    content,
+    price = 0,
+    title,
+    visitedCount,
+    ownerNickname,
+    createDate,
+  } = productObj || {};
   const token = useToken();
   const navigate = useNavigate();
+  const time = calculate_time(createDate);
 
   const fetchData = async () => {
     try {
@@ -63,10 +66,17 @@ const Detail: React.FC = () => {
         <>
           <ImageBox>image</ImageBox>
           <Information>
-            <Author>Author {ownerId} &gt; </Author>
-            <Counts>찜3 &nbsp; &nbsp; 조회10</Counts>
+            <Author>{ownerNickname}</Author>
+            <Counts>찜3 &nbsp; &nbsp; 조회{visitedCount}</Counts>
           </Information>
+          {/*TODO isMyPost 값 여부로 렌더링*/}
+          <Buttons>
+            <Button onClick={() => navigate('/write')}>수정</Button>
+            {/*TODO delete api 연결*/}
+            <Button>삭제</Button>
+          </Buttons>
           <Content>
+            <Time>{time}</Time>
             <Title>{title}</Title>
             <Category>Category {categoryIndex + 1}</Category>
             <TextBody>{content}</TextBody>
@@ -100,6 +110,20 @@ const Counts = styled.div`
 `;
 const Content = styled.section`
   padding: 20px;
+`;
+const Buttons = styled.div`
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+`;
+const Button = styled.button`
+  width: 50px;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 4px;
+`;
+const Time = styled.div`
+  ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
 const Title = styled.h1`
   ${({ theme }) => theme.typographies.BIG_TXT};
