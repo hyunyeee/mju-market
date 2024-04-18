@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { postProduct } from '../../../api/market';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { postProduct, updateProduct } from '../../../api/market';
 import useToken from '../../../hooks/useToken';
 import ProductInput from './ProductInput';
 import { ProductDetail, ProductFormValues } from '../../../types';
@@ -16,11 +16,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
 
   const token = useToken();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [formData, setFormData] = useState<ProductFormValues>({
     title: productObj ? productObj.title : '',
     price: productObj ? productObj.price.toString() : '',
     content: productObj ? productObj.content : '',
+    categoryId: categoryId,
   });
 
   const onChange = (
@@ -54,8 +56,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
         return;
       }
       if (isFormValid()) {
-        //TODO location.pathname으로 post 아니면 patch 해야됨
-        await postProduct(token, formData, categoryId);
+        if (location.pathname === '/write') {
+          await postProduct(token, formData, categoryId);
+        } else await updateProduct(token, formData, categoryId, productObj?.id);
       } else {
         alert('모든 입력 필드를 채워주세요.');
       }
@@ -70,12 +73,15 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
     }
   };
 
+  //TODO 기존 value 불러오기
+  // cagegory도 설정해야됨
   useEffect(() => {
     if (productObj) {
       setFormData({
-        title: productObj.title || '',
-        price: productObj.price.toString() || '',
-        content: productObj.content || '',
+        title: productObj.title,
+        price: productObj.price,
+        content: productObj.content,
+        categoryId: categoryId,
       });
     }
   }, [productObj]);
@@ -98,7 +104,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
           onChange={onChange}
         />
         <Category>
-          <select onChange={(e) => setCategoryId(Number(e.target.value))}>
+          <select
+            onChange={(e) => {
+              const newCategoryId = Number(e.target.value);
+              setCategoryId(newCategoryId);
+              setFormData((prevState) => ({
+                ...prevState,
+                categoryId: newCategoryId,
+              }));
+            }}
+          >
             <option value="0">카테고리 선택</option>
             <option value="1">1</option>
             <option value="2">2</option>

@@ -21,4 +21,5 @@ export interface ProductFormValues {
   title: string;
   price: number | string;
   content: string;
+  categoryId?: number;
 }

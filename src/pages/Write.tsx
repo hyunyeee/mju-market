@@ -20,7 +20,6 @@ const Write: React.FC = () => {
   const fetchData = async () => {
     try {
       if (!productId) {
-        console.log(productId);
         setProductObj(undefined);
         return;
       }

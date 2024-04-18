@@ -50,6 +50,23 @@ export const postProduct = async (
   });
 };
 
+export const updateProduct = async (
+  token: string | null,
+  formData: ProductFormValues,
+  categoryId: number,
+  productId: number | undefined,
+) => {
+  await Axios.patch(
+    `/api/categories/${categoryId}/products/${productId}`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+};
+
 export const deleteProduct = async (
   token: string | null,
   categoryId: number,
