@@ -3,10 +3,10 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ProductContext } from '../context/ProductContext';
-import { getProduct } from '../api/market';
+import { getProduct, deleteProduct } from '../api/market';
 import useToken from '../hooks/useToken';
-import ProductActionBar from '../components/UI/market/ProductActionBar';
 import { calculate_time } from '../hooks/calculate_time';
+import ProductActionBar from '../components/UI/market/ProductActionBar';
 import { ProductDetail } from '../types';
 
 const Detail: React.FC = () => {
@@ -53,6 +53,26 @@ const Detail: React.FC = () => {
       }
     }
   };
+  const handleDelete = async () => {
+    try {
+      if (confirm('상품을 삭제할까요?')) {
+        await deleteProduct(token, categoryIndex, Number(productId));
+        navigate('/');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+        navigate('/');
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
+      }
+    }
+  };
 
   useEffect(() => {
     if (token) {
@@ -73,7 +93,7 @@ const Detail: React.FC = () => {
           <Buttons>
             <Button onClick={() => navigate('/write')}>수정</Button>
             {/*TODO delete api 연결*/}
-            <Button>삭제</Button>
+            <Button onClick={() => handleDelete()}>삭제</Button>
           </Buttons>
           <Content>
             <Time>{time}</Time>

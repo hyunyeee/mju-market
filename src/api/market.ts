@@ -49,3 +49,18 @@ export const postProduct = async (
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+export const deleteProduct = async (
+  token: string | null,
+  categoryId: number,
+  productId: number,
+) => {
+  await Axios.delete(
+    `/api/categories/${categoryId + 1}/products/${productId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+};
