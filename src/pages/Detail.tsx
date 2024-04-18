@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ProductContext } from '../context/ProductContext';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getProduct, deleteProduct } from '../api/market';
 import useToken from '../hooks/useToken';
 import { calculate_time } from '../hooks/calculate_time';
@@ -14,6 +14,7 @@ const Detail: React.FC = () => {
   const { categoryIndex } = useContext(ProductContext);
   const [productObj, setProductObj] = useState<ProductDetail>();
   const {
+    id,
     content,
     price = 0,
     title,
@@ -24,6 +25,28 @@ const Detail: React.FC = () => {
   const token = useToken();
   const navigate = useNavigate();
   const time = calculate_time(createDate);
+  const isMyPost = true; // API resonse에 추가 예정인 value
+
+  const handleDelete = async () => {
+    try {
+      if (confirm('상품을 삭제할까요?')) {
+        await deleteProduct(token, categoryIndex, Number(productId));
+        navigate('/');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+        navigate('/');
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
+      }
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -39,26 +62,6 @@ const Detail: React.FC = () => {
       }
       const response = await getProduct(token, categoryIndex, id);
       setProductObj(response);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert(error?.response?.data);
-        navigate('/');
-        if (error?.response?.status === 401) {
-          navigate('/login');
-        }
-      } else if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert('알 수 없는 에러가 발생했습니다.');
-      }
-    }
-  };
-  const handleDelete = async () => {
-    try {
-      if (confirm('상품을 삭제할까요?')) {
-        await deleteProduct(token, categoryIndex, Number(productId));
-        navigate('/');
-      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error?.response?.data);
@@ -89,12 +92,12 @@ const Detail: React.FC = () => {
             <Author>{ownerNickname}</Author>
             <Counts>찜3 &nbsp; &nbsp; 조회{visitedCount}</Counts>
           </Information>
-          {/*TODO isMyPost 값 여부로 렌더링*/}
-          <Buttons>
-            <Button onClick={() => navigate('/write')}>수정</Button>
-            {/*TODO delete api 연결*/}
-            <Button onClick={() => handleDelete()}>삭제</Button>
-          </Buttons>
+          {isMyPost && (
+            <Buttons>
+              <Button onClick={() => navigate(`/modify/${id}`)}>수정</Button>
+              <Button onClick={() => handleDelete()}>삭제</Button>
+            </Buttons>
+          )}
           <Content>
             <Time>{time}</Time>
             <Title>{title}</Title>

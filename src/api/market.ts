@@ -1,5 +1,5 @@
 import { Axios } from './Axios';
-import { ProductFormValues } from '../components/UI/market/ProductForm';
+import { ProductFormValues } from '../types';
 
 export const getProducts = async (
   token: string | null,

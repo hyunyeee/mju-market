@@ -1,26 +1,27 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ProductInput from './ProductInput';
 import { postProduct } from '../../../api/market';
 import useToken from '../../../hooks/useToken';
+import ProductInput from './ProductInput';
+import { ProductDetail, ProductFormValues } from '../../../types';
 
-export interface ProductFormValues {
-  title: string;
-  price: number | string;
-  content: string;
+interface ProductFormProps {
+  productObj?: ProductDetail | undefined;
 }
 
-const ProductForm = () => {
+const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
   const [categoryId, setCategoryId] = useState(0);
-  const [formData, setFormData] = useState<ProductFormValues>({
-    title: '',
-    price: '',
-    content: '',
-  });
+
   const token = useToken();
   const navigate = useNavigate();
+
+  const [formData, setFormData] = useState<ProductFormValues>({
+    title: productObj ? productObj.title : '',
+    price: productObj ? productObj.price.toString() : '',
+    content: productObj ? productObj.content : '',
+  });
 
   const onChange = (
     event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -53,6 +54,7 @@ const ProductForm = () => {
         return;
       }
       if (isFormValid()) {
+        //TODO location.pathname으로 post 아니면 patch 해야됨
         await postProduct(token, formData, categoryId);
       } else {
         alert('모든 입력 필드를 채워주세요.');
@@ -67,6 +69,17 @@ const ProductForm = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (productObj) {
+      setFormData({
+        title: productObj.title || '',
+        price: productObj.price.toString() || '',
+        content: productObj.content || '',
+      });
+    }
+  }, [productObj]);
+
   return (
     <Form onSubmit={onSubmit}>
       <Content>

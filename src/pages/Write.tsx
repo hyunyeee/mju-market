@@ -1,9 +1,61 @@
 import styled from 'styled-components';
+import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { ProductContext } from '../context/ProductContext';
+import { useNavigate, useParams } from 'react-router-dom';
+import useToken from '../hooks/useToken';
+import { getProduct } from '../api/market';
 import ProductForm from '../components/UI/market/ProductForm';
+import { ProductDetail } from '../types';
 import camera from '../assets/camera.svg';
 import delete_img_btn from '../assets/delete_image.svg';
 
 const Write: React.FC = () => {
+  const { productId } = useParams();
+  const { categoryIndex } = useContext(ProductContext);
+  const token = useToken();
+  const navigate = useNavigate();
+  const [productObj, setProductObj] = useState<ProductDetail>();
+
+  const fetchData = async () => {
+    try {
+      if (!productId) {
+        console.log(productId);
+        setProductObj(undefined);
+        return;
+      }
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      const response = await getProduct(
+        token,
+        categoryIndex,
+        Number(productId),
+      );
+      setProductObj(response);
+      // console.log(response);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+        navigate('/');
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchData();
+    }
+  }, [token]);
+
   return (
     <Container>
       <Title>글쓰기</Title>
@@ -31,7 +83,7 @@ const Write: React.FC = () => {
           </Image>
         </ImageBox>
       </AddImageContainer>
-      <ProductForm />
+      <ProductForm productObj={productObj} />
     </Container>
   );
 };
