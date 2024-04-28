@@ -5,7 +5,7 @@ import { ProductContext } from '../context/ProductContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getProduct, deleteProduct } from '../api/market';
 import useToken from '../hooks/useToken';
-import { calculate_time } from '../hooks/calculate_time';
+import { calculateTime } from '../hooks/calculateTime';
 import ProductActionBar from '../components/UI/market/ProductActionBar';
 import { ProductDetail } from '../types';
 
@@ -24,11 +24,15 @@ const Detail: React.FC = () => {
   } = productObj || {};
   const token = useToken();
   const navigate = useNavigate();
-  const time = calculate_time(createDate);
+  const time = calculateTime(createDate);
   const isMyPost = true; // API resonse에 추가 예정인 value
 
   const handleDelete = async () => {
     try {
+      if (!token) {
+        navigate('/login');
+        return;
+      }
       if (confirm('상품을 삭제할까요?')) {
         await deleteProduct(token, categoryIndex, Number(productId));
         navigate('/');

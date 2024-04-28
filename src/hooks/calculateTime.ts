@@ -1,8 +1,11 @@
-export function calculate_time(dateString: string | undefined) {
+export function calculateTime(dateString?: string) {
   if (!dateString) {
     return '0분 전';
   }
   const date = new Date(dateString.replace(/\.\d+/, ''));
+  if (isNaN(date.getTime())) {
+    return '유효하지 않은 날짜';
+  }
   const diff = Date.now() - date.getTime();
 
   const minutes = Math.floor(diff / (1000 * 60));

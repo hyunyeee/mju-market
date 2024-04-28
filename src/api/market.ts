@@ -2,7 +2,7 @@ import { Axios } from './Axios';
 import { ProductFormValues } from '../types';
 
 export const getProducts = async (
-  token: string | null,
+  token: string,
   categoryId: number,
   productId: unknown,
   pageSize: number,
@@ -19,7 +19,7 @@ export const getProducts = async (
 };
 
 export const getProduct = async (
-  token: string | null,
+  token: string,
   categoryId: number,
   productId: number,
 ) => {
@@ -38,7 +38,7 @@ export const getProduct = async (
 };
 
 export const postProduct = async (
-  token: string | null,
+  token: string,
   formData: ProductFormValues,
   categoryId: number | undefined,
 ) => {
@@ -51,7 +51,7 @@ export const postProduct = async (
 };
 
 export const updateProduct = async (
-  token: string | null,
+  token: string,
   formData: ProductFormValues,
   categoryId: number,
   productId: number | undefined,
@@ -68,7 +68,7 @@ export const updateProduct = async (
 };
 
 export const deleteProduct = async (
-  token: string | null,
+  token: string,
   categoryId: number,
   productId: number,
 ) => {

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { calculate_time } from '../../../hooks/calculate_time';
+import { calculateTime } from '../../../hooks/calculateTime';
 import { Product } from '../../../types';
 import heart_empty from '../../../assets/heart-empty.svg';
 import people from '../../../assets/people_icon.svg';
@@ -17,7 +17,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
     navigate(`/products/${id}`);
   };
 
-  const time = calculate_time(createDate);
+  const time = calculateTime(createDate);
 
   return (
     <ItemBox onClick={onItemClick}>

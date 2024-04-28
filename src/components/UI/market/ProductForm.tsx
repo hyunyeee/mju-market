@@ -9,7 +9,7 @@ import { ProductDetail, ProductFormValues } from '../../../types';
 import { categories } from '../../../assets/data/categories';
 
 interface ProductFormProps {
-  productObj?: ProductDetail | undefined;
+  productObj?: ProductDetail;
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
