@@ -24,7 +24,7 @@ const Detail: React.FC = () => {
   } = productObj || {};
   const token = useToken();
   const navigate = useNavigate();
-  const time = calculateTime(createDate);
+  const parsedRelativeTime = calculateTime(createDate);
   const isMyPost = true; // API resonse에 추가 예정인 value
 
   const handleDelete = async () => {
@@ -103,7 +103,7 @@ const Detail: React.FC = () => {
             </Buttons>
           )}
           <Content>
-            <Time>{time}</Time>
+            <Time>{parsedRelativeTime}</Time>
             <Title>{title}</Title>
             <Category>Category {categoryIndex + 1}</Category>
             <TextBody>{content}</TextBody>

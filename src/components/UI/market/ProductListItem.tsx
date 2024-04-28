@@ -17,7 +17,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
     navigate(`/products/${id}`);
   };
 
-  const time = calculateTime(createDate);
+  const parsedRelativeTime = calculateTime(createDate);
 
   return (
     <ItemBox onClick={onItemClick}>
@@ -28,7 +28,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
             {title.slice(0, 13)} {title.length > 10 ? '...' : ''}
           </Title>
           <TrafficData>
-            <Time>{time}</Time>
+            <Time>{parsedRelativeTime}</Time>
             <VisitedCount>
               <Icon src={people} />
               <div>{visitedCount}</div>
