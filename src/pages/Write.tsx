@@ -17,12 +17,11 @@ const Write: React.FC = () => {
   const navigate = useNavigate();
   const [productObj, setProductObj] = useState<ProductDetail>();
 
+  /**
+   * productId 가 null 이면 이 함수를 호출하면 안 됨
+   */
   const fetchData = async () => {
     try {
-      if (!productId) {
-        setProductObj(undefined);
-        return;
-      }
       if (!token) {
         navigate('/login');
         return;
@@ -52,7 +51,7 @@ const Write: React.FC = () => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (token && productId) {
       fetchData();
     }
   }, [token]);
