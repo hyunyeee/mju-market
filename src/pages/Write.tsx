@@ -2,7 +2,12 @@ import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { ProductContext } from '../context/ProductContext';
-import { useNavigate, useParams } from 'react-router-dom';
+import {
+  useNavigate,
+  useParams,
+  useLocation,
+  useMatch,
+} from 'react-router-dom';
 import useToken from '../hooks/useToken';
 import { getProduct } from '../api/market';
 import ProductForm from '../components/UI/market/ProductForm';
@@ -15,6 +20,9 @@ const Write: React.FC = () => {
   const { categoryIndex } = useContext(ProductContext);
   const token = useToken();
   const navigate = useNavigate();
+  const location = useLocation();
+  const matchWrite = useMatch('/write');
+  const matchModify = useMatch('/modify/:productId');
   const [productObj, setProductObj] = useState<ProductDetail>();
 
   /**
@@ -49,6 +57,20 @@ const Write: React.FC = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = false; // Chrome에서 returnValue set 필요
+    };
+
+    if (matchWrite || matchModify) {
+      window.addEventListener('beforeunload', handleBeforeUnload);
+    }
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [location.pathname]);
 
   useEffect(() => {
     if (token && productId) {
