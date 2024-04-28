@@ -27,11 +27,14 @@ const Write: React.FC = () => {
         navigate('/login');
         return;
       }
-      const response = await getProduct(
-        token,
-        categoryIndex,
-        Number(productId),
-      );
+
+      const id = Number(productId);
+      if (isNaN(id)) {
+        alert('잘못된 접근입니다.');
+        navigate('/');
+        return;
+      }
+      const response = await getProduct(token, categoryIndex, id);
       setProductObj(response);
     } catch (error) {
       if (axios.isAxiosError(error)) {
