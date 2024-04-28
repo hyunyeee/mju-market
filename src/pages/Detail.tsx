@@ -1,26 +1,56 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ProductContext } from '../context/ProductContext';
-import { getProduct } from '../api/market';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getProduct, deleteProduct } from '../api/market';
 import useToken from '../hooks/useToken';
+import { calculateTime } from '../hooks/calculateTime';
 import ProductActionBar from '../components/UI/market/ProductActionBar';
-
-interface ProductDetail {
-  content: string;
-  ownerId: number;
-  price: number;
-  title: string;
-}
+import { ProductDetail } from '../types';
 
 const Detail: React.FC = () => {
   const { productId } = useParams();
   const { categoryIndex } = useContext(ProductContext);
   const [productObj, setProductObj] = useState<ProductDetail>();
-  const { content, ownerId, price = 0, title } = productObj || {};
+  const {
+    id,
+    content,
+    price = 0,
+    title,
+    visitedCount,
+    ownerNickname,
+    createDate,
+  } = productObj || {};
   const token = useToken();
   const navigate = useNavigate();
+  const parsedRelativeTime = calculateTime(createDate);
+  const isMyPost = true; // API resonse에 추가 예정인 value
+
+  const handleDelete = async () => {
+    try {
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      if (confirm('상품을 삭제할까요?')) {
+        await deleteProduct(token, categoryIndex, Number(productId));
+        navigate('/');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+        navigate('/');
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
+      }
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -63,10 +93,17 @@ const Detail: React.FC = () => {
         <>
           <ImageBox>image</ImageBox>
           <Information>
-            <Author>Author {ownerId} &gt; </Author>
-            <Counts>찜3 &nbsp; &nbsp; 조회10</Counts>
+            <Author>{ownerNickname}</Author>
+            <Counts>찜3 &nbsp; &nbsp; 조회{visitedCount}</Counts>
           </Information>
+          {isMyPost && (
+            <Buttons>
+              <Button onClick={() => navigate(`/modify/${id}`)}>수정</Button>
+              <Button onClick={() => handleDelete()}>삭제</Button>
+            </Buttons>
+          )}
           <Content>
+            <Time>{parsedRelativeTime}</Time>
             <Title>{title}</Title>
             <Category>Category {categoryIndex + 1}</Category>
             <TextBody>{content}</TextBody>
@@ -100,6 +137,20 @@ const Counts = styled.div`
 `;
 const Content = styled.section`
   padding: 20px;
+`;
+const Buttons = styled.div`
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+`;
+const Button = styled.button`
+  width: 50px;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 4px;
+`;
+const Time = styled.div`
+  ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
 const Title = styled.h1`
   ${({ theme }) => theme.typographies.BIG_TXT};

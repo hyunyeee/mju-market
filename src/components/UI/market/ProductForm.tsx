@@ -1,26 +1,30 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ProductInput from './ProductInput';
-import { postProduct } from '../../../api/market';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { postProduct, updateProduct } from '../../../api/market';
 import useToken from '../../../hooks/useToken';
+import ProductInput from './ProductInput';
+import { ProductDetail, ProductFormValues } from '../../../types';
+import { categories } from '../../../assets/data/categories';
 
-export interface ProductFormValues {
-  title: string;
-  price: number | string;
-  content: string;
+interface ProductFormProps {
+  productObj?: ProductDetail;
 }
 
-const ProductForm = () => {
+const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
   const [categoryId, setCategoryId] = useState(0);
+
+  const token = useToken();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [formData, setFormData] = useState<ProductFormValues>({
     title: '',
     price: '',
     content: '',
+    categoryId: 0,
   });
-  const token = useToken();
-  const navigate = useNavigate();
 
   const onChange = (
     event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -53,7 +57,11 @@ const ProductForm = () => {
         return;
       }
       if (isFormValid()) {
-        await postProduct(token, formData, categoryId);
+        if (location.pathname === '/write') {
+          await postProduct(token, formData, categoryId);
+        } else {
+          await updateProduct(token, formData, categoryId, productObj?.id);
+        }
       } else {
         alert('모든 입력 필드를 채워주세요.');
       }
@@ -67,6 +75,21 @@ const ProductForm = () => {
       }
     }
   };
+
+  //TODO 기존 value 불러오기
+  // cagegory도 설정해야됨
+  useEffect(() => {
+    if (productObj) {
+      setFormData({
+        title: productObj.title,
+        price: productObj.price,
+        content: productObj.content,
+        categoryId: productObj.categoryId,
+      });
+      setCategoryId(productObj.categoryId ?? 0);
+    }
+  }, [productObj]);
+
   return (
     <Form onSubmit={onSubmit}>
       <Content>
@@ -85,14 +108,22 @@ const ProductForm = () => {
           onChange={onChange}
         />
         <Category>
-          <select onChange={(e) => setCategoryId(Number(e.target.value))}>
-            <option value="0">카테고리 선택</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
+          <select
+            value={categoryId}
+            onChange={(e) => {
+              const newCategoryId = Number(e.target.value);
+              setCategoryId(newCategoryId);
+              setFormData((prevState) => ({
+                ...prevState,
+                categoryId: newCategoryId,
+              }));
+            }}
+          >
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </Category>
       </Content>

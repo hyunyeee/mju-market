@@ -1,8 +1,8 @@
 import { Axios } from './Axios';
-import { ProductFormValues } from '../components/UI/market/ProductForm';
+import { ProductFormValues } from '../types';
 
 export const getProducts = async (
-  token: string | null,
+  token: string,
   categoryId: number,
   productId: unknown,
   pageSize: number,
@@ -19,7 +19,7 @@ export const getProducts = async (
 };
 
 export const getProduct = async (
-  token: string | null,
+  token: string,
   categoryId: number,
   productId: number,
 ) => {
@@ -38,7 +38,7 @@ export const getProduct = async (
 };
 
 export const postProduct = async (
-  token: string | null,
+  token: string,
   formData: ProductFormValues,
   categoryId: number | undefined,
 ) => {
@@ -48,4 +48,36 @@ export const postProduct = async (
   await Axios.post(`/api/categories/${categoryId}/products`, formData, {
     headers: { Authorization: `Bearer ${token}` },
   });
+};
+
+export const updateProduct = async (
+  token: string,
+  formData: ProductFormValues,
+  categoryId: number,
+  productId: number | undefined,
+) => {
+  await Axios.patch(
+    `/api/categories/${categoryId}/products/${productId}`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+};
+
+export const deleteProduct = async (
+  token: string,
+  categoryId: number,
+  productId: number,
+) => {
+  await Axios.delete(
+    `/api/categories/${categoryId + 1}/products/${productId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
 };
