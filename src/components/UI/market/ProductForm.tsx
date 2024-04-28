@@ -20,10 +20,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
   const location = useLocation();
 
   const [formData, setFormData] = useState<ProductFormValues>({
-    title: productObj ? productObj.title : '',
-    price: productObj ? productObj.price : '',
-    content: productObj ? productObj.content : '',
-    categoryId: productObj ? productObj.categoryId : categoryId,
+    title: '',
+    price: '',
+    content: '',
+    categoryId: 0,
   });
 
   const onChange = (
