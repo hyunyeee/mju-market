@@ -59,7 +59,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
       if (isFormValid()) {
         if (location.pathname === '/write') {
           await postProduct(token, formData, categoryId);
-        } else await updateProduct(token, formData, categoryId, productObj?.id);
+        } else {
+          await updateProduct(token, formData, categoryId, productObj?.id);
+        }
       } else {
         alert('모든 입력 필드를 채워주세요.');
       }
