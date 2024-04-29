@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import BoardListItem from '../components/UI/board/BoardListItem';
+import BoardListItem from '../../components/UI/board/BoardListItem';
 
 const Board = () => {
   const board = {

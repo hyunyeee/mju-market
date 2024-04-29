@@ -4,3 +4,7 @@ export interface Board {
   writerNickname: string;
   createdDate: string;
 }
+export interface BoardFormValues {
+  title: string;
+  content: string;
+}

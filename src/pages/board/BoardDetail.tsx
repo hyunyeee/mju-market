@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { calculateTime } from '../hooks/calculateTime';
-import profileImg from './../assets/default_profile_img.png';
-import heart_empty from '../assets/heart-empty.svg';
+import { calculateTime } from '../../hooks/calculateTime';
+import profileImg from '../../assets/default_profile_img.png';
+import heart_empty from '../../assets/heart-empty.svg';
 
 const BoardDetail = () => {
   const detail = {

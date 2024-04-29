@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { ProductContext } from '../context/ProductContext';
-import SelectCategory from '../components/UI/market/SelectCategory';
-import ProductListItem from '../components/UI/market/ProductListItem';
-import useCategoryProductQuery from '../hooks/useCategoryProductQuery';
-import { Product } from '../types';
+import { ProductContext } from '../../context/ProductContext';
+import SelectCategory from '../../components/UI/market/SelectCategory';
+import ProductListItem from '../../components/UI/market/ProductListItem';
+import useCategoryProductQuery from '../../hooks/useCategoryProductQuery';
+import { Product } from '../../types';
 
 const Market = () => {
   const [productList, setProductList] = useState<Product[]>([]);

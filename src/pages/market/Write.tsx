@@ -1,19 +1,19 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { ProductContext } from '../context/ProductContext';
+import { ProductContext } from '../../context/ProductContext';
 import {
   useNavigate,
   useParams,
   useLocation,
   useMatch,
 } from 'react-router-dom';
-import useToken from '../hooks/useToken';
-import { getProduct } from '../api/market';
-import ProductForm from '../components/UI/market/ProductForm';
-import { ProductDetail } from '../types';
-import camera from '../assets/camera.svg';
-import delete_img_btn from '../assets/delete_image.svg';
+import useToken from '../../hooks/useToken';
+import { getProduct } from '../../api/market';
+import ProductForm from '../../components/UI/market/ProductForm';
+import { ProductDetail } from '../../types';
+import camera from '../../assets/camera.svg';
+import delete_img_btn from '../../assets/delete_image.svg';
 
 const Write: React.FC = () => {
   const { productId } = useParams();

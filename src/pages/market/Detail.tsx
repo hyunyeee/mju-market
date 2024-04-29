@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { ProductContext } from '../context/ProductContext';
+import { ProductContext } from '../../context/ProductContext';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getProduct, deleteProduct } from '../api/market';
-import useToken from '../hooks/useToken';
-import { calculateTime } from '../hooks/calculateTime';
-import ProductActionBar from '../components/UI/market/ProductActionBar';
-import { ProductDetail } from '../types';
+import { getProduct, deleteProduct } from '../../api/market';
+import useToken from '../../hooks/useToken';
+import { calculateTime } from '../../hooks/calculateTime';
+import ProductActionBar from '../../components/UI/market/ProductActionBar';
+import { ProductDetail } from '../../types';
 
 const Detail: React.FC = () => {
   const { productId } = useParams();
