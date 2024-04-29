@@ -7,6 +7,7 @@ import Market from './pages/Market';
 import Detail from './pages/Detail';
 import Write from './pages/Write';
 import Board from './pages/Board';
+import BoardDetail from './pages/BoardDetail';
 import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
 
@@ -25,6 +26,7 @@ const App: React.FC = () => {
                 <Route path="/write" element={<Write />} />
                 <Route path="/modify/:productId" element={<Write />} />
                 <Route path="/boards" element={<Board />} />
+                <Route path="/boards/:boardsId" element={<BoardDetail />} />
                 <Route path="/login" element={<LogIn />} />
                 <Route path="/signup" element={<SignUp />} />
               </Route>

@@ -130,7 +130,7 @@ const Information = styled.section`
   ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
 const Author = styled.div`
-  ${({ theme }) => theme.typographies.DEFAULT};
+  ${({ theme }) => theme.typographies.MEDIUM_TXT};
 `;
 const Counts = styled.div`
   color: ${({ theme }) => theme.colors.TXT_LIGHT_GRAY};
