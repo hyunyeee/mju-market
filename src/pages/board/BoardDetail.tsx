@@ -1,20 +1,17 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import useToken from '../../hooks/useToken';
+import { getBoard } from '../../api/board';
 import { calculateTime } from '../../hooks/calculateTime';
+import { BoardDetailValues } from '../../types';
 import profileImg from '../../assets/default_profile_img.png';
 import heartEmpty from '../../assets/heart-empty.svg';
 
 const BoardDetail = () => {
-  const navigate = useNavigate();
-  const detail = {
-    id: 2,
-    writerNickname: '핑크색의강아지_bf477ae4',
-    title: '안녕하세요 게시판에 쓰는 게시글 제목',
-    content: '게시글 content 내용 쓰는 부분',
-    likeCount: 0,
-    isMyPost: true,
-    createdDate: '2024-04-29T15:25:00.734238',
-  };
+  const { boardId } = useParams();
+  const [boardObj, setBoardObj] = useState<BoardDetailValues>();
   const {
     id,
     writerNickname,
@@ -23,12 +20,50 @@ const BoardDetail = () => {
     likeCount,
     isMyPost,
     createdDate,
-  } = detail;
+  } = boardObj || {};
+
+  const token = useToken();
+  const navigate = useNavigate();
   const parsedRelativeTime = calculateTime(createdDate);
+
+  const fetchData = async () => {
+    try {
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      const id = Number(boardId);
+      if (isNaN(id)) {
+        alert('잘못된 접근입니다.');
+        navigate('/boards');
+        return;
+      }
+      const response = await getBoard(token, id);
+      setBoardObj(response);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+        navigate('/');
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchData();
+    }
+  }, [token]);
 
   return (
     <Container>
-      {detail && (
+      {boardObj && (
         <>
           <Post>
             <Profile>
