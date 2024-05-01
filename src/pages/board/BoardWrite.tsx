@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useMatch, useNavigate, useParams } from 'react-router-dom';
 import useToken from '../../hooks/useToken';
 import { getBoard } from '../../api/board';
 import BoardForm from '../../components/UI/board/BoardForm';
@@ -13,6 +13,8 @@ const BoardWrite = () => {
   const { boardId } = useParams();
   const token = useToken();
   const navigate = useNavigate();
+  const matchWrite = useMatch('/board/write');
+  const matchModify = useMatch('/board/modify/:productId');
   const [boardObj, setBoardObj] = useState<ProductDetail>();
 
   const fetchData = async () => {
@@ -43,6 +45,20 @@ const BoardWrite = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = false; // Chrome에서 returnValue set 필요
+    };
+
+    if (matchWrite || matchModify) {
+      window.addEventListener('beforeunload', handleBeforeUnload);
+    }
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [location.pathname]);
 
   useEffect(() => {
     if (token && boardId) {
