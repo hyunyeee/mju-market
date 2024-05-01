@@ -34,3 +34,11 @@ export const updateBoard = async (
     },
   });
 };
+
+export const deleteBoard = async (token: string, boardId: number) => {
+  await Axios.delete(`/api/boards/${boardId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

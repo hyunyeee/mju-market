@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import useToken from '../../hooks/useToken';
-import { getBoard } from '../../api/board';
+import { deleteBoard, getBoard } from '../../api/board';
 import { calculateTime } from '../../hooks/calculateTime';
 import { BoardDetailValues } from '../../types';
 import profileImg from '../../assets/default_profile_img.png';
@@ -25,6 +25,31 @@ const BoardDetail = () => {
   const token = useToken();
   const navigate = useNavigate();
   const parsedRelativeTime = calculateTime(createdDate);
+
+  const handleDelete = async () => {
+    try {
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      if (confirm('게시글을 삭제할까요?')) {
+        await deleteBoard(token, Number(boardId));
+        navigate('/');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+        navigate('/');
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
+      }
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -78,7 +103,7 @@ const BoardDetail = () => {
                 <Button onClick={() => navigate(`/board/modify/${id}`)}>
                   수정
                 </Button>
-                <Button>삭제</Button>
+                <Button onClick={() => handleDelete()}>삭제</Button>
               </Buttons>
             )}
             <ArticleSection>
