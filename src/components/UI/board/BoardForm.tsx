@@ -1,19 +1,20 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useToken from '../../../hooks/useToken';
-import { postBoard } from '../../../api/board';
+import { postBoard, updateBoard } from '../../../api/board';
 import ProductInput from '../market/ProductInput';
-import { BoardFormValues } from '../../../types';
+import { BoardDetailValues, BoardFormValues } from '../../../types';
 
 interface BoardDetail {
-  boardObj?: BoardFormValues;
+  boardObj?: BoardDetailValues;
 }
 
 const BoardForm: React.FC<BoardDetail> = ({ boardObj }) => {
   const token = useToken();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [formData, setFormData] = useState<BoardFormValues>({
     title: '',
@@ -42,7 +43,11 @@ const BoardForm: React.FC<BoardDetail> = ({ boardObj }) => {
         return;
       }
       if (isFormValid()) {
-        await postBoard(token, formData);
+        if (location.pathname === '/board/write') {
+          await postBoard(token, formData);
+        } else {
+          await updateBoard(token, formData, boardObj?.id);
+        }
       } else {
         alert('모든 입력 필드를 채워주세요.');
       }

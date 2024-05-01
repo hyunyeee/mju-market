@@ -14,8 +14,20 @@ export const getBoard = async (token: string, boardId: number) => {
 };
 
 export const postBoard = async (token: string, formData: BoardFormValues) => {
-  console.log(formData);
   await Axios.post(`/api/boards`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
+export const updateBoard = async (
+  token: string,
+  formData: BoardFormValues,
+  boardId: number | undefined,
+) => {
+  await Axios.patch(`/api/boards/${boardId}`, formData, {
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'multipart/form-data',

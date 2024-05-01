@@ -5,7 +5,7 @@ import { useMatch, useNavigate, useParams } from 'react-router-dom';
 import useToken from '../../hooks/useToken';
 import { getBoard } from '../../api/board';
 import BoardForm from '../../components/UI/board/BoardForm';
-import { ProductDetail } from '../../types';
+import { BoardDetailValues } from '../../types';
 import camera from '../../assets/camera.svg';
 import deleteBtn from '../../assets/delete_image.svg';
 
@@ -15,7 +15,7 @@ const BoardWrite = () => {
   const navigate = useNavigate();
   const matchWrite = useMatch('/board/write');
   const matchModify = useMatch('/board/modify/:productId');
-  const [boardObj, setBoardObj] = useState<ProductDetail>();
+  const [boardObj, setBoardObj] = useState<BoardDetailValues>();
 
   const fetchData = async () => {
     try {
