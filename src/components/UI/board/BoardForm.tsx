@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useToken from '../../../hooks/useToken';
@@ -7,14 +7,28 @@ import { postBoard } from '../../../api/board';
 import ProductInput from '../market/ProductInput';
 import { BoardFormValues } from '../../../types';
 
-const BoardForm = () => {
+interface BoardDetail {
+  boardObj?: BoardFormValues;
+}
+
+const BoardForm: React.FC<BoardDetail> = ({ boardObj }) => {
+  const token = useToken();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState<BoardFormValues>({
     title: '',
     content: '',
   });
 
-  const token = useToken();
-  const navigate = useNavigate();
+  const onChange = (
+    event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = event.currentTarget;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const isFormValid = () => {
     return formData.title.trim() !== '' && formData.content.trim() !== '';
@@ -43,15 +57,14 @@ const BoardForm = () => {
     }
   };
 
-  const onChange = (
-    event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = event.currentTarget;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  useEffect(() => {
+    if (boardObj) {
+      setFormData({
+        title: boardObj.title,
+        content: boardObj.content,
+      });
+    }
+  }, [boardObj]);
 
   return (
     <Form onSubmit={onSubmit}>

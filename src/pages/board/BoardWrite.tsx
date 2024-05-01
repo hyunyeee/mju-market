@@ -1,9 +1,55 @@
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
+import useToken from '../../hooks/useToken';
+import { getBoard } from '../../api/board';
 import BoardForm from '../../components/UI/board/BoardForm';
+import { ProductDetail } from '../../types';
 import camera from '../../assets/camera.svg';
 import deleteBtn from '../../assets/delete_image.svg';
 
 const BoardWrite = () => {
+  const { boardId } = useParams();
+  const token = useToken();
+  const navigate = useNavigate();
+  const [boardObj, setBoardObj] = useState<ProductDetail>();
+
+  const fetchData = async () => {
+    try {
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      const id = Number(boardId);
+      if (isNaN(id)) {
+        alert('잘못된 접근입니다.');
+        navigate('/');
+        return;
+      }
+      const response = await getBoard(token, id);
+      setBoardObj(response);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+        navigate('/');
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (token && boardId) {
+      fetchData();
+    }
+  }, [token]);
+
   return (
     <Container>
       <Title>게시판 글쓰기</Title>
@@ -31,7 +77,7 @@ const BoardWrite = () => {
           </Image>
         </ImageBox>
       </AddImageContainer>
-      <BoardForm />
+      <BoardForm boardObj={boardObj} />
     </Container>
   );
 };

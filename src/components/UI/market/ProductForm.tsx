@@ -76,8 +76,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
     }
   };
 
-  //TODO 기존 value 불러오기
-  // cagegory도 설정해야됨
   useEffect(() => {
     if (productObj) {
       setFormData({

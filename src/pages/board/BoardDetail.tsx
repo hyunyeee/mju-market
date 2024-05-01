@@ -75,7 +75,9 @@ const BoardDetail = () => {
             </Profile>
             {isMyPost && (
               <Buttons>
-                <Button onClick={() => navigate(`/modify/${id}`)}>수정</Button>
+                <Button onClick={() => navigate(`/board/modify/${id}`)}>
+                  수정
+                </Button>
                 <Button>삭제</Button>
               </Buttons>
             )}
