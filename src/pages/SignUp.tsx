@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import SignUpForm from '../components/UI/SignUpForm';
-import BACK_ICON from '../assets/back_icon.svg';
+import backIcon from '../assets/back_icon.svg';
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
   return (
     <Container>
       <BackButton>
-        <img src={BACK_ICON} alt="뒤로가기 버튼" />
+        <img src={backIcon} alt="뒤로가기 버튼" />
       </BackButton>
       <Title>회원가입</Title>
       <SignUpForm />

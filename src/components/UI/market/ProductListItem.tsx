@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { calculateTime } from '../../../hooks/calculateTime';
 import { Product } from '../../../types';
-import heart_empty from '../../../assets/heart-empty.svg';
+import heartEmpty from '../../../assets/heart-empty.svg';
 import people from '../../../assets/people_icon.svg';
 
 interface ProductListItemProps {
@@ -40,7 +40,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
           {productStatus === 'WAITING' ? '대기중' : productStatus}
         </ProductStatus>
         <Like>
-          <img src={heart_empty} />
+          <img src={heartEmpty} />
           <div>3</div>
         </Like>
       </StatusBox>

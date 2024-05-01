@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import BoardForm from '../../components/UI/board/BoardForm';
 import camera from '../../assets/camera.svg';
-import delete_img_btn from '../../assets/delete_image.svg';
+import deleteBtn from '../../assets/delete_image.svg';
 
 const BoardWrite = () => {
   return (
@@ -15,19 +15,19 @@ const BoardWrite = () => {
             5/10
           </AddButton>
           <Image>
-            <DeleteBtn src={delete_img_btn} />
+            <DeleteBtn src={deleteBtn} />
           </Image>
           <Image>
-            <DeleteBtn src={delete_img_btn} />
+            <DeleteBtn src={deleteBtn} />
           </Image>
           <Image>
-            <DeleteBtn src={delete_img_btn} />
+            <DeleteBtn src={deleteBtn} />
           </Image>
           <Image>
-            <DeleteBtn src={delete_img_btn} />
+            <DeleteBtn src={deleteBtn} />
           </Image>
           <Image>
-            <DeleteBtn src={delete_img_btn} />
+            <DeleteBtn src={deleteBtn} />
           </Image>
         </ImageBox>
       </AddImageContainer>

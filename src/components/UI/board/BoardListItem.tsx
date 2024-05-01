@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { calculateTime } from '../../../hooks/calculateTime';
 import { Board } from '../../../types';
 import people from '../../../assets/people_icon.svg';
-import heart_empty from '../../../assets/heart-empty.svg';
+import heartEmpty from '../../../assets/heart-empty.svg';
 
 interface BoardListItemProps {
   board: Board;
@@ -33,7 +33,7 @@ const BoardListItem: React.FC<BoardListItemProps> = ({ board }) => {
       </Content>
       <StatusBox>
         <Like>
-          <img src={heart_empty} />
+          <img src={heartEmpty} />
           <div>3</div>
         </Like>
       </StatusBox>

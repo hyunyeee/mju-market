@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import heart_empty from '../../../assets/heart-empty.svg';
+import heartEmpty from '../../../assets/heart-empty.svg';
 
 type Price = {
   price: number;
@@ -9,7 +9,7 @@ const ProductActionBar: React.FC<Price> = ({ price, ...attrProps }) => {
   return (
     <Container {...attrProps}>
       <LikeButton>
-        <img src={heart_empty} />
+        <img src={heartEmpty} />
       </LikeButton>
       <Line />
       <PriceTag>{price}원</PriceTag>

@@ -13,7 +13,7 @@ import { getProduct } from '../../api/market';
 import ProductForm from '../../components/UI/market/ProductForm';
 import { ProductDetail } from '../../types';
 import camera from '../../assets/camera.svg';
-import delete_img_btn from '../../assets/delete_image.svg';
+import deleteBtn from '../../assets/delete_image.svg';
 
 const Write: React.FC = () => {
   const { productId } = useParams();
@@ -89,19 +89,19 @@ const Write: React.FC = () => {
             5/10
           </AddButton>
           <Image>
-            <DeleteBtn src={delete_img_btn} />
+            <DeleteBtn src={deleteBtn} />
           </Image>
           <Image>
-            <DeleteBtn src={delete_img_btn} />
+            <DeleteBtn src={deleteBtn} />
           </Image>
           <Image>
-            <DeleteBtn src={delete_img_btn} />
+            <DeleteBtn src={deleteBtn} />
           </Image>
           <Image>
-            <DeleteBtn src={delete_img_btn} />
+            <DeleteBtn src={deleteBtn} />
           </Image>
           <Image>
-            <DeleteBtn src={delete_img_btn} />
+            <DeleteBtn src={deleteBtn} />
           </Image>
         </ImageBox>
       </AddImageContainer>

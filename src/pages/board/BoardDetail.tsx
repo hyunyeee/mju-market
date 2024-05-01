@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { calculateTime } from '../../hooks/calculateTime';
 import profileImg from '../../assets/default_profile_img.png';
-import heart_empty from '../../assets/heart-empty.svg';
+import heartEmpty from '../../assets/heart-empty.svg';
 
 const BoardDetail = () => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const BoardDetail = () => {
             </ArticleSection>
           </Post>
           <Like>
-            <img src={heart_empty} />
+            <img src={heartEmpty} />
             <div>{likeCount}</div>
           </Like>
         </>
