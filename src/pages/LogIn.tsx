@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LogInForm from '../components/UI/LogInForm';
-import BACK_ICON from '../assets/back_icon.svg';
+import backIcon from '../assets/back_icon.svg';
 
 const LogIn: React.FC = () => {
   const navigate = useNavigate();
   return (
     <Container>
       <BackButton>
-        <img src={BACK_ICON} alt="뒤로가기 버튼" />
+        <img src={backIcon} alt="뒤로가기 버튼" />
       </BackButton>
       <Title>로그인</Title>
       <LogInForm />

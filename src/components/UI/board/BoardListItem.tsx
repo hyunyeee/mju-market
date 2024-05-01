@@ -1,23 +1,22 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { calculateTime } from '../../../hooks/calculateTime';
-import { Product } from '../../../types';
-import heartEmpty from '../../../assets/heart-empty.svg';
+import { Board } from '../../../types';
 import people from '../../../assets/people_icon.svg';
+import heartEmpty from '../../../assets/heart-empty.svg';
 
-interface ProductListItemProps {
-  product: Product;
+interface BoardListItemProps {
+  board: Board;
 }
+const BoardListItem: React.FC<BoardListItemProps> = ({ board }) => {
+  const { id, title, writerNickname, createdDate } = board;
 
-const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
-  const { id, title, price, productStatus, createDate, visitedCount } = product;
   const navigate = useNavigate();
-
   const onItemClick = () => {
-    navigate(`/products/${id}`);
+    navigate(`/boards/${id}`);
   };
 
-  const parsedRelativeTime = calculateTime(createDate);
+  const parsedRelativeTime = calculateTime(createdDate);
 
   return (
     <ItemBox onClick={onItemClick}>
@@ -25,20 +24,14 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
         <Image />
         <Description>
           <Title>{title}</Title>
-          <TrafficData>
-            <Time>{parsedRelativeTime}</Time>
-            <VisitedCount>
-              <Icon src={people} />
-              <div>{visitedCount}</div>
-            </VisitedCount>
-          </TrafficData>
-          <Price>{price}</Price>
+          <Nickname>{writerNickname}</Nickname>
+          <Time>{parsedRelativeTime}</Time>
+          <VisitedCount>
+            <Icon src={people} />
+          </VisitedCount>
         </Description>
       </Content>
       <StatusBox>
-        <ProductStatus>
-          {productStatus === 'WAITING' ? '대기중' : productStatus}
-        </ProductStatus>
         <Like>
           <img src={heartEmpty} />
           <div>3</div>
@@ -68,13 +61,6 @@ const StatusBox = styled.div`
   align-items: center;
   gap: 10px;
 `;
-const ProductStatus = styled.div`
-  padding: 3px 5px;
-  ${({ theme }) => theme.typographies.SMALL_TXT};
-  color: white;
-  background-color: ${({ theme }) => theme.colors.BLUE_1};
-  border-radius: 4px;
-`;
 const Image = styled.div`
   width: 100px;
   height: 100px;
@@ -94,14 +80,10 @@ const Title = styled.h2`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  ${({ theme }) => theme.typographies.MEDIUM_TXT};
-`;
-const TrafficData = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-const Price = styled.div`
   ${({ theme }) => theme.typographies.DEFAULT};
+`;
+const Nickname = styled.p`
+  ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
 const Time = styled.div`
   white-space: nowrap;
@@ -124,4 +106,5 @@ const Like = styled.div`
   justify-content: center;
   align-items: center;
 `;
-export default ProductListItem;
+
+export default BoardListItem;

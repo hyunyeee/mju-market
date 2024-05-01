@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import remove_btn from '../../../assets/x.svg';
+import removeBtn from '../../../assets/x.svg';
 
 interface ProductInput {
   type?: string;
@@ -38,7 +38,7 @@ const ProductInput = ({
             onChange={onChange}
           />
           <RemoveButton>
-            <DeleteIcon src={remove_btn} />
+            <DeleteIcon src={removeBtn} />
           </RemoveButton>
         </>
       )}
