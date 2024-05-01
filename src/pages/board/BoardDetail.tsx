@@ -1,9 +1,11 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { calculateTime } from '../../hooks/calculateTime';
 import profileImg from '../../assets/default_profile_img.png';
 import heart_empty from '../../assets/heart-empty.svg';
 
 const BoardDetail = () => {
+  const navigate = useNavigate();
   const detail = {
     id: 2,
     writerNickname: '핑크색의강아지_bf477ae4',
@@ -36,8 +38,16 @@ const BoardDetail = () => {
                 <Time>{parsedRelativeTime}</Time>
               </Info>
             </Profile>
-            <Title>{title}</Title>
-            <Content>{content}</Content>
+            {isMyPost && (
+              <Buttons>
+                <Button onClick={() => navigate(`/modify/${id}`)}>수정</Button>
+                <Button>삭제</Button>
+              </Buttons>
+            )}
+            <ArticleSection>
+              <Title>{title}</Title>
+              <Content>{content}</Content>
+            </ArticleSection>
           </Post>
           <Like>
             <img src={heart_empty} />
@@ -55,15 +65,19 @@ const Container = styled.div`
   flex-direction: column;
   gap: 20px;
 `;
-const Post = styled.div``;
+const Post = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
 const Profile = styled.div`
-  margin-bottom: 20px;
   padding: 10px 0;
   display: flex;
   align-items: center;
   gap: 10px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.LIGHT_GRAY};
 `;
+const ArticleSection = styled.section``;
 const Title = styled.p`
   margin-bottom: 10px;
   ${({ theme }) => theme.typographies.DEFAULT};
@@ -78,6 +92,17 @@ const DefaultProfileImg = styled.img`
   object-fit: cover;
 `;
 const Info = styled.div``;
+const Buttons = styled.div`
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+`;
+const Button = styled.button`
+  width: 50px;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 4px;
+`;
 const Time = styled.p`
   ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
