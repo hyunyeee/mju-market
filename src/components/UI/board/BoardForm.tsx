@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
-import ProductInput from '../market/ProductInput';
-import { BoardFormValues } from '../../../types';
 import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useToken from '../../../hooks/useToken';
+import { postBoard, updateBoard } from '../../../api/board';
+import ProductInput from '../market/ProductInput';
+import { BoardDetailValues, BoardFormValues } from '../../../types';
 
-const BoardForm = () => {
+interface BoardDetail {
+  boardObj?: BoardDetailValues;
+}
+
+const BoardForm: React.FC<BoardDetail> = ({ boardObj }) => {
+  const token = useToken();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [formData, setFormData] = useState<BoardFormValues>({
     title: '',
     content: '',
@@ -19,8 +31,48 @@ const BoardForm = () => {
     }));
   };
 
+  const isFormValid = () => {
+    return formData.title.trim() !== '' && formData.content.trim() !== '';
+  };
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      if (isFormValid()) {
+        if (location.pathname === '/board/write') {
+          await postBoard(token, formData);
+        } else {
+          await updateBoard(token, formData, boardObj?.id);
+        }
+      } else {
+        alert('모든 입력 필드를 채워주세요.');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (boardObj) {
+      setFormData({
+        title: boardObj.title,
+        content: boardObj.content,
+      });
+    }
+  }, [boardObj]);
+
   return (
-    <Form>
+    <Form onSubmit={onSubmit}>
       <Content>
         <ProductInput
           type="text"
