@@ -25,10 +25,11 @@ const Comment: React.FC<CommentProps> = ({ commentObj }) => {
 };
 
 const Container = styled.div`
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
+  border-top: 1px solid ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
 `;
 const Profile = styled.div`
   display: flex;
