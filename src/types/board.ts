@@ -19,3 +19,9 @@ export interface BoardFormValues {
   title: string;
   content: string;
 }
+
+export interface CommentValues {
+  writerNickname: string;
+  content: string;
+  createDate: string;
+}
