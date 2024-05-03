@@ -4,25 +4,19 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import useToken from '../../hooks/useToken';
 import { deleteBoard, getBoard } from '../../api/board';
-import { postComment } from '../../api/comment';
+import { getComments, postComment } from '../../api/comment';
 import { calculateTime } from '../../hooks/calculateTime';
 import Comment from '../../components/UI/board/Comment';
-import { BoardDetailValues } from '../../types';
+import CommentInput from '../../components/UI/board/CommentInput';
+import { BoardDetailValues, CommentValues } from '../../types';
 import profileImg from '../../assets/default_profile_img.png';
 import heartEmpty from '../../assets/heart-empty.svg';
-import CommentInput from '../../components/UI/board/CommentInput';
 
 const BoardDetail = () => {
   const { boardId } = useParams();
   const [boardObj, setBoardObj] = useState<BoardDetailValues>();
+  const [commentList, setCommentList] = useState<CommentValues[]>();
   const [comment, setComment] = useState('');
-  const commentObj = {
-    id: 1,
-    content: '댓글 내용',
-    writerId: 1,
-    writerNickname: '꿈꾸는돼지_123',
-    createDate: '2024-05-01T07:59:59.400258435',
-  };
   const {
     id,
     writerNickname,
@@ -91,17 +85,48 @@ const BoardDetail = () => {
     }
   };
 
+  const fetchCommentData = async () => {
+    try {
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      const id = Number(boardId);
+      if (isNaN(id)) {
+        alert('잘못된 접근입니다.');
+        navigate('/boards');
+        return;
+      }
+      const commentResponse = await getComments(token, id);
+      setCommentList(commentResponse);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+        navigate('/');
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
+      }
+    }
+  };
+
   const handleInputChange = (value: string) => {
     setComment(value);
   };
 
   const handleSubmit = async () => {
+    setComment('');
     try {
       if (!token) {
         navigate('/login');
         return;
       }
       await postComment(token, Number(boardId), comment);
+      await fetchCommentData();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error?.response?.data);
@@ -120,6 +145,7 @@ const BoardDetail = () => {
   useEffect(() => {
     if (token) {
       fetchData();
+      fetchCommentData();
     }
   }, [token]);
 
@@ -158,14 +184,13 @@ const BoardDetail = () => {
       </Container>
       <Hr />
       <CommentContainer>
-        <CommentList>
-          <Comment commentObj={commentObj} />
-          <Comment commentObj={commentObj} />
-          <Comment commentObj={commentObj} />
-          <Comment commentObj={commentObj} />
-          <Comment commentObj={commentObj} />
-          <Comment commentObj={commentObj} />
-        </CommentList>
+        {commentList && (
+          <CommentList>
+            {commentList.map((comment: CommentValues) => (
+              <Comment key={comment.id} commentObj={comment} />
+            ))}
+          </CommentList>
+        )}
         <CommentInput
           comment={comment}
           handleInputChange={handleInputChange}
