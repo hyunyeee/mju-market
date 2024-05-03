@@ -5,13 +5,22 @@ import axios from 'axios';
 import useToken from '../../hooks/useToken';
 import { deleteBoard, getBoard } from '../../api/board';
 import { calculateTime } from '../../hooks/calculateTime';
+import Comment from '../../components/UI/board/Comment';
 import { BoardDetailValues } from '../../types';
 import profileImg from '../../assets/default_profile_img.png';
 import heartEmpty from '../../assets/heart-empty.svg';
+import CommentInput from '../../components/UI/board/CommentInput';
 
 const BoardDetail = () => {
   const { boardId } = useParams();
   const [boardObj, setBoardObj] = useState<BoardDetailValues>();
+  const commentObj = {
+    id: 1,
+    content: '댓글 내용',
+    writerId: 1,
+    writerNickname: '꿈꾸는돼지_123',
+    createDate: '2024-05-01T07:59:59.400258435',
+  };
   const {
     id,
     writerNickname,
@@ -87,37 +96,51 @@ const BoardDetail = () => {
   }, [token]);
 
   return (
-    <Container>
-      {boardObj && (
-        <>
-          <Post>
-            <Profile>
-              <DefaultProfileImg src={profileImg} />
-              <Info>
-                <NickName>{writerNickname}</NickName>
-                <Time>{parsedRelativeTime}</Time>
-              </Info>
-            </Profile>
-            {isMyPost && (
-              <Buttons>
-                <Button onClick={() => navigate(`/board/modify/${id}`)}>
-                  수정
-                </Button>
-                <Button onClick={() => handleDelete()}>삭제</Button>
-              </Buttons>
-            )}
-            <ArticleSection>
-              <Title>{title}</Title>
-              <Content>{content}</Content>
-            </ArticleSection>
-          </Post>
-          <Like>
-            <img src={heartEmpty} />
-            <div>{likeCount}</div>
-          </Like>
-        </>
-      )}
-    </Container>
+    <>
+      <Container>
+        {boardObj && (
+          <>
+            <Post>
+              {isMyPost && (
+                <Buttons>
+                  <Button onClick={() => navigate(`/board/modify/${id}`)}>
+                    수정
+                  </Button>
+                  <Button onClick={() => handleDelete()}>삭제</Button>
+                </Buttons>
+              )}
+              <Profile>
+                <DefaultProfileImg src={profileImg} />
+                <Info>
+                  <NickName>{writerNickname}</NickName>
+                  <Time>{parsedRelativeTime}</Time>
+                </Info>
+              </Profile>
+              <ArticleSection>
+                <Title>{title}</Title>
+                <Content>{content}</Content>
+              </ArticleSection>
+            </Post>
+            <Like>
+              <Img src={heartEmpty} />
+              <div>{likeCount}</div>
+            </Like>
+          </>
+        )}
+      </Container>
+      <Hr />
+      <CommentContainer>
+        <CommentList>
+          <Comment commentObj={commentObj} />
+          <Comment commentObj={commentObj} />
+          <Comment commentObj={commentObj} />
+          <Comment commentObj={commentObj} />
+          <Comment commentObj={commentObj} />
+          <Comment commentObj={commentObj} />
+        </CommentList>
+        <CommentInput />
+      </CommentContainer>
+    </>
   );
 };
 
@@ -137,7 +160,6 @@ const Profile = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.LIGHT_GRAY};
 `;
 const ArticleSection = styled.section``;
 const Title = styled.p`
@@ -175,5 +197,24 @@ const Like = styled.div`
   ${({ theme }) => theme.typographies.SMALL_TXT};
   display: flex;
   align-items: center;
+  gap: 2px;
+`;
+const Img = styled.img`
+  width: 20px;
+  height: 20px;
+`;
+const Hr = styled.div`
+  width: 100vw;
+  height: 25px;
+  background-color: ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
+`;
+const CommentContainer = styled.div`
+  margin-bottom: 50px;
+`;
+const CommentList = styled.div`
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 export default BoardDetail;
