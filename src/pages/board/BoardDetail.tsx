@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import useToken from '../../hooks/useToken';
 import { deleteBoard, getBoard } from '../../api/board';
+import { postComment } from '../../api/comment';
 import { calculateTime } from '../../hooks/calculateTime';
 import Comment from '../../components/UI/board/Comment';
 import { BoardDetailValues } from '../../types';
@@ -14,6 +15,7 @@ import CommentInput from '../../components/UI/board/CommentInput';
 const BoardDetail = () => {
   const { boardId } = useParams();
   const [boardObj, setBoardObj] = useState<BoardDetailValues>();
+  const [comment, setComment] = useState('');
   const commentObj = {
     id: 1,
     content: '댓글 내용',
@@ -89,6 +91,32 @@ const BoardDetail = () => {
     }
   };
 
+  const handleInputChange = (value: string) => {
+    setComment(value);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      await postComment(token, Number(boardId), comment);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error?.response?.data);
+        navigate('/');
+        if (error?.response?.status === 401) {
+          navigate('/login');
+        }
+      } else if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('알 수 없는 에러가 발생했습니다.');
+      }
+    }
+  };
+
   useEffect(() => {
     if (token) {
       fetchData();
@@ -138,7 +166,11 @@ const BoardDetail = () => {
           <Comment commentObj={commentObj} />
           <Comment commentObj={commentObj} />
         </CommentList>
-        <CommentInput />
+        <CommentInput
+          comment={comment}
+          handleInputChange={handleInputChange}
+          handleSubmit={handleSubmit}
+        />
       </CommentContainer>
     </>
   );
