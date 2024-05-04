@@ -1,20 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CommentValues } from '../../../types';
 import { calculateTime } from '../../../hooks/calculateTime';
+import { CommentValues } from '../../../types';
+import more from '../../../assets/more.svg';
 
 interface CommentProps {
   commentObj: CommentValues;
+  setCommentId: (commentId: number) => void;
+  seIsModalOpen: (isModalOpen: boolean) => void;
 }
-const Comment: React.FC<CommentProps> = ({ commentObj }) => {
-  const { writerNickname, content, createDate } = commentObj;
+const Comment: React.FC<CommentProps> = ({
+  commentObj,
+  setCommentId,
+  seIsModalOpen,
+}) => {
+  const { id, writerNickname, content, createDate } = commentObj;
   const parsedRelativeTime = calculateTime(createDate);
+
+  const handleModal = () => {
+    seIsModalOpen(true);
+    setCommentId(id);
+  };
 
   return (
     <Container>
       <Profile>
         <ProfileImg />
         <Writer>{writerNickname}</Writer>
+        <MenuButton onClick={handleModal}>
+          <Img src={more} />
+        </MenuButton>
       </Profile>
       <Content>
         <CommentContent>{content}</CommentContent>
@@ -44,6 +59,13 @@ const ProfileImg = styled.div`
 `;
 const Content = styled.div`
   margin: 0 0 5px 5px;
+`;
+const MenuButton = styled.button`
+  margin-left: auto;
+`;
+const Img = styled.img`
+  width: 20px;
+  margin-top: 3px;
 `;
 const Writer = styled.p`
   ${({ theme }) => theme.typographies.MEDIUM_TXT};

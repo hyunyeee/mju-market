@@ -8,6 +8,7 @@ import { getComments, postComment } from '../../api/comment';
 import { calculateTime } from '../../hooks/calculateTime';
 import Comment from '../../components/UI/board/Comment';
 import CommentInput from '../../components/UI/board/CommentInput';
+import Modal from './Modal';
 import { BoardDetailValues, CommentValues } from '../../types';
 import profileImg from '../../assets/default_profile_img.png';
 import heartEmpty from '../../assets/heart-empty.svg';
@@ -17,6 +18,9 @@ const BoardDetail = () => {
   const [boardObj, setBoardObj] = useState<BoardDetailValues>();
   const [commentList, setCommentList] = useState<CommentValues[]>();
   const [comment, setComment] = useState('');
+  const [ismodalOpen, seIsModalOpen] = useState<boolean>(true);
+  const [commentId, setCommentId] = useState<number>();
+
   const {
     id,
     writerNickname,
@@ -151,6 +155,13 @@ const BoardDetail = () => {
 
   return (
     <>
+      {ismodalOpen && boardId && commentId && (
+        <Modal
+          boardId={Number(boardId)}
+          commentId={commentId}
+          seIsModalOpen={seIsModalOpen}
+        />
+      )}
       <Container>
         {boardObj && (
           <>
@@ -183,14 +194,22 @@ const BoardDetail = () => {
         )}
       </Container>
       <Hr />
+      {/*TODO Modal open 되어있으면 스크롤 방지*/}
       <CommentContainer>
         {commentList && (
           <CommentList>
             {commentList.map((comment: CommentValues) => (
-              <Comment key={comment.id} commentObj={comment} />
+              <Comment
+                key={comment.id}
+                commentObj={comment}
+                setCommentId={setCommentId}
+                seIsModalOpen={seIsModalOpen}
+              />
             ))}
           </CommentList>
         )}
+        {/*TODO 수정 값 인지 여부를 알아야 함 */}
+        {/* 변경 값 없으면 취소 버튼만 가능하게*/}
         <CommentInput
           comment={comment}
           handleInputChange={handleInputChange}
