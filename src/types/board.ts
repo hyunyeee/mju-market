@@ -21,6 +21,7 @@ export interface BoardFormValues {
 }
 
 export interface CommentValues {
+  id: number;
   writerNickname: string;
   content: string;
   createDate: string;

@@ -1,10 +1,28 @@
 import styled from 'styled-components';
 import sendIcon from '../../../assets/prime_send.svg';
 
-const CommentInput = () => {
+interface CommentInputProps {
+  comment?: string;
+  handleInputChange: (value: string) => void;
+  handleSubmit: () => void;
+}
+
+const CommentInput: React.FC<CommentInputProps> = ({
+  comment,
+  handleInputChange,
+  handleSubmit,
+}) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleInputChange(e.target.value);
+  };
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    handleSubmit();
+  };
+
   return (
-    <InputContainer onSubmit={(e: React.FormEvent) => e.preventDefault()}>
-      <Input />
+    <InputContainer onSubmit={onSubmit}>
+      <Input type="text" value={comment} onChange={onChange} />
       <Button type="submit">
         <img src={sendIcon} />
       </Button>
