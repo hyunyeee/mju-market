@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
+import { getComments, updateComments } from '../../../api/comment';
+import useToken from '../../../hooks/useToken';
 
 interface modifyCommentProps {
   boardId: number;
@@ -14,14 +16,22 @@ const CommentModifyPage: React.FC<modifyCommentProps> = ({
   setIsModalOpen,
 }) => {
   const [modifyValue, setModifyValue] = useState<string>(modifyComment);
+  // const navigate = useNavigate();
+  const token = useToken();
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setModifyValue(e.target.value);
   };
-  const onClick = () => {
-    console.log(boardId);
-    console.log(commentId);
-    console.log(modifyValue);
+  const onClick = async () => {
+    if (!token) {
+      alert('로그인 정보가 유효하지 않습니다.');
+      return;
+    }
+    await getComments(token, boardId);
+    await updateComments(token, boardId, commentId, modifyValue);
+    alert('수정되었습니다');
+    setIsModalOpen(false);
+    window.location.reload();
   };
   return (
     <Container>
