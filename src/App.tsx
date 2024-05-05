@@ -11,7 +11,6 @@ import BoardDetail from './pages/board/BoardDetail';
 import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
 import BoardWrite from './pages/board/BoardWrite';
-import CommentModifyPage from './components/UI/board/CommentModifyPage';
 
 const queryClient = new QueryClient();
 
@@ -31,10 +30,6 @@ const App: React.FC = () => {
                 <Route path="/board/:boardId" element={<BoardDetail />} />
                 <Route path="/board/write" element={<BoardWrite />} />
                 <Route path="/board/modify/:boardId" element={<BoardWrite />} />
-                <Route
-                  path="/board/:boardId/comment/:commentId/modify"
-                  element={<CommentModifyPage />}
-                />
                 <Route path="/login" element={<LogIn />} />
                 <Route path="/signup" element={<SignUp />} />
               </Route>

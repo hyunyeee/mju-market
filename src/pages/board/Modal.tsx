@@ -1,31 +1,50 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import React from 'react';
+import { useState } from 'react';
+import CommentModifyPage from '../../components/UI/board/CommentModifyPage';
 
 interface ModalProps {
   boardId: number;
   commentId: number;
-  seIsModalOpen: (isModalOpen: boolean) => void;
+  setIsModalOpen: (isModalOpen: boolean) => void;
+  modifyComment: string;
 }
-const Modal: React.FC<ModalProps> = ({ boardId, commentId, seIsModalOpen }) => {
-  const navigate = useNavigate();
+const Modal: React.FC<ModalProps> = ({
+  boardId,
+  commentId,
+  setIsModalOpen,
+  modifyComment,
+}) => {
+  const [isModify, setIsModify] = useState(false);
 
-  const handleUpdate = () => {
-    navigate(`/board/${boardId}/comment/${commentId}/modify`);
+  const handleUpdate = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setIsModify(true);
   };
+
   const handleDelete = () => {
     if (confirm('댓글을 삭제할까요?')) {
       alert('댓글 삭제');
     }
-    seIsModalOpen(false);
+    setIsModalOpen(false);
   };
 
   return (
-    <ModalPage onClick={() => seIsModalOpen(false)}>
+    <ModalPage onClick={() => !isModify && setIsModalOpen(false)}>
       <ModalBackground />
       <Wrapper>
-        <Option onClick={handleUpdate}>수정</Option>
-        <Option onClick={handleDelete}>삭제</Option>
+        {isModify ? (
+          <CommentModifyPage
+            boardId={boardId}
+            commentId={commentId}
+            modifyComment={modifyComment}
+            setIsModalOpen={setIsModalOpen}
+          />
+        ) : (
+          <>
+            <Option onClick={(e) => handleUpdate(e)}>수정</Option>
+            <Option onClick={handleDelete}>삭제</Option>
+          </>
+        )}
       </Wrapper>
     </ModalPage>
   );
@@ -38,21 +57,20 @@ const ModalPage = styled.div`
 const ModalBackground = styled.div`
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.35);
-  filter: blur(100px);
+  background: rgba(0, 0, 0, 0.4);
   position: absolute;
 `;
 const Wrapper = styled.div`
   width: 100%;
-  margin: 300px auto 0;
+  margin: 280px auto 0;
   position: relative;
+  background-color: rgb(255, 255, 255);
 `;
 const Option = styled.div`
   height: 50px;
   text-align: center;
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
   line-height: 50px;
-  background-color: rgb(255, 255, 255);
   cursor: pointer;
 `;
 export default Modal;

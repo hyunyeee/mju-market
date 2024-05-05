@@ -18,8 +18,9 @@ const BoardDetail = () => {
   const [boardObj, setBoardObj] = useState<BoardDetailValues>();
   const [commentList, setCommentList] = useState<CommentValues[]>();
   const [comment, setComment] = useState('');
-  const [ismodalOpen, seIsModalOpen] = useState<boolean>(true);
+  const [ismodalOpen, setIsModalOpen] = useState<boolean>(true);
   const [commentId, setCommentId] = useState<number>();
+  const [modifyComment, setModifyComment] = useState('');
 
   const {
     id,
@@ -159,7 +160,8 @@ const BoardDetail = () => {
         <Modal
           boardId={Number(boardId)}
           commentId={commentId}
-          seIsModalOpen={seIsModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          modifyComment={modifyComment}
         />
       )}
       <Container>
@@ -203,7 +205,8 @@ const BoardDetail = () => {
                 key={comment.id}
                 commentObj={comment}
                 setCommentId={setCommentId}
-                seIsModalOpen={seIsModalOpen}
+                setModifyComment={setModifyComment}
+                setIsModalOpen={setIsModalOpen}
               />
             ))}
           </CommentList>

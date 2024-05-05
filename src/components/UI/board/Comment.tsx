@@ -7,19 +7,22 @@ import more from '../../../assets/more.svg';
 interface CommentProps {
   commentObj: CommentValues;
   setCommentId: (commentId: number) => void;
-  seIsModalOpen: (isModalOpen: boolean) => void;
+  setModifyComment: (comment: string) => void;
+  setIsModalOpen: (isModalOpen: boolean) => void;
 }
 const Comment: React.FC<CommentProps> = ({
   commentObj,
   setCommentId,
-  seIsModalOpen,
+  setModifyComment,
+  setIsModalOpen,
 }) => {
   const { id, writerNickname, content, createDate } = commentObj;
   const parsedRelativeTime = calculateTime(createDate);
 
   const handleModal = () => {
-    seIsModalOpen(true);
+    setIsModalOpen(true);
     setCommentId(id);
+    setModifyComment(content);
   };
 
   return (
