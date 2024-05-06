@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { deleteComment } from '../../api/comment';
 import CommentModifyPage from '../../components/UI/board/CommentModifyPage';
+import useToken from '../../hooks/useToken';
 
 interface ModalProps {
   boardId: number;
@@ -15,15 +17,21 @@ const Modal: React.FC<ModalProps> = ({
   modifyComment,
 }) => {
   const [isModify, setIsModify] = useState(false);
-
+  const token = useToken();
   const handleUpdate = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setIsModify(true);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    if (!token) {
+      alert('로그인 정보가 유효하지 않습니다.');
+      return;
+    }
     if (confirm('댓글을 삭제할까요?')) {
+      await deleteComment(token, boardId, commentId);
       alert('댓글 삭제');
+      window.location.reload();
     }
     setIsModalOpen(false);
   };

@@ -52,3 +52,15 @@ export const updateComments = async (
   );
   return response.data;
 };
+
+export const deleteComment = async (
+  token: string,
+  boardId: number,
+  commentId: number,
+) => {
+  await Axios.delete(`/api/boards/${boardId}/comments/${commentId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
