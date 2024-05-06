@@ -1,4 +1,4 @@
-export interface Board {
+export interface BoardValues {
   id: number;
   title: string;
   writerNickname: string;

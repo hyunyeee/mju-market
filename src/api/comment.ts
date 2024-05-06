@@ -31,3 +31,36 @@ export const getComments = async (token: string, boardId: number) => {
   );
   return response.data;
 };
+
+export const updateComments = async (
+  token: string,
+  boardId: number,
+  commentId: number,
+  comment: string,
+) => {
+  if (!token) {
+    throw new Error('로그인 정보가 유효하지 않습니다.');
+  }
+  const response = await Axios.patch(
+    `/api/boards/${boardId}/comments/${commentId}`,
+    { comment: comment },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+};
+
+export const deleteComment = async (
+  token: string,
+  boardId: number,
+  commentId: number,
+) => {
+  await Axios.delete(`/api/boards/${boardId}/comments/${commentId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

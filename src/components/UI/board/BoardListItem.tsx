@@ -1,19 +1,18 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { calculateTime } from '../../../hooks/calculateTime';
-import { Board } from '../../../types';
-import people from '../../../assets/people_icon.svg';
+import { BoardValues } from '../../../types';
 import heartEmpty from '../../../assets/heart-empty.svg';
 
 interface BoardListItemProps {
-  board: Board;
+  board: BoardValues;
 }
 const BoardListItem: React.FC<BoardListItemProps> = ({ board }) => {
   const { id, title, writerNickname, createdDate } = board;
 
   const navigate = useNavigate();
   const onItemClick = () => {
-    navigate(`/boards/${id}`);
+    navigate(`/board/${id}`);
   };
 
   const parsedRelativeTime = calculateTime(createdDate);
@@ -26,9 +25,6 @@ const BoardListItem: React.FC<BoardListItemProps> = ({ board }) => {
           <Title>{title}</Title>
           <Nickname>{writerNickname}</Nickname>
           <Time>{parsedRelativeTime}</Time>
-          <VisitedCount>
-            <Icon src={people} />
-          </VisitedCount>
         </Description>
       </Content>
       <StatusBox>
