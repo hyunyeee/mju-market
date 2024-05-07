@@ -19,7 +19,6 @@ const Board = () => {
         return;
       }
       const response = await getBoards(token);
-      console.log(response);
       setBoards(response);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -52,6 +51,6 @@ const Board = () => {
 };
 const Container = styled.div``;
 const ListContainer = styled.div`
-  margin-top: 60px;
+  margin: 60px 0 50px;
 `;
 export default Board;

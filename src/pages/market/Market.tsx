@@ -58,6 +58,6 @@ const Market = () => {
 
 const Container = styled.div``;
 const ListContainer = styled.div`
-  margin-top: 60px;
+  margin: 60px 0 50px;
 `;
 export default Market;
