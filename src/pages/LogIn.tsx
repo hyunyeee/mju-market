@@ -1,15 +1,11 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LogInForm from '../components/UI/LogInForm';
-import backIcon from '../assets/back_icon.svg';
 
 const LogIn: React.FC = () => {
   const navigate = useNavigate();
   return (
     <Container>
-      <BackButton>
-        <img src={backIcon} alt="뒤로가기 버튼" />
-      </BackButton>
       <Title>로그인</Title>
       <LogInForm />
       <SignUpButton onClick={() => navigate('/signup')}>회원가입</SignUpButton>
@@ -24,9 +20,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const BackButton = styled.button`
-  margin: 20px auto 20px 0;
-`;
+
 const Title = styled.p`
   margin-top: 40px;
   color: ${({ theme }) => theme.colors.BLUE_2};

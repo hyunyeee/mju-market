@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { deleteComment } from '../../api/comment';
-import CommentModifyPage from '../../components/UI/board/CommentModifyPage';
-import useToken from '../../hooks/useToken';
+import CommentModifyPage from './CommentModifyPage';
+import useToken from '../../../hooks/useToken';
+import { deleteComment } from '../../../api/comment';
 
 interface ModalProps {
   boardId: number;

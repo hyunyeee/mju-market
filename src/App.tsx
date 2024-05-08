@@ -11,6 +11,9 @@ import BoardDetail from './pages/board/BoardDetail';
 import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
 import BoardWrite from './pages/board/BoardWrite';
+import Like from './pages/Like';
+import Chat from './pages/Chat';
+import Mypage from './pages/Mypage';
 
 const queryClient = new QueryClient();
 
@@ -30,6 +33,9 @@ const App: React.FC = () => {
                 <Route path="/board/:boardId" element={<BoardDetail />} />
                 <Route path="/board/write" element={<BoardWrite />} />
                 <Route path="/board/modify/:boardId" element={<BoardWrite />} />
+                <Route path="/likes" element={<Like />} />
+                <Route path="/chat" element={<Chat />} />
+                <Route path="/mypage" element={<Mypage />} />
                 <Route path="/login" element={<LogIn />} />
                 <Route path="/signup" element={<SignUp />} />
               </Route>

@@ -11,6 +11,7 @@ import {
 import useToken from '../../hooks/useToken';
 import { getProduct } from '../../api/market';
 import ProductForm from '../../components/UI/market/ProductForm';
+import BackButton from '../../components/UI/BackButton';
 import { ProductDetail } from '../../types';
 import camera from '../../assets/camera.svg';
 import deleteBtn from '../../assets/delete_image.svg';
@@ -80,6 +81,7 @@ const Write: React.FC = () => {
 
   return (
     <Container>
+      <BackButton />
       <Title>글쓰기</Title>
       <AddImageContainer>
         <SubTitle>상품 이미지 등록</SubTitle>

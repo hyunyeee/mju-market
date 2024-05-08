@@ -6,6 +6,7 @@ import { getBoards } from '../../api/board';
 import useToken from '../../hooks/useToken';
 import BoardListItem from '../../components/UI/board/BoardListItem';
 import { BoardValues } from '../../types';
+import WriteButton from '../../components/UI/WriteButton';
 
 const Board = () => {
   const [boards, setBoards] = useState<BoardValues[]>();
@@ -46,6 +47,7 @@ const Board = () => {
       <ListContainer>
         {boards?.map((board) => <BoardListItem key={board.id} board={board} />)}
       </ListContainer>
+      <WriteButton path="/board/write" />
     </Container>
   );
 };
