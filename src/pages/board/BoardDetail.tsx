@@ -8,7 +8,8 @@ import { getComments, postComment } from '../../api/comment';
 import { calculateTime } from '../../hooks/calculateTime';
 import Comment from '../../components/UI/board/Comment';
 import CommentInput from '../../components/UI/board/CommentInput';
-import Modal from './Modal';
+import Modal from '../../components/UI/board/Modal';
+import BackButton from '../../components/UI/BackButton';
 import { BoardDetailValues, CommentValues } from '../../types';
 import profileImg from '../../assets/default_profile_img.png';
 import heartEmpty from '../../assets/heart-empty.svg';
@@ -165,6 +166,7 @@ const BoardDetail = () => {
         />
       )}
       <Container>
+        <BackButton />
         {boardObj && (
           <>
             <Post>

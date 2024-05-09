@@ -7,6 +7,7 @@ import { getProduct, deleteProduct } from '../../api/market';
 import useToken from '../../hooks/useToken';
 import { calculateTime } from '../../hooks/calculateTime';
 import ProductActionBar from '../../components/UI/market/ProductActionBar';
+import BackButton from '../../components/UI/BackButton';
 import { ProductDetail } from '../../types';
 
 const Detail: React.FC = () => {
@@ -89,6 +90,7 @@ const Detail: React.FC = () => {
 
   return (
     <Container>
+      <BackButton />
       {productObj && (
         <>
           <ImageBox>image</ImageBox>

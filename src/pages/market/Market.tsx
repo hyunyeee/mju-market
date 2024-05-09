@@ -6,6 +6,7 @@ import SelectCategory from '../../components/UI/market/SelectCategory';
 import ProductListItem from '../../components/UI/market/ProductListItem';
 import useCategoryProductQuery from '../../hooks/useCategoryProductQuery';
 import { Product } from '../../types';
+import WriteButton from '../../components/UI/WriteButton';
 
 const Market = () => {
   const [productList, setProductList] = useState<Product[]>([]);
@@ -52,12 +53,13 @@ const Market = () => {
       ) : (
         <div ref={setRef} />
       )}
+      <WriteButton path="/write" />
     </Container>
   );
 };
 
 const Container = styled.div``;
 const ListContainer = styled.div`
-  margin-top: 60px;
+  margin: 60px 0 50px;
 `;
 export default Market;

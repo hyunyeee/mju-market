@@ -6,6 +6,7 @@ import { getBoards } from '../../api/board';
 import useToken from '../../hooks/useToken';
 import BoardListItem from '../../components/UI/board/BoardListItem';
 import { BoardValues } from '../../types';
+import WriteButton from '../../components/UI/WriteButton';
 
 const Board = () => {
   const [boards, setBoards] = useState<BoardValues[]>();
@@ -19,7 +20,6 @@ const Board = () => {
         return;
       }
       const response = await getBoards(token);
-      console.log(response);
       setBoards(response);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -47,11 +47,12 @@ const Board = () => {
       <ListContainer>
         {boards?.map((board) => <BoardListItem key={board.id} board={board} />)}
       </ListContainer>
+      <WriteButton path="/board/write" />
     </Container>
   );
 };
 const Container = styled.div``;
 const ListContainer = styled.div`
-  margin-top: 60px;
+  margin: 60px 0 50px;
 `;
 export default Board;

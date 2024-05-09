@@ -5,6 +5,7 @@ import { useMatch, useNavigate, useParams } from 'react-router-dom';
 import useToken from '../../hooks/useToken';
 import { getBoard } from '../../api/board';
 import BoardForm from '../../components/UI/board/BoardForm';
+import BackButton from '../../components/UI/BackButton';
 import { BoardDetailValues } from '../../types';
 import camera from '../../assets/camera.svg';
 import deleteBtn from '../../assets/delete_image.svg';
@@ -68,6 +69,7 @@ const BoardWrite = () => {
 
   return (
     <Container>
+      <BackButton />
       <Title>게시판 글쓰기</Title>
       <AddImageContainer>
         <SubTitle>이미지 등록</SubTitle>
