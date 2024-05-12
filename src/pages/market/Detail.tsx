@@ -17,6 +17,7 @@ const Detail: React.FC = () => {
   const {
     id,
     content,
+    location,
     price = 0,
     title,
     visitedCount,
@@ -105,6 +106,7 @@ const Detail: React.FC = () => {
             </Buttons>
           )}
           <Content>
+            <Time>{location}</Time>
             <Time>{parsedRelativeTime}</Time>
             <Title>{title}</Title>
             <Category>Category {categoryIndex + 1}</Category>
