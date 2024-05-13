@@ -15,6 +15,7 @@ export interface ProductDetail {
   price: number;
   categoryId?: number;
   visitedCount: number;
+  isMyProduct: boolean;
   createDate: string;
   ownerNickname: string;
 }

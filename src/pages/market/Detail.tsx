@@ -22,12 +22,12 @@ const Detail: React.FC = () => {
     title,
     visitedCount,
     ownerNickname,
+    isMyProduct,
     createDate,
   } = productObj || {};
   const token = useToken();
   const navigate = useNavigate();
   const parsedRelativeTime = calculateTime(createDate);
-  const isMyPost = true; // API resonse에 추가 예정인 value
 
   const handleDelete = async () => {
     try {
@@ -99,7 +99,7 @@ const Detail: React.FC = () => {
             <Author>{ownerNickname}</Author>
             <Counts>찜3 &nbsp; &nbsp; 조회{visitedCount}</Counts>
           </Information>
-          {isMyPost && (
+          {isMyProduct && (
             <Buttons>
               <Button onClick={() => navigate(`/modify/${id}`)}>수정</Button>
               <Button onClick={() => handleDelete()}>삭제</Button>

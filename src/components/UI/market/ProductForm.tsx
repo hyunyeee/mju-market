@@ -113,10 +113,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
           <select
             value={place}
             onChange={(e) => {
-              setPlace(e.target.value);
+              const newPlace = e.target.value;
+              setPlace(newPlace);
               setFormData((prevState) => ({
                 ...prevState,
-                location: place,
+                location: newPlace,
               }));
             }}
           >
