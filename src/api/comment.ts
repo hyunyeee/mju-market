@@ -1,5 +1,25 @@
 import { Axios } from './Axios';
 
+export const getComments = async (
+  token: string,
+  boardId: number,
+  lastCommentId: unknown,
+  pageSize: number,
+) => {
+  if (!token) {
+    throw new Error('로그인 정보가 유효하지 않습니다.');
+  }
+  const response = await Axios.get(
+    `/api/boards/${boardId}/comments?${lastCommentId ? `commentId=${lastCommentId}&` : ''}pageSize=${pageSize}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+};
+
 export const postComment = async (
   token: string,
   boardId: number,
@@ -15,21 +35,6 @@ export const postComment = async (
       },
     },
   );
-};
-
-export const getComments = async (token: string, boardId: number) => {
-  if (!token) {
-    throw new Error('로그인 정보가 유효하지 않습니다.');
-  }
-  const response = await Axios.get(
-    `/api/boards/${boardId}/comments?pageSize=10`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-  return response.data;
 };
 
 export const updateComments = async (
