@@ -7,6 +7,7 @@ import useToken from '../../../hooks/useToken';
 import ProductInput from './ProductInput';
 import { ProductDetail, ProductFormValues } from '../../../types';
 import { categories } from '../../../assets/data/categories';
+import { places } from '../../../assets/data/places';
 
 interface ProductFormProps {
   productObj?: ProductDetail;
@@ -14,6 +15,7 @@ interface ProductFormProps {
 
 const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
   const [categoryId, setCategoryId] = useState(0);
+  const [place, setPlace] = useState('');
 
   const token = useToken();
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
     title: '',
     price: '',
     content: '',
+    location: '',
     categoryId: 0,
   });
 
@@ -82,6 +85,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
         title: productObj.title,
         price: productObj.price,
         content: productObj.content,
+        location: productObj.location,
         categoryId: productObj.categoryId,
       });
       setCategoryId(productObj.categoryId ?? 0);
@@ -105,6 +109,25 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
           value={formData.price}
           onChange={onChange}
         />
+        <Category>
+          <select
+            value={place}
+            onChange={(e) => {
+              const newPlace = e.target.value;
+              setPlace(newPlace);
+              setFormData((prevState) => ({
+                ...prevState,
+                location: newPlace,
+              }));
+            }}
+          >
+            {places.map((place) => (
+              <option key={place.id} value={place.name}>
+                {place.name}
+              </option>
+            ))}
+          </select>
+        </Category>
         <Category>
           <select
             value={categoryId}

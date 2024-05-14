@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { UseFormRegister, FieldValues, FieldPath } from 'react-hook-form';
-import { ReactComponent as ID_icon } from '../../assets/id_icon.svg';
-import { ReactComponent as PWD_icon } from '../../assets/pwd_icon.svg';
+import { ReactComponent as ID_icon } from '../../assets/img/id_icon.svg';
+import { ReactComponent as PWD_icon } from '../../assets/img/pwd_icon.svg';
 
 interface InputType<T extends FieldValues> {
   type: string;

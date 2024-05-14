@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { calculateTime } from '../../../hooks/calculateTime';
 import { Product } from '../../../types';
-import heartEmpty from '../../../assets/heart-empty.svg';
-import people from '../../../assets/people_icon.svg';
+import heartEmpty from '../../../assets/img/heart-empty.svg';
+import people from '../../../assets/img/people_icon.svg';
 
 interface ProductListItemProps {
   product: Product;

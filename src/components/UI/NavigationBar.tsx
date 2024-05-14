@@ -1,30 +1,52 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { navList } from '../../assets/data/navigatePaths';
 
 const NavigationBar: React.FC = () => {
+  const [currentPath, setCurrentPath] = useState('/');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const onClick = (path: string) => {
+    navigate(path);
+    setCurrentPath(path);
+  };
+
+  useEffect(() => {
+    if (location.pathname !== currentPath) {
+      setCurrentPath(location.pathname);
+    }
+  }, [location.pathname]);
   return (
     <NavBox>
-      <Link onClick={() => navigate('/likes')}>하트</Link>
-      <Link onClick={() => navigate('/boards')}>보드</Link>
-      <Link onClick={() => navigate('/')}>마켓</Link>
-      <Link onClick={() => navigate('/chat')}>채팅</Link>
-      <Link onClick={() => navigate('/mypage')}>메뉴</Link>
+      {navList.map((item) => (
+        <Link key={item.path} onClick={() => onClick(item.path)}>
+          <Img
+            src={item.path === currentPath ? item.filledImg : item.emptyImg}
+          />
+          <Label>{item.label}</Label>
+        </Link>
+      ))}
     </NavBox>
   );
 };
 
 const NavBox = styled.div`
+  padding: 7px 0 34px;
   width: 100vw;
-  height: 50px;
   display: flex;
   position: fixed;
   bottom: 0;
-  background-color: dodgerblue;
+  background-color: white;
 `;
 const Link = styled.button`
   width: 100%;
-  background-color: pink;
+`;
+const Img = styled.img``;
+const Label = styled.p`
+  ${({ theme }) => theme.typographies.SMALL_TXT};
+  line-height: 14px;
 `;
 
 export default NavigationBar;

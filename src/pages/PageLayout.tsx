@@ -7,7 +7,7 @@ type Pages = {
 };
 
 const PageLayout = ({ children }: Pages) => {
-  const hasBottomNav = ['/', '/boards'];
+  const hasBottomNav = ['/', '/boards', '/likes', '/chat', '/mypage'];
   const location = useLocation();
 
   return (

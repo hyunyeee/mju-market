@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import sendIcon from '../../../assets/prime_send.svg';
+import sendIcon from '../../../assets/img/prime_send.svg';
 
 interface CommentInputProps {
   comment?: string;

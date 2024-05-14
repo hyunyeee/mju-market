@@ -11,8 +11,8 @@ import CommentInput from '../../components/UI/board/CommentInput';
 import Modal from '../../components/UI/board/Modal';
 import BackButton from '../../components/UI/BackButton';
 import { BoardDetailValues, CommentValues } from '../../types';
-import profileImg from '../../assets/default_profile_img.png';
-import heartEmpty from '../../assets/heart-empty.svg';
+import profileImg from '../../assets/img/default_profile_img.png';
+import heartEmpty from '../../assets/img/heart-empty.svg';
 
 const BoardDetail = () => {
   const { boardId } = useParams();

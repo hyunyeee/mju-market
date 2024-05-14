@@ -13,8 +13,8 @@ import { getProduct } from '../../api/market';
 import ProductForm from '../../components/UI/market/ProductForm';
 import BackButton from '../../components/UI/BackButton';
 import { ProductDetail } from '../../types';
-import camera from '../../assets/camera.svg';
-import deleteBtn from '../../assets/delete_image.svg';
+import camera from '../../assets/img/camera.svg';
+import deleteBtn from '../../assets/img/delete_image.svg';
 
 const Write: React.FC = () => {
   const { productId } = useParams();

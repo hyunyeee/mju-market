@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import backIcon from '../../assets/back_icon.svg';
+import backIcon from '../../assets/img/back_icon.svg';
 
 const BackButton = () => {
   const navigate = useNavigate();

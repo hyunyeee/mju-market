@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { calculateTime } from '../../../hooks/calculateTime';
 import { CommentValues } from '../../../types';
-import more from '../../../assets/more.svg';
+import more from '../../../assets/img/more.svg';
 
 interface CommentProps {
   commentObj: CommentValues;
