@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import removeBtn from '../../../assets/x.svg';
+import removeBtn from '../../../assets/img/x.svg';
 
 interface ProductInput {
   type?: string;

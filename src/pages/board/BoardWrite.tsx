@@ -7,8 +7,8 @@ import { getBoard } from '../../api/board';
 import BoardForm from '../../components/UI/board/BoardForm';
 import BackButton from '../../components/UI/BackButton';
 import { BoardDetailValues } from '../../types';
-import camera from '../../assets/camera.svg';
-import deleteBtn from '../../assets/delete_image.svg';
+import camera from '../../assets/img/camera.svg';
+import deleteBtn from '../../assets/img/delete_image.svg';
 
 const BoardWrite = () => {
   const { boardId } = useParams();

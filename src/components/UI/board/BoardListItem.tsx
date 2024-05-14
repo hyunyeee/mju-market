@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { calculateTime } from '../../../hooks/calculateTime';
 import { BoardValues } from '../../../types';
-import heartEmpty from '../../../assets/heart-empty.svg';
+import heartEmpty from '../../../assets/img/heart-empty.svg';
 
 interface BoardListItemProps {
   board: BoardValues;

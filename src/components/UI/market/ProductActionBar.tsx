@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import heartEmpty from '../../../assets/heart-empty.svg';
+import heartEmpty from '../../../assets/img/heart-empty.svg';
 
 type Price = {
   price: number;
