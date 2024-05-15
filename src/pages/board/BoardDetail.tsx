@@ -2,14 +2,19 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useInView } from 'react-intersection-observer';
+
 import useToken from '../../hooks/useToken';
-import { deleteBoard, getBoard } from '../../api/board';
-import { getComments, postComment } from '../../api/comment';
+import useBoardCommentQuery from '../../hooks/useBoardCommentQuery';
 import { calculateTime } from '../../hooks/calculateTime';
+import { deleteBoard, getBoard } from '../../api/board';
+import { postComment } from '../../api/comment';
+
 import Comment from '../../components/UI/board/Comment';
 import CommentInput from '../../components/UI/board/CommentInput';
 import Modal from '../../components/UI/board/Modal';
 import BackButton from '../../components/UI/BackButton';
+
 import { BoardDetailValues, CommentValues } from '../../types';
 import profileImg from '../../assets/img/default_profile_img.png';
 import heartEmpty from '../../assets/img/heart-empty.svg';
@@ -19,9 +24,22 @@ const BoardDetail = () => {
   const [boardObj, setBoardObj] = useState<BoardDetailValues>();
   const [commentList, setCommentList] = useState<CommentValues[]>();
   const [comment, setComment] = useState('');
-  const [ismodalOpen, setIsModalOpen] = useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
   const [commentId, setCommentId] = useState<number>();
   const [modifyComment, setModifyComment] = useState('');
+
+  const { ref, inView } = useInView();
+
+  const { data, isLoading, isError, error, fetchNextPage, isFetchingNextPage } =
+    useBoardCommentQuery({
+      boardId: Number(boardId),
+      pageSize: 10,
+    });
+
+  if (isError) {
+    const errorMessage = (error as Error)?.message;
+    return <div>에러가 발생했습니다: {errorMessage}</div>;
+  }
 
   const {
     id,
@@ -91,35 +109,6 @@ const BoardDetail = () => {
     }
   };
 
-  const fetchCommentData = async () => {
-    try {
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-      const id = Number(boardId);
-      if (isNaN(id)) {
-        alert('잘못된 접근입니다.');
-        navigate('/boards');
-        return;
-      }
-      const commentResponse = await getComments(token, id);
-      setCommentList(commentResponse);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert(error?.response?.data);
-        navigate('/');
-        if (error?.response?.status === 401) {
-          navigate('/login');
-        }
-      } else if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert('알 수 없는 에러가 발생했습니다.');
-      }
-    }
-  };
-
   const handleInputChange = (value: string) => {
     setComment(value);
   };
@@ -132,7 +121,7 @@ const BoardDetail = () => {
         return;
       }
       await postComment(token, Number(boardId), comment);
-      await fetchCommentData();
+      window.location.reload();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error?.response?.data);
@@ -148,16 +137,30 @@ const BoardDetail = () => {
     }
   };
 
+  const setRef = ref as React.RefCallback<HTMLDivElement>;
+
   useEffect(() => {
     if (token) {
       fetchData();
-      fetchCommentData();
     }
   }, [token]);
 
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    if (!isLoading && !isError && data) {
+      const products = data.pages.flat();
+      setCommentList(products);
+    }
+  }, [data, isLoading, isError, setCommentList]);
+
   return (
     <>
-      {ismodalOpen && boardId && commentId && (
+      {isModalOpen && boardId && commentId && (
         <Modal
           boardId={Number(boardId)}
           commentId={commentId}
@@ -221,6 +224,11 @@ const BoardDetail = () => {
           handleSubmit={handleSubmit}
         />
       </CommentContainer>
+      {isFetchingNextPage ? (
+        <div>로딩중!!!!!!!!!!!!</div>
+      ) : (
+        <div ref={setRef} />
+      )}
     </>
   );
 };

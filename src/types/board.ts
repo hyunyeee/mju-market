@@ -25,4 +25,5 @@ export interface CommentValues {
   writerNickname: string;
   content: string;
   createDate: string;
+  isMine: boolean;
 }

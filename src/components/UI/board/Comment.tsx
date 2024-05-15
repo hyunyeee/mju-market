@@ -16,7 +16,7 @@ const Comment: React.FC<CommentProps> = ({
   setModifyComment,
   setIsModalOpen,
 }) => {
-  const { id, writerNickname, content, createDate } = commentObj;
+  const { id, writerNickname, content, createDate, isMine } = commentObj;
   const parsedRelativeTime = calculateTime(createDate);
 
   const handleModal = () => {
@@ -30,9 +30,11 @@ const Comment: React.FC<CommentProps> = ({
       <Profile>
         <ProfileImg />
         <Writer>{writerNickname}</Writer>
-        <MenuButton onClick={handleModal}>
-          <Img src={more} />
-        </MenuButton>
+        {isMine && (
+          <MenuButton onClick={handleModal}>
+            <Img src={more} />
+          </MenuButton>
+        )}
       </Profile>
       <Content>
         <CommentContent>{content}</CommentContent>
