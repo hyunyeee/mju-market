@@ -14,10 +14,10 @@ import Comment from '../../components/UI/board/Comment';
 import CommentInput from '../../components/UI/board/CommentInput';
 import Modal from '../../components/UI/board/Modal';
 import BackButton from '../../components/UI/BackButton';
+import Like from '../../components/UI/Like';
 
 import { BoardDetailValues, CommentValues } from '../../types';
 import profileImg from '../../assets/img/default_profile_img.png';
-import heartEmpty from '../../assets/img/heart-empty.svg';
 
 const BoardDetail = () => {
   const { boardId } = useParams();
@@ -50,6 +50,8 @@ const BoardDetail = () => {
     isMyPost,
     createdDate,
   } = boardObj || {};
+  // TODO 서버 response에 추가 되면 실제 값으로 변경예정
+  const initialClicked = false;
 
   const token = useToken();
   const navigate = useNavigate();
@@ -193,10 +195,11 @@ const BoardDetail = () => {
                 <Content>{content}</Content>
               </ArticleSection>
             </Post>
-            <Like>
-              <Img src={heartEmpty} />
-              <div>{likeCount}</div>
-            </Like>
+            <Like
+              boardId={Number(boardId)}
+              likeCount={likeCount || 0}
+              initialClicked={initialClicked}
+            />
           </>
         )}
       </Container>
@@ -281,16 +284,6 @@ const Time = styled.p`
 `;
 const NickName = styled.p`
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
-`;
-const Like = styled.div`
-  ${({ theme }) => theme.typographies.SMALL_TXT};
-  display: flex;
-  align-items: center;
-  gap: 2px;
-`;
-const Img = styled.img`
-  width: 20px;
-  height: 20px;
 `;
 const Hr = styled.div`
   width: 100vw;
