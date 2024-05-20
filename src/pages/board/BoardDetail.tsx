@@ -17,7 +17,7 @@ import BackButton from '../../components/UI/BackButton';
 import Like from '../../components/UI/Like';
 
 import { BoardDetailValues, CommentValues } from '../../types';
-import profileImg from '../../assets/img/default_profile_img.png';
+import profileImg from '../../assets/img/default_profile_img.svg';
 
 const BoardDetail = () => {
   const { boardId } = useParams();

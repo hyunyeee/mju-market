@@ -13,8 +13,8 @@ export type Colors = {
 };
 
 export type TypoGraphies = {
-  DEFAULT: RuleSet<object>;
   BIG_TXT: RuleSet<object>;
+  DEFAULT: RuleSet<object>;
   MEDIUM_TXT: RuleSet<object>;
   SMALL_TXT: RuleSet<object>;
 };
@@ -32,13 +32,13 @@ export const theme: DefaultTheme = {
     TXT_GRAY: '#1E1E1E',
   },
   typographies: {
-    DEFAULT: css`
-      font-size: 16px;
+    BIG_TXT: css`
+      font-size: 18px;
       font-weight: 500;
       line-height: 20px;
     `,
-    BIG_TXT: css`
-      font-size: 18px;
+    DEFAULT: css`
+      font-size: 16px;
       font-weight: 500;
       line-height: 20px;
     `,
