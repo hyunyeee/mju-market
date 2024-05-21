@@ -6,7 +6,7 @@ export interface ChatList {
 }
 
 export interface Message {
-  senderId: number;
+  senderId: string;
   message: string;
   timestamp: string;
 }

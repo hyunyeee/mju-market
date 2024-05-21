@@ -1,10 +1,12 @@
-import BackButton from '../components/UI/BackButton';
+import BackButton from '../../components/UI/BackButton';
 import styled from 'styled-components';
-import { calculateTime } from '../hooks/calculateTime';
-import profileImg from '../assets/img/default_profile_img.svg';
-import { chatListDummyData } from '../assets/data/chatListDummyData';
+import { useNavigate } from 'react-router-dom';
+import { calculateTime } from '../../hooks/calculateTime';
+import { chatListDummyData } from '../../assets/data/chatListDummyData';
+import profileImg from '../../assets/img/default_profile_img.svg';
 
 const Chat = () => {
+  const navigate = useNavigate();
   return (
     <ChatListPage>
       <BackButton />
@@ -12,7 +14,10 @@ const Chat = () => {
       <ListWrapper>
         <ChatList>
           {chatListDummyData.map((chatRoom) => (
-            <ChatRoom key={chatRoom.id}>
+            <ChatRoom
+              key={chatRoom.id}
+              onClick={() => navigate(`/chat/${chatRoom.id}`)}
+            >
               <Profile>
                 <DefaultProfileImg src={profileImg} />
                 <Info>
@@ -38,7 +43,7 @@ const Title = styled.div`
   height: 40px;
   margin-top: 40px;
   position: fixed;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 500;
   background-color: white;
 `;
