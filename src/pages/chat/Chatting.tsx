@@ -26,6 +26,10 @@ const Chatting = () => {
           </MessageBox>
         ))}
       </ChatBox>
+      <InputBox>
+        <Input />
+        <Button>Send</Button>
+      </InputBox>
     </PageContainer>
   );
 };
@@ -34,15 +38,20 @@ const PageContainer = styled.div``;
 const RoomInfo = styled.div`
   width: 100%;
   padding: 30px 20px;
-  margin-bottom: 20px;
+  position: fixed;
+  top: 0;
   text-align: center;
   ${({ theme }) => theme.typographies.BIG_TXT};
 `;
 const ChatBox = styled.div`
+  height: calc(100vh - 80px - 50px);
+  margin-top: 80px;
   padding: 10px;
   display: flex;
-  flex-direction: column;
   gap: 10px;
+  flex-direction: column;
+  position: sticky;
+  overflow-y: scroll;
 `;
 const MessageBox = styled.div<MessageProps>`
   padding: 5px 10px;
@@ -59,5 +68,21 @@ const Content = styled.p`
 const Time = styled.p`
   ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
-
+const InputBox = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  gap: 10px;
+  position: fixed;
+  bottom: 0;
+`;
+const Input = styled.input`
+  height: 100%;
+  padding: 10px;
+  ${({ theme }) => theme.typographies.MEDIUM_TXT};
+`;
+const Button = styled.button`
+  padding: 5px 10px;
+  background-color: ${({ theme }) => theme.colors.BLUE_1};
+`;
 export default Chatting;
