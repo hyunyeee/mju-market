@@ -13,7 +13,7 @@ import SignUp from './pages/SignUp';
 import BoardWrite from './pages/board/BoardWrite';
 import Like from './pages/Like';
 import Chat from './pages/chat/Chat';
-import Mypage from './pages/Mypage';
+import Mypage from './pages/my/Mypage';
 import Chatting from './pages/chat/Chatting';
 
 const queryClient = new QueryClient();
