@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { ProductContext } from '../../context/ProductContext';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ProductContext } from '../../context/ProductContext';
+import ImageGallery from 'react-image-gallery';
+
 import { getProduct, deleteProduct } from '../../api/market';
 import useToken from '../../hooks/useToken';
 import { calculateTime } from '../../hooks/calculateTime';
 import ProductActionBar from '../../components/UI/market/ProductActionBar';
 import BackButton from '../../components/UI/BackButton';
 import { ProductDetail } from '../../types';
+import './customGallery.css';
 
 const Detail: React.FC = () => {
   const { productId } = useParams();
@@ -28,6 +31,27 @@ const Detail: React.FC = () => {
   const token = useToken();
   const navigate = useNavigate();
   const parsedRelativeTime = calculateTime(createDate);
+
+  const images = [
+    {
+      original: 'https://picsum.photos/id/1018/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1018/250/150/',
+      originalClass: 'custom-image',
+      thumbnailClass: 'custom-thumbnail',
+    },
+    {
+      original: 'https://picsum.photos/id/1015/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1015/250/150/',
+      originalClass: 'custom-image',
+      thumbnailClass: 'custom-thumbnail',
+    },
+    {
+      original: 'https://picsum.photos/id/1019/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1019/250/150/',
+      originalClass: 'custom-image',
+      thumbnailClass: 'custom-thumbnail',
+    },
+  ];
 
   const handleDelete = async () => {
     try {
@@ -94,7 +118,9 @@ const Detail: React.FC = () => {
       <BackButton />
       {productObj && (
         <>
-          <ImageBox>image</ImageBox>
+          <ImageBox>
+            <ImageGallery items={images} showBullets={true} />
+          </ImageBox>
           <Information>
             <Author>{ownerNickname}</Author>
             <Counts>찜3 &nbsp; &nbsp; 조회{visitedCount}</Counts>
@@ -121,8 +147,13 @@ const Detail: React.FC = () => {
 
 const Container = styled.div``;
 const ImageBox = styled.section`
-  height: 50vh;
   background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
+  & > div {
+    border: 3px solid dodgerblue;
+    width: 100vw;
+    height: 350px;
+    overflow: hidden;
+  }
 `;
 const Information = styled.section`
   padding: 10px;
