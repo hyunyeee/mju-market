@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ProductContext } from '../../context/ProductContext';
 import ImageGallery from 'react-image-gallery';
+import { ProductContext } from '../../context/ProductContext';
 
 import { getProduct, deleteProduct } from '../../api/market';
 import useToken from '../../hooks/useToken';
@@ -149,9 +149,7 @@ const Container = styled.div``;
 const ImageBox = styled.section`
   background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
   & > div {
-    border: 3px solid dodgerblue;
     width: 100vw;
-    height: 350px;
     overflow: hidden;
   }
 `;
