@@ -18,6 +18,9 @@ export interface ProductDetail {
   isMyProduct: boolean;
   createDate: string;
   ownerNickname: string;
+  ownerId: number;
+  likedCount: number;
+  isLikedAlreadyByMe: boolean;
 }
 
 export interface ProductFormValues {

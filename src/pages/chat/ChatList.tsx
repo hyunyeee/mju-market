@@ -5,14 +5,14 @@ import { calculateTime } from '../../hooks/calculateTime';
 import { chatListDummyData } from '../../assets/data/chatListDummyData';
 import profileImg from '../../assets/img/default_profile_img.svg';
 
-const Chat = () => {
+const ChatList = () => {
   const navigate = useNavigate();
   return (
     <ChatListPage>
       <BackButton />
       <Title>채팅</Title>
       <ListWrapper>
-        <ChatList>
+        <ChatListBox>
           {chatListDummyData.map((chatRoom) => (
             <ChatRoom
               key={chatRoom.id}
@@ -30,7 +30,7 @@ const Chat = () => {
               </Profile>
             </ChatRoom>
           ))}
-        </ChatList>
+        </ChatListBox>
       </ListWrapper>
     </ChatListPage>
   );
@@ -53,7 +53,7 @@ const ListWrapper = styled.div`
   position: sticky;
   overflow-y: scroll;
 `;
-const ChatList = styled.div`
+const ChatListBox = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -87,4 +87,4 @@ const Message = styled.p`
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
 `;
 
-export default Chat;
+export default ChatList;

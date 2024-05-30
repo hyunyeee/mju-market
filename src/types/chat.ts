@@ -1,12 +1,12 @@
-export interface ChatList {
-  id: number;
-  name: string;
-  lastMessage: string;
-  timestamp: string;
+export interface Message {
+  senderId: number;
+  message: string;
 }
 
-export interface Message {
-  senderId: string;
-  message: string;
-  timestamp: string;
+export interface ChatRoomInfo {
+  buyerId: number;
+  chatRoomId: number;
+  chattingStatus: string;
+  productId: number;
+  sellerId: number;
 }

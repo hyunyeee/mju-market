@@ -1,11 +1,35 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { createChatRoom } from '../../../api/chat';
 import heartEmpty from '../../../assets/img/heart-empty.svg';
 
-type Price = {
+type ProductActionBarProps = {
   price: number;
+  token: string;
+  id: number;
+  ownerId: number;
+  isMyProduct: boolean;
+  // chatRoomId: number;
 };
 
-const ProductActionBar: React.FC<Price> = ({ price, ...attrProps }) => {
+const ProductActionBar: React.FC<ProductActionBarProps> = ({
+  price,
+  token,
+  id,
+  ownerId,
+  isMyProduct,
+  ...attrProps
+}) => {
+  const navigate = useNavigate();
+
+  const createRoom = async () => {
+    const response = await createChatRoom(token, id, ownerId);
+    console.log(response);
+    const { buyerId, chatRoomId, chattingStatus, productId, sellerId } =
+      response;
+    navigate(`/chat/${chatRoomId}`);
+  };
+
   return (
     <Container {...attrProps}>
       <LikeButton>
@@ -13,7 +37,9 @@ const ProductActionBar: React.FC<Price> = ({ price, ...attrProps }) => {
       </LikeButton>
       <Line />
       <PriceTag>{price}원</PriceTag>
-      <ChatButton>1:1 채팅하기</ChatButton>
+      {!isMyProduct && (
+        <ChatButton onClick={createRoom}>1:1 채팅하기</ChatButton>
+      )}
     </Container>
   );
 };
