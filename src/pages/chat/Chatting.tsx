@@ -11,6 +11,8 @@ import BackButton from '../../components/UI/BackButton';
 import { Message } from '../../types';
 import useChattingQuery from '../../hooks/useChattingQuery';
 import { calculateTime } from '../../hooks/calculateTime';
+import { getMyId } from '../../api/auth';
+import useToken from '../../hooks/useToken';
 
 type MessageProps = {
   $isMine: boolean;
@@ -18,11 +20,12 @@ type MessageProps = {
 const Chatting = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
+  const [senderId, setSenderId] = useState<number>();
   const { chatRoomId } = useParams();
   const chattingRoomId = Number(chatRoomId);
-  const senderId = 1;
-  const productId = 1;
 
+  const productId = 1;
+  const token = useToken();
   const chatBoxRef = useRef<HTMLDivElement>(null);
   const { ref, inView } = useInView();
 
@@ -30,12 +33,25 @@ const Chatting = () => {
     useChattingQuery({
       productId: Number(productId),
       chattingRoomId: chattingRoomId,
-      pageSize: 10,
+      pageSize: 20,
     });
 
+  const getSenderId = async () => {
+    if (!token) {
+      return;
+    }
+    const myId = await getMyId(token);
+    setSenderId(myId);
+  };
+
   const onClick = () => {
-    sendWebSocketMessage(chattingRoomId, senderId, input);
-    setInput('');
+    if (!senderId) {
+      return;
+    }
+    if (input !== '') {
+      sendWebSocketMessage(chattingRoomId, senderId, input);
+      setInput('');
+    }
   };
 
   if (isError) {
@@ -45,9 +61,19 @@ const Chatting = () => {
 
   const setRef = ref as React.RefCallback<HTMLDivElement>;
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      onClick();
+    }
+  };
+
   useEffect(() => {
     const onMessageReceived = (message: Message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      const isMine = message.senderId === senderId;
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { ...message, isSendByMe: isMine },
+      ]);
     };
     // 기존 연결을 닫고 새로운 WebSocket 연결을 설정
     disconnectWebSocket();
@@ -56,7 +82,7 @@ const Chatting = () => {
     return () => {
       disconnectWebSocket();
     };
-  }, [chattingRoomId]);
+  }, [chattingRoomId, senderId]);
 
   useEffect(() => {
     const chatBox = chatBoxRef.current;
@@ -77,6 +103,10 @@ const Chatting = () => {
       setMessages(messagesData);
     }
   }, [data, isLoading, isError, setMessages]);
+
+  useEffect(() => {
+    getSenderId();
+  }, [token]);
 
   return (
     <PageContainer>
@@ -100,10 +130,9 @@ const Chatting = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyPress}
         />
-        <Button onClick={onClick} type="submit">
-          Send
-        </Button>
+        <Button onClick={onClick}>Send</Button>
       </InputBox>
     </PageContainer>
   );

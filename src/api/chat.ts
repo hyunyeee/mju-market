@@ -25,7 +25,6 @@ export const getChatHistory = async (
   chatId: unknown,
   pageSize: number,
 ) => {
-  console.log(chatId);
   if (!token) {
     throw new Error('로그인 정보가 유효하지 않습니다.');
   }
