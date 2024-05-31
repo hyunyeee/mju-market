@@ -1,16 +1,16 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   connectWebSocket,
   disconnectWebSocket,
   sendWebSocketMessage,
 } from '../../service/webSocket';
-import { getChatHistory } from '../../api/chat';
-import useToken from '../../hooks/useToken';
+import { useInView } from 'react-intersection-observer';
 import BackButton from '../../components/UI/BackButton';
 import { Message } from '../../types';
+import useChattingQuery from '../../hooks/useChattingQuery';
+import { calculateTime } from '../../hooks/calculateTime';
 
 type MessageProps = {
   $isMine: boolean;
@@ -19,11 +19,31 @@ const Chatting = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const { chatRoomId } = useParams();
-  const token = useToken();
-  const navigate = useNavigate();
   const chattingRoomId = Number(chatRoomId);
   const senderId = 1;
   const productId = 1;
+
+  const chatBoxRef = useRef<HTMLDivElement>(null);
+  const { ref, inView } = useInView();
+
+  const { data, isLoading, isError, error, fetchNextPage, isFetchingNextPage } =
+    useChattingQuery({
+      productId: Number(productId),
+      chattingRoomId: chattingRoomId,
+      pageSize: 10,
+    });
+
+  const onClick = () => {
+    sendWebSocketMessage(chattingRoomId, senderId, input);
+    setInput('');
+  };
+
+  if (isError) {
+    const errorMessage = (error as Error)?.message;
+    return <div>에러가 발생했습니다: {errorMessage}</div>;
+  }
+
+  const setRef = ref as React.RefCallback<HTMLDivElement>;
 
   useEffect(() => {
     const onMessageReceived = (message: Message) => {
@@ -38,53 +58,40 @@ const Chatting = () => {
     };
   }, [chattingRoomId]);
 
-  const onClick = () => {
-    sendWebSocketMessage(chattingRoomId, senderId, input);
-    setInput('');
-  };
-
-  const fetchChatData = async () => {
-    if (!token) {
-      navigate('/login');
-      return;
+  useEffect(() => {
+    const chatBox = chatBoxRef.current;
+    if (chatBox) {
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
-    try {
-      const response = await getChatHistory(token, productId, chattingRoomId);
-      setMessages(response);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert(error?.response?.data);
-        navigate('/');
-        if (error?.response?.status === 401) {
-          navigate('/login');
-        }
-      } else if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert('알 수 없는 에러가 발생했습니다.');
-      }
-    }
-  };
+  }, [messages]);
 
   useEffect(() => {
-    if (token) {
-      fetchChatData();
+    if (inView) {
+      fetchNextPage();
     }
-  }, [token]);
+  }, [inView]);
+
+  useEffect(() => {
+    if (!isLoading && !isError && data) {
+      const messagesData = data.pages.flat().reverse();
+      setMessages(messagesData);
+    }
+  }, [data, isLoading, isError, setMessages]);
 
   return (
     <PageContainer>
       <BackButton />
       <RoomInfo>chattingRoomId: {chattingRoomId}</RoomInfo>
-      <ChatBox>
+      <ChatBox ref={chatBoxRef}>
+        {isFetchingNextPage ? (
+          <div>로딩중!!!!!!!!!!!!</div>
+        ) : (
+          <div ref={setRef} />
+        )}
         {messages.map((message, index) => (
-          <MessageBox
-            key={index}
-            // TODO GET response로 변경해야됨
-            $isMine={message.senderId === senderId}
-          >
+          <MessageBox key={index} $isMine={message.isSendByMe}>
             <Content>{message.message}</Content>
-            <Time>time</Time>
+            <Time>{calculateTime(message.sendTime)}</Time>
           </MessageBox>
         ))}
       </ChatBox>
@@ -94,7 +101,9 @@ const Chatting = () => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <Button onClick={onClick}>Send</Button>
+        <Button onClick={onClick} type="submit">
+          Send
+        </Button>
       </InputBox>
     </PageContainer>
   );

@@ -1,6 +1,11 @@
 export interface Message {
-  senderId: number;
+  chatRoomId: string;
+  chattingId: string;
+  isSendByMe: boolean;
   message: string;
+  sendTime: string;
+  senderId: number;
+  senderNickname: string;
 }
 
 export interface ChatRoomInfo {

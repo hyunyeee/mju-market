@@ -22,12 +22,15 @@ export const getChatHistory = async (
   token: string,
   productId: number,
   chattingRoomId: number,
+  chatId: unknown,
+  pageSize: number,
 ) => {
+  console.log(chatId);
   if (!token) {
     throw new Error('로그인 정보가 유효하지 않습니다.');
   }
   const response = await Axios.get(
-    `/api/products/${productId}/chats/${chattingRoomId}?pageSize=10`,
+    `/api/products/${productId}/chats/${chattingRoomId}?${chatId ? `chatId=${chatId}&` : ''}pageSize=${pageSize}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
