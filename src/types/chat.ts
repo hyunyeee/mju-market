@@ -15,3 +15,10 @@ export interface ChatRoomInfo {
   productId: number;
   sellerId: number;
 }
+
+export interface ChatRoomListInfo {
+  productId: number;
+  sellerNickname: string;
+  productName: string;
+  lastChattingTime: string;
+}

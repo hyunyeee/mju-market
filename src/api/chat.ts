@@ -38,3 +38,12 @@ export const getChatHistory = async (
   );
   return response.data;
 };
+
+export const getChatRoomList = async (token: string) => {
+  const response = await Axios.get(`/api/chats`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};

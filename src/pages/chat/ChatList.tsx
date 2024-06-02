@@ -1,31 +1,49 @@
-import BackButton from '../../components/UI/BackButton';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getChatRoomList } from '../../api/chat';
 import { calculateTime } from '../../hooks/calculateTime';
-import { chatListDummyData } from '../../assets/data/chatListDummyData';
+import useToken from '../../hooks/useToken';
+import { ChatRoomListInfo } from '../../types';
+import BackButton from '../../components/UI/BackButton';
 import profileImg from '../../assets/img/default_profile_img.svg';
 
 const ChatList = () => {
+  const [chatListData, setChatListData] = useState<ChatRoomListInfo[]>([]);
   const navigate = useNavigate();
+  const token = useToken();
+
+  const fetchData = async () => {
+    if (!token) {
+      return;
+    }
+    const response = await getChatRoomList(token);
+    setChatListData(response);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [token]);
+
   return (
     <ChatListPage>
       <BackButton />
       <Title>채팅</Title>
       <ListWrapper>
         <ChatListBox>
-          {chatListDummyData.map((chatRoom) => (
+          {chatListData.map((chatRoom) => (
             <ChatRoom
-              key={chatRoom.id}
-              onClick={() => navigate(`/chat/${chatRoom.id}`)}
+              key={chatRoom.productId}
+              onClick={() => navigate(`/chat/${chatRoom.productId}`)}
             >
               <Profile>
                 <DefaultProfileImg src={profileImg} />
                 <Info>
                   <TopContent>
-                    <Name>{chatRoom.name}</Name>
-                    <Time>{calculateTime(chatRoom.timestamp)}</Time>
+                    <Name>{chatRoom.sellerNickname}</Name>
+                    <Time>{calculateTime(chatRoom.lastChattingTime)}</Time>
                   </TopContent>
-                  <Message>{chatRoom.lastMessage}</Message>
+                  <Message>{chatRoom.productName}</Message>
                 </Info>
               </Profile>
             </ChatRoom>
@@ -57,7 +75,9 @@ const ChatListBox = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const ChatRoom = styled.div``;
+const ChatRoom = styled.div`
+  cursor: pointer;
+`;
 const Profile = styled.div`
   padding: 10px 0;
   display: flex;
