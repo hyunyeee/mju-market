@@ -46,7 +46,10 @@ export const postProduct = async (
     throw new Error('카테고리를 선택해주세요.');
   }
   await Axios.post(`/api/categories/${categoryId}/products`, formData, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
   });
 };
 

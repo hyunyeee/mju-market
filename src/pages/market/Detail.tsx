@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { ProductContext } from '../../context/ProductContext';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ProductContext } from '../../context/ProductContext';
 import { getProduct, deleteProduct } from '../../api/market';
 import useToken from '../../hooks/useToken';
 import { calculateTime } from '../../hooks/calculateTime';
+import { ProductDetail } from '../../types';
 import ProductActionBar from '../../components/UI/market/ProductActionBar';
 import BackButton from '../../components/UI/BackButton';
-import { ProductDetail } from '../../types';
 
 const Detail: React.FC = () => {
   const { productId } = useParams();
@@ -16,13 +16,15 @@ const Detail: React.FC = () => {
   const [productObj, setProductObj] = useState<ProductDetail>();
   const {
     id,
-    content,
     location,
-    price = 0,
     title,
+    content,
+    price = 0,
     visitedCount,
     ownerNickname,
-    isMyProduct,
+    likedCount,
+    ownerId,
+    isMyProduct = false,
     createDate,
   } = productObj || {};
   const token = useToken();
@@ -92,12 +94,14 @@ const Detail: React.FC = () => {
   return (
     <Container>
       <BackButton />
-      {productObj && (
+      {productObj && token && (
         <>
           <ImageBox>image</ImageBox>
           <Information>
             <Author>{ownerNickname}</Author>
-            <Counts>찜3 &nbsp; &nbsp; 조회{visitedCount}</Counts>
+            <Counts>
+              찜{likedCount} &nbsp; &nbsp; 조회{visitedCount}
+            </Counts>
           </Information>
           {isMyProduct && (
             <Buttons>
@@ -112,7 +116,13 @@ const Detail: React.FC = () => {
             <Category>Category {categoryIndex + 1}</Category>
             <TextBody>{content}</TextBody>
           </Content>
-          <MenuBar price={price} />
+          <MenuBar
+            price={price}
+            token={token}
+            id={Number(id)}
+            ownerId={Number(ownerId)}
+            isMyProduct={isMyProduct}
+          />
         </>
       )}
     </Container>

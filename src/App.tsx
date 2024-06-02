@@ -12,7 +12,7 @@ import LogIn from './pages/LogIn';
 import SignUp from './pages/SignUp';
 import BoardWrite from './pages/board/BoardWrite';
 import Like from './pages/Like';
-import Chat from './pages/chat/Chat';
+import ChatList from './pages/chat/ChatList';
 import Mypage from './pages/my/Mypage';
 import Chatting from './pages/chat/Chatting';
 
@@ -35,8 +35,8 @@ const App: React.FC = () => {
                 <Route path="/board/write" element={<BoardWrite />} />
                 <Route path="/board/modify/:boardId" element={<BoardWrite />} />
                 <Route path="/likes" element={<Like />} />
-                <Route path="/chat" element={<Chat />} />
-                <Route path="/chat/:chatRoomId" element={<Chatting />} />
+                <Route path="/chat" element={<ChatList />} />
+                <Route path="/chatting" element={<Chatting />} />
                 <Route path="/mypage" element={<Mypage />} />
                 <Route path="/login" element={<LogIn />} />
                 <Route path="/signup" element={<SignUp />} />

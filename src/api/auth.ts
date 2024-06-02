@@ -15,3 +15,12 @@ export const submitAuthForm = async (data: AuthFormValues, path: string) => {
   }
   throw new Error('로그인 정보가 유효하지 않습니다.');
 };
+
+export const getMyId = async (token: string): Promise<number> => {
+  const response = await Axios.get(`/api/members`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data?.id;
+};
