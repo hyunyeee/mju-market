@@ -1,16 +1,16 @@
 import { Axios } from './Axios';
 import { BoardFormValues } from '../types';
 
-export const getBoards = async (token: string) => {
+export const getBoards = async (token: string, page: number) => {
   if (!token) {
     throw new Error('로그인 정보가 유효하지 않습니다.');
   }
-  const response = await Axios.get(`/api/boards`, {
+  const response = await Axios.get(`/api/boards?page=${page}&size=10`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data.boards;
+  return response.data;
 };
 
 export const getBoard = async (token: string, boardId: number) => {
