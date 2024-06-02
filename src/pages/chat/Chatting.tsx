@@ -1,34 +1,141 @@
 import styled from 'styled-components';
-import { useState } from 'react';
-import { calculateTime } from '../../hooks/calculateTime';
+import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import {
+  connectWebSocket,
+  disconnectWebSocket,
+  sendWebSocketMessage,
+} from '../../service/webSocket';
+import { useInView } from 'react-intersection-observer';
 import BackButton from '../../components/UI/BackButton';
 import { Message } from '../../types';
-import { chatDummyData } from '../../assets/data/chatDummyData';
+import useChattingQuery from '../../hooks/useChattingQuery';
+import { calculateTime } from '../../hooks/calculateTime';
+import { getMyId } from '../../api/auth';
+import useToken from '../../hooks/useToken';
 
 type MessageProps = {
   $isMine: boolean;
 };
 const Chatting = () => {
-  const [messages, setMessages] = useState<Message[]>(chatDummyData?.messages);
-  const myId = chatDummyData.participants[1].id;
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
+  const [senderId, setSenderId] = useState<number>();
+  const [params] = useSearchParams();
+  const chattingRoomId = Number(params.get('chatRoomId'));
+  const productId = Number(params.get('productId'));
+
+  const token = useToken();
+  const chatBoxRef = useRef<HTMLDivElement>(null);
+  const { ref, inView } = useInView();
+
+  const { data, isLoading, isError, error, fetchNextPage, isFetchingNextPage } =
+    useChattingQuery({
+      productId: productId,
+      chattingRoomId: chattingRoomId,
+      pageSize: 20,
+    });
+
+  const getSenderId = async () => {
+    if (!token) {
+      return;
+    }
+    const myId = await getMyId(token);
+    setSenderId(myId);
+  };
+
+  const onClick = () => {
+    if (!senderId) {
+      return;
+    }
+    if (input.trim() !== '') {
+      sendWebSocketMessage(chattingRoomId, senderId, input);
+      setInput('');
+    }
+  };
+
+  if (isError) {
+    const errorMessage = (error as Error)?.message;
+    return <div>에러가 발생했습니다: {errorMessage}</div>;
+  }
+
+  const setRef = ref as React.RefCallback<HTMLDivElement>;
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      onClick();
+    }
+  };
+
+  useEffect(() => {
+    const onMessageReceived = (message: Message) => {
+      const isMine = message.senderId === senderId;
+      const now = new Date();
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { ...message, isSendByMe: isMine, sendTime: now.toISOString() },
+      ]);
+    };
+    // 기존 연결을 닫고 새로운 WebSocket 연결을 설정
+    disconnectWebSocket();
+    connectWebSocket(chattingRoomId, onMessageReceived);
+
+    return () => {
+      disconnectWebSocket();
+    };
+  }, [chattingRoomId, senderId]);
+
+  useEffect(() => {
+    const chatBox = chatBoxRef.current;
+    if (chatBox) {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    if (!isLoading && !isError && data) {
+      const messagesData = data.pages.flat().reverse();
+      setMessages(messagesData);
+    }
+  }, [data, isLoading, isError, setMessages]);
+
+  useEffect(() => {
+    getSenderId();
+  }, [token]);
+
   return (
     <PageContainer>
-      <BackButton />
-      <RoomInfo>{chatDummyData.participants[0].name}</RoomInfo>
-      <ChatBox>
-        {messages.map((message) => (
-          <MessageBox
-            key={message.timestamp}
-            $isMine={message.senderId === myId}
-          >
+      <RoomInfo>
+        <BackButton />
+        chattingRoomId: {chattingRoomId}
+      </RoomInfo>
+      <ChatBox ref={chatBoxRef}>
+        {isFetchingNextPage ? (
+          <div>로딩중!!!!!!!!!!!!</div>
+        ) : (
+          <div ref={setRef} />
+        )}
+        {messages.map((message, index) => (
+          <MessageBox key={index} $isMine={message.isSendByMe}>
             <Content>{message.message}</Content>
-            <Time>{calculateTime(message.timestamp)}</Time>
+            <Time>{calculateTime(message.sendTime)}</Time>
           </MessageBox>
         ))}
       </ChatBox>
       <InputBox>
-        <Input />
-        <Button>Send</Button>
+        <Input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={handleKeyPress}
+        />
+        <Button onClick={onClick}>Send</Button>
       </InputBox>
     </PageContainer>
   );

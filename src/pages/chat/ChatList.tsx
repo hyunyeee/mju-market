@@ -1,36 +1,58 @@
-import BackButton from '../../components/UI/BackButton';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getChatRoomList } from '../../api/chat';
 import { calculateTime } from '../../hooks/calculateTime';
-import { chatListDummyData } from '../../assets/data/chatListDummyData';
+import useToken from '../../hooks/useToken';
+import { ChatRoomListInfo } from '../../types';
+import BackButton from '../../components/UI/BackButton';
 import profileImg from '../../assets/img/default_profile_img.svg';
 
-const Chat = () => {
+const ChatList = () => {
+  const [chatListData, setChatListData] = useState<ChatRoomListInfo[]>([]);
   const navigate = useNavigate();
+  const token = useToken();
+
+  const fetchData = async () => {
+    if (!token) {
+      return;
+    }
+    const response = await getChatRoomList(token);
+    setChatListData(response);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [token]);
+
   return (
     <ChatListPage>
       <BackButton />
       <Title>채팅</Title>
       <ListWrapper>
-        <ChatList>
-          {chatListDummyData.map((chatRoom) => (
+        <ChatListBox>
+          {chatListData.map((chatRoom) => (
             <ChatRoom
-              key={chatRoom.id}
-              onClick={() => navigate(`/chat/${chatRoom.id}`)}
+              key={chatRoom.lastChattingTime}
+              onClick={() =>
+                navigate(
+                  `/chatting?productId=${chatRoom.productId}&chatRoomId=${chatRoom.chattingRoomId}`,
+                )
+              }
             >
               <Profile>
                 <DefaultProfileImg src={profileImg} />
                 <Info>
                   <TopContent>
-                    <Name>{chatRoom.name}</Name>
-                    <Time>{calculateTime(chatRoom.timestamp)}</Time>
+                    <ProductName>{chatRoom.productName}</ProductName>
+                    <Time>{calculateTime(chatRoom.lastChattingTime)}</Time>
                   </TopContent>
-                  <Message>{chatRoom.lastMessage}</Message>
+                  <SellerNickname>{chatRoom.sellerNickname}</SellerNickname>
                 </Info>
               </Profile>
             </ChatRoom>
           ))}
-        </ChatList>
+        </ChatListBox>
       </ListWrapper>
     </ChatListPage>
   );
@@ -53,11 +75,13 @@ const ListWrapper = styled.div`
   position: sticky;
   overflow-y: scroll;
 `;
-const ChatList = styled.div`
+const ChatListBox = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 `;
-const ChatRoom = styled.div``;
+const ChatRoom = styled.div`
+  cursor: pointer;
+`;
 const Profile = styled.div`
   padding: 10px 0;
   display: flex;
@@ -65,8 +89,8 @@ const Profile = styled.div`
   gap: 10px;
 `;
 const DefaultProfileImg = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   border-radius: 14px;
   object-fit: cover;
 `;
@@ -77,14 +101,16 @@ const TopContent = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const Name = styled.p`
+const ProductName = styled.p`
   ${({ theme }) => theme.typographies.DEFAULT};
 `;
 const Time = styled.p`
+  white-space: nowrap;
   ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
-const Message = styled.p`
-  ${({ theme }) => theme.typographies.MEDIUM_TXT};
+const SellerNickname = styled.p`
+  ${({ theme }) => theme.typographies.SMALL_TXT};
+  color: ${({ theme }) => theme.colors.GRAY};
 `;
 
-export default Chat;
+export default ChatList;

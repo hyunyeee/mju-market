@@ -46,13 +46,11 @@ const BoardDetail = () => {
     writerNickname,
     title,
     content,
-    likeCount,
+    likeCount = 0,
     isMyPost,
     createdDate,
+    isLikedAlreadyByMe = false,
   } = boardObj || {};
-  // TODO 서버 response에 추가 되면 실제 값으로 변경예정
-  const initialClicked = false;
-
   const token = useToken();
   const navigate = useNavigate();
   const parsedRelativeTime = calculateTime(createdDate);
@@ -197,8 +195,8 @@ const BoardDetail = () => {
             </Post>
             <Like
               boardId={Number(boardId)}
-              likeCount={likeCount || 0}
-              initialClicked={initialClicked}
+              likeCount={likeCount}
+              initialClicked={isLikedAlreadyByMe}
             />
           </>
         )}
