@@ -3,6 +3,9 @@ export interface BoardValues {
   title: string;
   writerNickname: string;
   createdDate: string;
+  likeCount: number;
+  commentCount: number;
+  isLikedAlreadyByMe: boolean;
 }
 
 export interface BoardDetailValues {
@@ -13,6 +16,7 @@ export interface BoardDetailValues {
   likeCount: number;
   isMyPost: boolean;
   createdDate: string;
+  isLikedAlreadyByMe: boolean;
 }
 
 export interface BoardFormValues {

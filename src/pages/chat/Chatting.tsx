@@ -70,9 +70,10 @@ const Chatting = () => {
   useEffect(() => {
     const onMessageReceived = (message: Message) => {
       const isMine = message.senderId === senderId;
+      const now = new Date();
       setMessages((prevMessages) => [
         ...prevMessages,
-        { ...message, isSendByMe: isMine },
+        { ...message, isSendByMe: isMine, sendTime: now.toISOString() },
       ]);
     };
     // 기존 연결을 닫고 새로운 WebSocket 연결을 설정
