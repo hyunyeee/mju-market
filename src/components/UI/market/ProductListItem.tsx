@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { calculateTime } from '../../../hooks/calculateTime';
 import { Product } from '../../../types';
 import heartEmpty from '../../../assets/img/heart-empty.svg';
+import heartClicked from '../../../assets/img/heart_clicked.svg';
 import people from '../../../assets/img/people_icon.svg';
 
 interface ProductListItemProps {
@@ -10,7 +11,18 @@ interface ProductListItemProps {
 }
 
 const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
-  const { id, title, price, productStatus, createDate, visitedCount } = product;
+  const {
+    id,
+    location,
+    title,
+    price,
+    visitedCount,
+    productStatus,
+    ownerName,
+    productLikesCount,
+    isAlreadyLikedByMe,
+    createDate,
+  } = product;
   const navigate = useNavigate();
 
   const onItemClick = () => {
@@ -24,15 +36,19 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
       <Content>
         <Image />
         <Description>
-          <Title>{title}</Title>
-          <TrafficData>
-            <Time>{parsedRelativeTime}</Time>
-            <VisitedCount>
-              <Icon src={people} />
-              <div>{visitedCount}</div>
-            </VisitedCount>
-          </TrafficData>
-          <Price>{price}</Price>
+          <ProductInfo>
+            <Title>{title}</Title>
+            <TrafficData>
+              <Time>{parsedRelativeTime}</Time>
+              <Location>{location}</Location>
+              <VisitedCount>
+                <Icon src={people} />
+                <div>{visitedCount}</div>
+              </VisitedCount>
+            </TrafficData>
+            <OwnerName>{ownerName}</OwnerName>
+          </ProductInfo>
+          <Price>{price}원</Price>
         </Description>
       </Content>
       <StatusBox>
@@ -40,8 +56,8 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
           {productStatus === 'WAITING' ? '대기중' : productStatus}
         </ProductStatus>
         <Like>
-          <img src={heartEmpty} />
-          <div>3</div>
+          <img src={isAlreadyLikedByMe ? heartClicked : heartEmpty} />
+          <div>{productLikesCount}</div>
         </Like>
       </StatusBox>
     </ItemBox>
@@ -85,8 +101,9 @@ const Image = styled.div`
 const Description = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  justify-content: space-around;
 `;
+const ProductInfo = styled.div``;
 const Title = styled.h2`
   overflow: hidden;
   text-overflow: ellipsis;
@@ -94,14 +111,20 @@ const Title = styled.h2`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  ${({ theme }) => theme.typographies.MEDIUM_TXT};
+  ${({ theme }) => theme.typographies.DEFAULT};
 `;
 const TrafficData = styled.div`
   display: flex;
   gap: 10px;
 `;
+const OwnerName = styled.p`
+  ${({ theme }) => theme.typographies.SMALL_TXT};
+`;
+const Location = styled.p`
+  ${({ theme }) => theme.typographies.SMALL_TXT};
+`;
 const Price = styled.div`
-  ${({ theme }) => theme.typographies.DEFAULT};
+  ${({ theme }) => theme.typographies.BIG_TXT};
 `;
 const Time = styled.div`
   white-space: nowrap;

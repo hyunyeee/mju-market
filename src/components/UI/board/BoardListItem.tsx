@@ -3,12 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { calculateTime } from '../../../hooks/calculateTime';
 import { BoardValues } from '../../../types';
 import heartEmpty from '../../../assets/img/heart-empty.svg';
+import heartClicked from '../../../assets/img/heart_clicked.svg';
+import comment from '../../../assets/img/comment.svg';
 
 interface BoardListItemProps {
   board: BoardValues;
 }
 const BoardListItem: React.FC<BoardListItemProps> = ({ board }) => {
-  const { id, title, writerNickname, createdDate } = board;
+  const {
+    id,
+    title,
+    writerNickname,
+    createdDate,
+    likeCount,
+    commentCount,
+    isLikedAlreadyByMe,
+  } = board;
 
   const navigate = useNavigate();
   const onItemClick = () => {
@@ -24,13 +34,19 @@ const BoardListItem: React.FC<BoardListItemProps> = ({ board }) => {
         <Description>
           <Title>{title}</Title>
           <Nickname>{writerNickname}</Nickname>
-          <Time>{parsedRelativeTime}</Time>
+          <BoardInfo>
+            {parsedRelativeTime}
+            <Comment>
+              <img src={comment} />
+              {commentCount}
+            </Comment>
+          </BoardInfo>
         </Description>
       </Content>
       <StatusBox>
         <Like>
-          <img src={heartEmpty} />
-          <div>3</div>
+          <img src={isLikedAlreadyByMe ? heartClicked : heartEmpty} />
+          <div>{likeCount}</div>
         </Like>
       </StatusBox>
     </ItemBox>
@@ -81,19 +97,17 @@ const Title = styled.h2`
 const Nickname = styled.p`
   ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
-const Time = styled.div`
+const BoardInfo = styled.div`
+  display: flex;
+  gap: 10px;
   white-space: nowrap;
   ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
-const VisitedCount = styled.div`
+const Comment = styled.div`
   display: flex;
   align-items: center;
   gap: 2px;
-  color: ${({ theme }) => theme.colors.TXT_LIGHT_GRAY};
   ${({ theme }) => theme.typographies.SMALL_TXT};
-`;
-const Icon = styled.img`
-  width: 12px;
 `;
 const Like = styled.div`
   ${({ theme }) => theme.typographies.SMALL_TXT};

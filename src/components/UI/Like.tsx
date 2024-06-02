@@ -14,7 +14,7 @@ type LikeProps = {
   initialClicked: boolean;
 };
 const Like: React.FC<LikeProps> = ({ boardId, likeCount, initialClicked }) => {
-  const [isClicked, setIsClicked] = useState<boolean>(initialClicked);
+  const [isClicked, setIsClicked] = useState<boolean>(initialClicked || false);
   const [renderLikeCount, setRenderLikeCount] = useState(likeCount);
   const token = useToken();
   const navigate = useNavigate();

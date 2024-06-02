@@ -69,7 +69,7 @@ const Detail: React.FC = () => {
         return;
       }
       const response = await getProduct(token, categoryIndex, id);
-      setProductObj(response);
+      setProductObj(response.product);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error?.response?.data);

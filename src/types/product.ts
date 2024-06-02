@@ -1,10 +1,14 @@
 export interface Product {
   id: number;
+  location: string;
   title: string;
   price: number;
   visitedCount: number;
-  createDate: string;
   productStatus: string;
+  ownerName: string;
+  productLikesCount: number;
+  isAlreadyLikedByMe: boolean;
+  createDate: string;
 }
 
 export interface ProductDetail {
