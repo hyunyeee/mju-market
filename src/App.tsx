@@ -36,7 +36,7 @@ const App: React.FC = () => {
                 <Route path="/board/modify/:boardId" element={<BoardWrite />} />
                 <Route path="/likes" element={<Like />} />
                 <Route path="/chat" element={<ChatList />} />
-                <Route path="/chat/:chatRoomId" element={<Chatting />} />
+                <Route path="/chatting" element={<Chatting />} />
                 <Route path="/mypage" element={<Mypage />} />
                 <Route path="/login" element={<LogIn />} />
                 <Route path="/signup" element={<SignUp />} />

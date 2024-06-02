@@ -18,6 +18,7 @@ export interface ChatRoomInfo {
 
 export interface ChatRoomListInfo {
   productId: number;
+  chattingRoomId: number;
   sellerNickname: string;
   productName: string;
   lastChattingTime: string;

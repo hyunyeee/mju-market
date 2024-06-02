@@ -9,7 +9,6 @@ type ProductActionBarProps = {
   id: number;
   ownerId: number;
   isMyProduct: boolean;
-  // chatRoomId: number;
 };
 
 const ProductActionBar: React.FC<ProductActionBarProps> = ({
@@ -24,10 +23,9 @@ const ProductActionBar: React.FC<ProductActionBarProps> = ({
 
   const createRoom = async () => {
     const response = await createChatRoom(token, id, ownerId);
-    console.log(response);
     const { buyerId, chatRoomId, chattingStatus, productId, sellerId } =
       response;
-    navigate(`/chat/${chatRoomId}`);
+    navigate(`/chatting?productId=${productId}&chatRoomId=${chatRoomId}`);
   };
 
   return (

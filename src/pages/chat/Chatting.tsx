@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import {
   connectWebSocket,
   disconnectWebSocket,
@@ -21,17 +21,17 @@ const Chatting = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [senderId, setSenderId] = useState<number>();
-  const { chatRoomId } = useParams();
-  const chattingRoomId = Number(chatRoomId);
+  const [params] = useSearchParams();
+  const chattingRoomId = Number(params.get('chatRoomId'));
+  const productId = Number(params.get('productId'));
 
-  const productId = 1;
   const token = useToken();
   const chatBoxRef = useRef<HTMLDivElement>(null);
   const { ref, inView } = useInView();
 
   const { data, isLoading, isError, error, fetchNextPage, isFetchingNextPage } =
     useChattingQuery({
-      productId: Number(productId),
+      productId: productId,
       chattingRoomId: chattingRoomId,
       pageSize: 20,
     });
@@ -48,7 +48,7 @@ const Chatting = () => {
     if (!senderId) {
       return;
     }
-    if (input !== '') {
+    if (input.trim() !== '') {
       sendWebSocketMessage(chattingRoomId, senderId, input);
       setInput('');
     }
@@ -130,7 +130,7 @@ const Chatting = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyPress}
+          onKeyPress={handleKeyPress}
         />
         <Button onClick={onClick}>Send</Button>
       </InputBox>

@@ -34,7 +34,11 @@ const ChatList = () => {
           {chatListData.map((chatRoom) => (
             <ChatRoom
               key={chatRoom.productId}
-              onClick={() => navigate(`/chat/${chatRoom.productId}`)}
+              onClick={() =>
+                navigate(
+                  `/chatting?productId=${chatRoom.productId}&chatRoomId=${chatRoom.chattingRoomId}`,
+                )
+              }
             >
               <Profile>
                 <DefaultProfileImg src={profileImg} />
