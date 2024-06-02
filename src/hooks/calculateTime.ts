@@ -13,7 +13,7 @@ export function calculateTime(dateString?: string) {
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
   if (minutes < 1) {
-    return '방금전';
+    return '방금 전';
   } else if (minutes < 60) {
     return `${minutes}분 전`;
   } else if (hours < 24) {
