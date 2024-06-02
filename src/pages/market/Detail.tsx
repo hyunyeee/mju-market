@@ -22,9 +22,10 @@ const Detail: React.FC = () => {
     price = 0,
     visitedCount,
     ownerNickname,
-    likedCount,
+    likedCount = 0,
     ownerId,
     isMyProduct = false,
+    isLikedAlreadyByMe = false,
     createDate,
   } = productObj || {};
   const token = useToken();
@@ -122,6 +123,8 @@ const Detail: React.FC = () => {
             id={Number(id)}
             ownerId={Number(ownerId)}
             isMyProduct={isMyProduct}
+            likedCount={likedCount}
+            isLikedAlreadyByMe={isLikedAlreadyByMe}
           />
         </>
       )}

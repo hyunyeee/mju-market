@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { createChatRoom } from '../../../api/chat';
+import Like from '../Like';
 import heartEmpty from '../../../assets/img/heart-empty.svg';
 
 type ProductActionBarProps = {
@@ -9,6 +10,8 @@ type ProductActionBarProps = {
   id: number;
   ownerId: number;
   isMyProduct: boolean;
+  likedCount: number;
+  isLikedAlreadyByMe: boolean;
 };
 
 const ProductActionBar: React.FC<ProductActionBarProps> = ({
@@ -17,14 +20,15 @@ const ProductActionBar: React.FC<ProductActionBarProps> = ({
   id,
   ownerId,
   isMyProduct,
+  likedCount = 0,
+  isLikedAlreadyByMe = false,
   ...attrProps
 }) => {
   const navigate = useNavigate();
 
   const createRoom = async () => {
     const response = await createChatRoom(token, id, ownerId);
-    const { buyerId, chatRoomId, chattingStatus, productId, sellerId } =
-      response;
+    const { chatRoomId, productId } = response;
     navigate(`/chatting?productId=${productId}&chatRoomId=${chatRoomId}`);
   };
 
@@ -33,6 +37,11 @@ const ProductActionBar: React.FC<ProductActionBarProps> = ({
       <LikeButton>
         <img src={heartEmpty} />
       </LikeButton>
+      <Like
+        productId={id}
+        likeCount={likedCount}
+        initialClicked={isLikedAlreadyByMe}
+      />
       <Line />
       <PriceTag>{price}원</PriceTag>
       {!isMyProduct && (

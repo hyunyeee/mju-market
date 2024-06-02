@@ -46,10 +46,10 @@ const BoardDetail = () => {
     writerNickname,
     title,
     content,
-    likeCount,
+    likeCount = 0,
     isMyPost,
     createdDate,
-    isLikedAlreadyByMe,
+    isLikedAlreadyByMe = false,
   } = boardObj || {};
   const token = useToken();
   const navigate = useNavigate();
@@ -195,8 +195,8 @@ const BoardDetail = () => {
             </Post>
             <Like
               boardId={Number(boardId)}
-              likeCount={likeCount || 0}
-              initialClicked={isLikedAlreadyByMe || false}
+              likeCount={likeCount}
+              initialClicked={isLikedAlreadyByMe}
             />
           </>
         )}

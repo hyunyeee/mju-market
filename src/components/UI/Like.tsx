@@ -1,34 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useToken from '../../hooks/useToken';
-import { patchLike } from '../../api/like';
-
-import heartEmpty from '../../assets/img/heart-empty.svg';
+import { ProductContext } from '../../context/ProductContext';
+import { patchLike, patchMarketLike } from '../../api/like';
 import heartClicked from '../../assets/img/heart_clicked.svg';
+import heartEmpty from '../../assets/img/heart-empty.svg';
 
 type LikeProps = {
-  boardId: number;
+  boardId?: number;
+  categoryId?: number;
+  productId?: number;
   likeCount: number;
   initialClicked: boolean;
 };
-const Like: React.FC<LikeProps> = ({ boardId, likeCount, initialClicked }) => {
-  const [isClicked, setIsClicked] = useState<boolean>(initialClicked || false);
+const Like: React.FC<LikeProps> = ({
+  boardId,
+  productId,
+  likeCount,
+  initialClicked,
+}) => {
+  const [likeStatus, setLikeStatus] = useState<boolean>(initialClicked);
   const [renderLikeCount, setRenderLikeCount] = useState(likeCount);
+  const { categoryIndex } = useContext(ProductContext);
   const token = useToken();
   const navigate = useNavigate();
 
   const onClick = async () => {
-    setIsClicked((prev) => !prev);
     try {
       if (!token) {
         navigate('/login');
         return;
       }
-      const likeStatus = await patchLike(token, isClicked, boardId);
-      setIsClicked(likeStatus);
-      setRenderLikeCount(likeStatus ? likeCount + 1 : likeCount);
+      if (boardId) {
+        const isLiked = await patchLike(token, boardId);
+        setLikeStatus(isLiked);
+      } else if (categoryIndex !== undefined && productId) {
+        const isLiked = await patchMarketLike(token, categoryIndex, productId);
+        setLikeStatus(isLiked);
+      } else {
+        return;
+      }
+      setRenderLikeCount((prev) => (likeStatus ? prev - 1 : prev + 1));
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error?.response?.data);
@@ -47,7 +61,7 @@ const Like: React.FC<LikeProps> = ({ boardId, likeCount, initialClicked }) => {
   return (
     <Container>
       <Button onClick={onClick}>
-        <Img src={isClicked ? heartClicked : heartEmpty} />
+        <Img src={likeStatus ? heartClicked : heartEmpty} />
       </Button>
       {renderLikeCount}
     </Container>
