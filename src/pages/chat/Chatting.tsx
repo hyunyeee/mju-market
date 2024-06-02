@@ -110,8 +110,10 @@ const Chatting = () => {
 
   return (
     <PageContainer>
-      <BackButton />
-      <RoomInfo>chattingRoomId: {chattingRoomId}</RoomInfo>
+      <RoomInfo>
+        <BackButton />
+        chattingRoomId: {chattingRoomId}
+      </RoomInfo>
       <ChatBox ref={chatBoxRef}>
         {isFetchingNextPage ? (
           <div>로딩중!!!!!!!!!!!!</div>

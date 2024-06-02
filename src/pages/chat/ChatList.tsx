@@ -33,7 +33,7 @@ const ChatList = () => {
         <ChatListBox>
           {chatListData.map((chatRoom) => (
             <ChatRoom
-              key={chatRoom.productId}
+              key={chatRoom.lastChattingTime}
               onClick={() =>
                 navigate(
                   `/chatting?productId=${chatRoom.productId}&chatRoomId=${chatRoom.chattingRoomId}`,
@@ -44,10 +44,10 @@ const ChatList = () => {
                 <DefaultProfileImg src={profileImg} />
                 <Info>
                   <TopContent>
-                    <Name>{chatRoom.sellerNickname}</Name>
+                    <ProductName>{chatRoom.productName}</ProductName>
                     <Time>{calculateTime(chatRoom.lastChattingTime)}</Time>
                   </TopContent>
-                  <Message>{chatRoom.productName}</Message>
+                  <SellerNickname>{chatRoom.sellerNickname}</SellerNickname>
                 </Info>
               </Profile>
             </ChatRoom>
@@ -77,7 +77,7 @@ const ListWrapper = styled.div`
 `;
 const ChatListBox = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 `;
 const ChatRoom = styled.div`
   cursor: pointer;
@@ -89,8 +89,8 @@ const Profile = styled.div`
   gap: 10px;
 `;
 const DefaultProfileImg = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   border-radius: 14px;
   object-fit: cover;
 `;
@@ -101,14 +101,16 @@ const TopContent = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const Name = styled.p`
+const ProductName = styled.p`
   ${({ theme }) => theme.typographies.DEFAULT};
 `;
 const Time = styled.p`
+  white-space: nowrap;
   ${({ theme }) => theme.typographies.SMALL_TXT};
 `;
-const Message = styled.p`
-  ${({ theme }) => theme.typographies.MEDIUM_TXT};
+const SellerNickname = styled.p`
+  ${({ theme }) => theme.typographies.SMALL_TXT};
+  color: ${({ theme }) => theme.colors.GRAY};
 `;
 
 export default ChatList;
