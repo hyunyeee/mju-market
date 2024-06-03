@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { createChatRoom } from '../../../api/chat';
 import Like from '../Like';
-import heartEmpty from '../../../assets/img/heart-empty.svg';
 
 type ProductActionBarProps = {
   price: number;
@@ -34,9 +33,6 @@ const ProductActionBar: React.FC<ProductActionBarProps> = ({
 
   return (
     <Container {...attrProps}>
-      <LikeButton>
-        <img src={heartEmpty} />
-      </LikeButton>
       <Like
         productId={id}
         likeCount={likedCount}
@@ -58,9 +54,6 @@ const Container = styled.div`
   gap: 20px;
   border-top: 1px solid rgba(204, 204, 204, 0.2);
   background-color: white;
-`;
-const LikeButton = styled.button`
-  margin-left: 10px;
 `;
 const Line = styled.div`
   width: 1px;

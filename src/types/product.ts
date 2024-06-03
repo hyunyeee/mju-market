@@ -33,4 +33,17 @@ export interface ProductFormValues {
   content: string;
   location: string;
   categoryId?: number;
+  images: File[];
+}
+
+export interface Images {
+  id: number;
+  url: string;
+}
+
+export interface ImagesArr {
+  original: string;
+  thumbnail: string;
+  originalClass: string;
+  thumbnailClass: string;
 }

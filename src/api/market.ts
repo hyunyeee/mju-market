@@ -1,5 +1,4 @@
 import { Axios } from './Axios';
-import { ProductFormValues } from '../types';
 
 export const getProducts = async (
   token: string,
@@ -39,7 +38,7 @@ export const getProduct = async (
 
 export const postProduct = async (
   token: string,
-  formData: ProductFormValues,
+  formData: FormData,
   categoryId: number | undefined,
 ) => {
   if (!categoryId) {
@@ -55,7 +54,7 @@ export const postProduct = async (
 
 export const updateProduct = async (
   token: string,
-  formData: ProductFormValues,
+  formData: FormData,
   categoryId: number,
   productId: number | undefined,
 ) => {
