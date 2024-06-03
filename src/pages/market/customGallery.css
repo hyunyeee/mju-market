@@ -16,3 +16,7 @@
 .image-gallery-thumbnails-wrapper {
   background-color: #1e1e1e;
 }
+
+.image-gallery-slide > img {
+  object-fit: cover;
+}

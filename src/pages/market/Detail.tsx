@@ -84,7 +84,7 @@ const Detail: React.FC = () => {
       }
       const response = await getProduct(token, categoryIndex, id);
       setProductObj(response.product);
-      if (response.images) {
+      if (response.images.length !== 0) {
         const imageArray = response.images.map((image: Images) => ({
           original: image.url,
           thumbnail: image.url,
@@ -159,10 +159,8 @@ const Detail: React.FC = () => {
 const Container = styled.div``;
 const ImageBox = styled.section`
   width: 100vw;
-  border: 3px solid dodgerblue;
   background-color: ${({ theme }) => theme.colors.TXT_GRAY};
   & > div {
-    border: 3px solid #b5f667;
     overflow: hidden;
   }
 `;
