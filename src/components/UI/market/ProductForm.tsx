@@ -79,12 +79,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
           data.append('images', image);
         });
       }
-
       if (isFormValid()) {
         if (location.pathname === '/write') {
           await postProduct(token, data, categoryId);
+          navigate('/');
         } else {
           await updateProduct(token, data, categoryId, productObj?.id);
+          navigate('/');
         }
       } else {
         alert('모든 입력 필드를 채워주세요.');

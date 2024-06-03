@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getBoards } from '../../api/board';
 import useToken from '../../hooks/useToken';
 import { BoardValues } from '../../types';
@@ -22,6 +22,16 @@ const Board = () => {
   });
   const token = useToken();
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const initialPath = useRef(location.pathname);
+
+  useEffect(() => {
+    if (location.pathname !== initialPath.current) {
+      window.location.reload();
+      initialPath.current = location.pathname;
+    }
+  }, [location]);
 
   const handlePage = (index: number) => {
     setPageState((prevState) => ({ ...prevState, currentPage: index }));

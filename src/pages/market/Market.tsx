@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { ProductContext } from '../../context/ProductContext';
 import SelectCategory from '../../components/UI/market/SelectCategory';
@@ -12,6 +13,15 @@ const Market = () => {
   const [productList, setProductList] = useState<Product[]>([]);
   const { categoryIndex } = useContext(ProductContext);
   const { ref, inView } = useInView();
+  const location = useLocation();
+  const initialPath = useRef(location.pathname);
+
+  useEffect(() => {
+    if (location.pathname !== initialPath.current) {
+      window.location.reload();
+      initialPath.current = location.pathname;
+    }
+  }, [location]);
 
   const { data, isLoading, isError, error, fetchNextPage, isFetchingNextPage } =
     useCategoryProductQuery({
