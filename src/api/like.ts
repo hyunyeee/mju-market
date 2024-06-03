@@ -5,6 +5,18 @@ type PatchLikeResponse = {
   likeStatus: boolean;
 };
 
+export const getLikeList = async (token: string, categoryId: number) => {
+  const response = await Axios.get(
+    `/api/categories/${categoryId}/products/likes`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response;
+};
+
 export const patchLike = async (token: string, boardId: number) => {
   const response = await Axios.patch<PatchLikeResponse>(
     `/api/boards/${boardId}/likes`,

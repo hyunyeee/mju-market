@@ -34,3 +34,15 @@ export interface ProductFormValues {
   location: string;
   categoryId?: number;
 }
+
+export interface Images {
+  id: number;
+  url: string;
+}
+
+export interface ImagesArr {
+  original: string;
+  thumbnail: string;
+  originalClass: string;
+  thumbnailClass: string;
+}

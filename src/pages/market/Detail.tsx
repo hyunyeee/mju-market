@@ -8,7 +8,7 @@ import ImageGallery from 'react-image-gallery';
 import { getProduct, deleteProduct } from '../../api/market';
 import useToken from '../../hooks/useToken';
 import { calculateTime } from '../../hooks/calculateTime';
-import { ProductDetail } from '../../types';
+import { Images, ImagesArr, ProductDetail } from '../../types';
 import ProductActionBar from '../../components/UI/market/ProductActionBar';
 import BackButton from '../../components/UI/BackButton';
 import TestImg from '../../assets/img/small_image_gray.jpg';
@@ -19,6 +19,14 @@ const Detail: React.FC = () => {
   const { productId } = useParams();
   const { categoryIndex } = useContext(ProductContext);
   const [productObj, setProductObj] = useState<ProductDetail>();
+  const [images, setImages] = useState<ImagesArr[]>([
+    {
+      original: TestImg,
+      thumbnail: TestImg,
+      originalClass: 'custom-image',
+      thumbnailClass: 'custom-thumbnail',
+    },
+  ]);
   const {
     id,
     location,
@@ -36,33 +44,6 @@ const Detail: React.FC = () => {
   const token = useToken();
   const navigate = useNavigate();
   const parsedRelativeTime = calculateTime(createDate);
-
-  const images = [
-    {
-      original: TestImg,
-      thumbnail: TestImg,
-      originalClass: 'custom-image',
-      thumbnailClass: 'custom-thumbnail',
-    },
-    {
-      original: 'https://picsum.photos/id/1018/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1018/250/150/',
-      originalClass: 'custom-image',
-      thumbnailClass: 'custom-thumbnail',
-    },
-    {
-      original: 'https://picsum.photos/id/1015/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1015/250/150/',
-      originalClass: 'custom-image',
-      thumbnailClass: 'custom-thumbnail',
-    },
-    {
-      original: 'https://picsum.photos/id/1019/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1019/250/150/',
-      originalClass: 'custom-image',
-      thumbnailClass: 'custom-thumbnail',
-    },
-  ];
 
   const handleDelete = async () => {
     try {
@@ -103,6 +84,15 @@ const Detail: React.FC = () => {
       }
       const response = await getProduct(token, categoryIndex, id);
       setProductObj(response.product);
+      if (response.images) {
+        const imageArray = response.images.map((image: Images) => ({
+          original: image.url,
+          thumbnail: image.url,
+          originalClass: 'custom-image',
+          thumbnailClass: 'custom-thumbnail',
+        }));
+        setImages(imageArray);
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error?.response?.data);
@@ -168,9 +158,11 @@ const Detail: React.FC = () => {
 
 const Container = styled.div``;
 const ImageBox = styled.section`
-  background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
+  width: 100vw;
+  border: 3px solid dodgerblue;
+  background-color: ${({ theme }) => theme.colors.TXT_GRAY};
   & > div {
-    width: 100vw;
+    border: 3px solid #b5f667;
     overflow: hidden;
   }
 `;
