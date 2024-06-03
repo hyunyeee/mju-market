@@ -10,7 +10,6 @@ import WriteButton from '../../components/UI/WriteButton';
 
 const Market = () => {
   const [productList, setProductList] = useState<Product[]>([]);
-  const dummyCategory: string[] = ['1', '2', '3', '4', '5', '6'];
   const { categoryIndex } = useContext(ProductContext);
   const { ref, inView } = useInView();
 
@@ -42,7 +41,7 @@ const Market = () => {
 
   return (
     <Container>
-      <SelectCategory dummyCategory={dummyCategory} />
+      <SelectCategory />
       <ListContainer>
         {productList.map((product) => (
           <ProductListItem product={product} key={product.id} />

@@ -7,7 +7,7 @@ export const getProducts = async (
   pageSize: number,
 ) => {
   const response = await Axios.get(
-    `/api/categories/${categoryId + 1}/products?${productId ? `productId=${productId}&` : ''}pageSize=${pageSize}`,
+    `/api/categories/${categoryId}/products?${productId ? `productId=${productId}&` : ''}pageSize=${pageSize}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -26,7 +26,7 @@ export const getProduct = async (
     throw new Error('로그인 정보가 유효하지 않습니다.');
   }
   const response = await Axios.get(
-    `/api/categories/${categoryId + 1}/products/${productId}`,
+    `/api/categories/${categoryId}/products/${productId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -39,11 +39,8 @@ export const getProduct = async (
 export const postProduct = async (
   token: string,
   formData: FormData,
-  categoryId: number | undefined,
+  categoryId: number,
 ) => {
-  if (!categoryId) {
-    throw new Error('카테고리를 선택해주세요.');
-  }
   await Axios.post(`/api/categories/${categoryId}/products`, formData, {
     headers: {
       Authorization: `Bearer ${token}`,

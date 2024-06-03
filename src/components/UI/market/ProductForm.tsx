@@ -27,7 +27,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
     title: '',
     price: '',
     content: '',
-    location: '',
+    location: 'BUILDING_THREE',
     categoryId: 0,
     images: [],
   });
@@ -65,10 +65,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
     try {
       if (!token) {
         navigate('/login');
-        return;
-      }
-      if (categoryId === 0) {
-        alert('카테고리를 선택해주세요.');
         return;
       }
       const data = new FormData();
