@@ -8,6 +8,8 @@ import ProductInput from './ProductInput';
 import { ProductDetail, ProductFormValues } from '../../../types';
 import { categories } from '../../../assets/data/categories';
 import { places } from '../../../assets/data/places';
+import camera from '../../../assets/img/camera.svg';
+import deleteBtn from '../../../assets/img/delete_image.svg';
 
 interface ProductFormProps {
   productObj?: ProductDetail;
@@ -27,7 +29,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
     content: '',
     location: '',
     categoryId: 0,
+    images: [],
   });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFormData({
+        ...formData,
+        images: Array.from(e.target.files),
+      });
+    }
+  };
 
   const onChange = (
     event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -59,11 +71,24 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
         alert('카테고리를 선택해주세요.');
         return;
       }
+      const data = new FormData();
+      data.append('title', formData.title);
+      data.append('price', formData.price.toString());
+      data.append('content', formData.content);
+      data.append('location', formData.location);
+      data.append('categoryId', categoryId.toString());
+
+      if (formData.images) {
+        formData.images.forEach((image) => {
+          data.append('images', image);
+        });
+      }
+
       if (isFormValid()) {
         if (location.pathname === '/write') {
-          await postProduct(token, formData, categoryId);
+          await postProduct(token, data, categoryId);
         } else {
-          await updateProduct(token, formData, categoryId, productObj?.id);
+          await updateProduct(token, data, categoryId, productObj?.id);
         }
       } else {
         alert('모든 입력 필드를 채워주세요.');
@@ -87,6 +112,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
         content: productObj.content,
         location: productObj.location,
         categoryId: productObj.categoryId,
+        images: [],
       });
       setCategoryId(productObj.categoryId ?? 0);
     }
@@ -94,6 +120,35 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
 
   return (
     <Form onSubmit={onSubmit}>
+      <AddImageContainer>
+        <SubTitle>상품 이미지 등록</SubTitle>
+        <ImageBox>
+          <AddButton>
+            <label htmlFor="file-input">
+              <img src={camera} alt="카메라 아이콘" />
+              5/10
+            </label>
+            <input
+              id="file-input"
+              type="file"
+              name="images"
+              multiple
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
+          </AddButton>
+          {formData.images &&
+            formData.images.map((image, index) => (
+              <Image key={index}>
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt={`이미지 ${index + 1}`}
+                />
+                <DeleteBtn src={deleteBtn} alt="삭제 버튼" />
+              </Image>
+            ))}
+        </ImageBox>
+      </AddImageContainer>
       <Content>
         <ProductInput
           type="text"
@@ -164,6 +219,47 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 40px;
+`;
+const SubTitle = styled.h2`
+  ${({ theme }) => theme.typographies.DEFAULT};
+`;
+const AddImageContainer = styled.div`
+  ${({ theme }) => theme.typographies.DEFAULT};
+`;
+const ImageBox = styled.div`
+  padding: 10px 0;
+  display: flex;
+  gap: 12px;
+  overflow-x: scroll;
+`;
+const AddButton = styled.div`
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  background-color: ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-shrink: 0;
+  label {
+    cursor: pointer;
+  }
+`;
+const Image = styled.div`
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  background-color: ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
+  flex-shrink: 0;
+`;
+const DeleteBtn = styled.img`
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  right: -8px;
+  cursor: pointer;
 `;
 const Content = styled.div`
   width: 100%;

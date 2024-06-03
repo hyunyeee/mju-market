@@ -13,8 +13,6 @@ import { getProduct } from '../../api/market';
 import ProductForm from '../../components/UI/market/ProductForm';
 import BackButton from '../../components/UI/BackButton';
 import { ProductDetail } from '../../types';
-import camera from '../../assets/img/camera.svg';
-import deleteBtn from '../../assets/img/delete_image.svg';
 
 const Write: React.FC = () => {
   const { productId } = useParams();
@@ -83,30 +81,6 @@ const Write: React.FC = () => {
     <Container>
       <BackButton />
       <Title>글쓰기</Title>
-      <AddImageContainer>
-        <SubTitle>상품 이미지 등록</SubTitle>
-        <ImageBox>
-          <AddButton>
-            <img src={camera} />
-            5/10
-          </AddButton>
-          <Image>
-            <DeleteBtn src={deleteBtn} />
-          </Image>
-          <Image>
-            <DeleteBtn src={deleteBtn} />
-          </Image>
-          <Image>
-            <DeleteBtn src={deleteBtn} />
-          </Image>
-          <Image>
-            <DeleteBtn src={deleteBtn} />
-          </Image>
-          <Image>
-            <DeleteBtn src={deleteBtn} />
-          </Image>
-        </ImageBox>
-      </AddImageContainer>
       <ProductForm productObj={productObj} />
     </Container>
   );
@@ -123,44 +97,6 @@ const Title = styled.h1`
   margin: 20px auto 0;
   text-align: center;
   ${({ theme }) => theme.typographies.BIG_TXT};
-`;
-const SubTitle = styled.h2`
-  ${({ theme }) => theme.typographies.DEFAULT};
-`;
-const AddImageContainer = styled.div`
-  ${({ theme }) => theme.typographies.DEFAULT};
-`;
-const ImageBox = styled.div`
-  padding: 10px 0;
-  display: flex;
-  gap: 12px;
-  overflow-x: scroll;
-`;
-const AddButton = styled.button`
-  width: 64px;
-  height: 64px;
-  border-radius: 6px;
-  background-color: ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  flex-shrink: 0;
-`;
-const Image = styled.div`
-  position: relative;
-  width: 64px;
-  height: 64px;
-  border-radius: 6px;
-  background-color: ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
-  flex-shrink: 0;
-`;
-const DeleteBtn = styled.img`
-  position: absolute;
-  z-index: 1;
-  top: -5px;
-  right: -8px;
-  cursor: pointer;
 `;
 
 export default Write;
