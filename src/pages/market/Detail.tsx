@@ -53,7 +53,7 @@ const Detail: React.FC = () => {
       }
       if (confirm('상품을 삭제할까요?')) {
         await deleteProduct(token, categoryIndex, Number(productId));
-        navigate('/');
+        window.location.replace('/');
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {

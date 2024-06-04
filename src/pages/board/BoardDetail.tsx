@@ -63,7 +63,7 @@ const BoardDetail = () => {
       }
       if (confirm('게시글을 삭제할까요?')) {
         await deleteBoard(token, Number(boardId));
-        navigate('/');
+        window.location.replace('/boards');
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
