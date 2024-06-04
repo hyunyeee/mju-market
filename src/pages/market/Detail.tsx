@@ -11,7 +11,7 @@ import { calculateTime } from '../../hooks/calculateTime';
 import { Images, ImagesArr, ProductDetail } from '../../types';
 import ProductActionBar from '../../components/UI/market/ProductActionBar';
 import BackButton from '../../components/UI/BackButton';
-import TestImg from '../../assets/img/small_image_gray.jpg';
+import mjuLogo from '../../assets/img/mju_logo.jpg';
 
 import './customGallery.css';
 
@@ -21,8 +21,8 @@ const Detail: React.FC = () => {
   const [productObj, setProductObj] = useState<ProductDetail>();
   const [images, setImages] = useState<ImagesArr[]>([
     {
-      original: TestImg,
-      thumbnail: TestImg,
+      original: mjuLogo,
+      thumbnail: mjuLogo,
       originalClass: 'custom-image',
       thumbnailClass: 'custom-thumbnail',
     },

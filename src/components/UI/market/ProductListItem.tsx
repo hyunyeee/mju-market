@@ -5,6 +5,7 @@ import { Product } from '../../../types';
 import heartEmpty from '../../../assets/img/heart-empty.svg';
 import heartClicked from '../../../assets/img/heart_clicked.svg';
 import people from '../../../assets/img/people_icon.svg';
+import defaultImg from '../../../assets/img/defaultImg.svg';
 
 interface ProductListItemProps {
   product: Product;
@@ -34,7 +35,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
   return (
     <ItemBox onClick={onItemClick}>
       <Content>
-        <Image />
+        <Image src={defaultImg} />
         <Description>
           <ProductInfo>
             <Title>{title}</Title>
@@ -91,12 +92,11 @@ const ProductStatus = styled.div`
   background-color: ${({ theme }) => theme.colors.BLUE_1};
   border-radius: 4px;
 `;
-const Image = styled.div`
+const Image = styled.img`
   width: 100px;
   height: 100px;
   flex-shrink: 0;
   border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
 `;
 const Description = styled.div`
   display: flex;

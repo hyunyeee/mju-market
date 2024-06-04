@@ -5,6 +5,7 @@ import { BoardValues } from '../../../types';
 import heartEmpty from '../../../assets/img/heart-empty.svg';
 import heartClicked from '../../../assets/img/heart_clicked.svg';
 import comment from '../../../assets/img/comment.svg';
+import mjuLogo from '../../../assets/img/mju_logo.jpg';
 
 interface BoardListItemProps {
   board: BoardValues;
@@ -30,7 +31,7 @@ const BoardListItem: React.FC<BoardListItemProps> = ({ board }) => {
   return (
     <ItemBox onClick={onItemClick}>
       <Content>
-        <Image />
+        <Image src={mjuLogo} />
         <Description>
           <Title>{title}</Title>
           <Nickname>{writerNickname}</Nickname>
@@ -73,12 +74,12 @@ const StatusBox = styled.div`
   align-items: center;
   gap: 10px;
 `;
-const Image = styled.div`
+const Image = styled.img`
   width: 100px;
   height: 100px;
+  padding: 10px;
   flex-shrink: 0;
   border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
 `;
 const Description = styled.div`
   display: flex;

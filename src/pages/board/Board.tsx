@@ -100,6 +100,7 @@ const Container = styled.div`
   height: calc(100vh - 90px);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `;
 const ListContainer = styled.div`
   width: 100%;
