@@ -27,7 +27,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
     title: '',
     price: '',
     content: '',
-    location: '',
+    location: 'BUILDING_THREE',
     categoryId: 0,
     images: [],
   });
@@ -67,10 +67,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
         navigate('/login');
         return;
       }
-      if (categoryId === 0) {
-        alert('카테고리를 선택해주세요.');
-        return;
-      }
       const data = new FormData();
       data.append('title', formData.title);
       data.append('price', formData.price.toString());
@@ -83,12 +79,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
           data.append('images', image);
         });
       }
-
       if (isFormValid()) {
         if (location.pathname === '/write') {
           await postProduct(token, data, categoryId);
+          navigate('/');
         } else {
           await updateProduct(token, data, categoryId, productObj?.id);
+          navigate('/');
         }
       } else {
         alert('모든 입력 필드를 채워주세요.');

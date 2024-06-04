@@ -45,8 +45,10 @@ const BoardForm: React.FC<BoardDetail> = ({ boardObj }) => {
       if (isFormValid()) {
         if (location.pathname === '/board/write') {
           await postBoard(token, formData);
+          navigate('/boards');
         } else {
           await updateBoard(token, formData, boardObj?.id);
+          navigate(`/board/${boardObj?.id || ''}`);
         }
       } else {
         alert('모든 입력 필드를 채워주세요.');

@@ -1,17 +1,19 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
 import { ProductContext } from '../../../context/ProductContext';
+import { categories } from '../../../assets/data/categories';
+
+interface Categories {
+  name: string;
+  id: number;
+}
 
 interface ClickedStyle {
   $index: number;
   $categoryIndex: number;
 }
 
-interface SelectCategoryProps {
-  dummyCategory: string[];
-}
-
-const SelectCategory: React.FC<SelectCategoryProps> = ({ dummyCategory }) => {
+const SelectCategory = () => {
   const { setCategoryIndex, categoryIndex } = useContext(ProductContext);
 
   const selectCategory = (index: number) => {
@@ -20,14 +22,14 @@ const SelectCategory: React.FC<SelectCategoryProps> = ({ dummyCategory }) => {
 
   return (
     <CategoryBox>
-      {dummyCategory.map((category: string, index: number) => (
+      {categories.map((category: Categories, index: number) => (
         <Category
-          key={category}
+          key={category.id}
           $index={index}
-          onClick={() => selectCategory(index)}
+          onClick={() => selectCategory(category.id)}
           $categoryIndex={categoryIndex}
         >
-          {category}
+          {category.name}
         </Category>
       ))}
     </CategoryBox>
