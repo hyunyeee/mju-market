@@ -15,6 +15,7 @@ import Like from './pages/Like';
 import ChatList from './pages/chat/ChatList';
 import Mypage from './pages/my/Mypage';
 import Chatting from './pages/chat/Chatting';
+import History from './pages/my/History';
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App: React.FC = () => {
                 <Route path="/chat" element={<ChatList />} />
                 <Route path="/chatting" element={<Chatting />} />
                 <Route path="/mypage" element={<Mypage />} />
+                <Route path="/history" element={<History />} />
                 <Route path="/login" element={<LogIn />} />
                 <Route path="/signup" element={<SignUp />} />
               </Route>
