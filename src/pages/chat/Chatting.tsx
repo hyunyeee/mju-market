@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   connectWebSocket,
@@ -13,11 +13,13 @@ import useChattingQuery from '../../hooks/useChattingQuery';
 import { calculateTime } from '../../hooks/calculateTime';
 import { getMyId } from '../../api/auth';
 import useToken from '../../hooks/useToken';
+import { ProductContext } from '../../context/ProductContext';
 
 type MessageProps = {
   $isMine: boolean;
 };
 const Chatting = () => {
+  const { productName } = useContext(ProductContext);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [senderId, setSenderId] = useState<number>();
@@ -113,7 +115,7 @@ const Chatting = () => {
     <PageContainer>
       <RoomInfo>
         <BackButton />
-        chattingRoomId: {chattingRoomId}
+        {productName}
       </RoomInfo>
       <ChatBox ref={chatBoxRef}>
         {isFetchingNextPage ? (

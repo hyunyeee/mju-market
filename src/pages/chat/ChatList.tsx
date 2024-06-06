@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getChatRoomList } from '../../api/chat';
 import { calculateTime } from '../../hooks/calculateTime';
@@ -7,8 +7,10 @@ import useToken from '../../hooks/useToken';
 import { ChatRoomListInfo } from '../../types';
 import BackButton from '../../components/UI/BackButton';
 import profileImg from '../../assets/img/default_profile_img.svg';
+import { ProductContext } from '../../context/ProductContext';
 
 const ChatList = () => {
+  const { setProductName } = useContext(ProductContext);
   const [chatListData, setChatListData] = useState<ChatRoomListInfo[]>([]);
   const navigate = useNavigate();
   const token = useToken();
@@ -34,11 +36,12 @@ const ChatList = () => {
           {chatListData.map((chatRoom) => (
             <ChatRoom
               key={chatRoom.lastChattingTime}
-              onClick={() =>
+              onClick={() => {
                 navigate(
                   `/chatting?productId=${chatRoom.productId}&chatRoomId=${chatRoom.chattingRoomId}`,
-                )
-              }
+                );
+                setProductName(chatRoom.productName);
+              }}
             >
               <Profile>
                 <DefaultProfileImg src={profileImg} />
