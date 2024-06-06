@@ -33,6 +33,7 @@ const ChatList = () => {
       <Title>채팅</Title>
       <ListWrapper>
         <ChatListBox>
+          {chatListData?.length === 0 && <Box>데이터가 존재하지 않습니다.</Box>}
           {chatListData.map((chatRoom) => (
             <ChatRoom
               key={chatRoom.lastChattingTime}
@@ -81,6 +82,15 @@ const ListWrapper = styled.div`
 const ChatListBox = styled.div`
   display: flex;
   flex-direction: column-reverse;
+`;
+const Box = styled.div`
+  width: calc(100% - 80px);
+  margin: 20px 40px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  color: white;
+  background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
 `;
 const ChatRoom = styled.div`
   cursor: pointer;

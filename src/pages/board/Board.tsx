@@ -55,6 +55,10 @@ const Board = () => {
   };
 
   useEffect(() => {
+    console.log(boards);
+  }, [boards]);
+
+  useEffect(() => {
     if (token) {
       fetchData();
     }
@@ -64,6 +68,7 @@ const Board = () => {
     <PageContainer>
       <Container>
         <ListContainer>
+          {boards?.length === 0 && <Box>데이터가 존재하지 않습니다.</Box>}
           {boards?.map((board) => (
             <BoardListItem key={board.id} board={board} />
           ))}
@@ -86,6 +91,15 @@ const Board = () => {
   );
 };
 const PageContainer = styled.div``;
+const Box = styled.div`
+  width: calc(100% - 80px);
+  margin: 20px 40px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  color: white;
+  background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
+`;
 const Container = styled.div`
   height: calc(100vh - 90px);
   display: flex;

@@ -71,8 +71,26 @@ export const deleteProduct = async (
   categoryId: number,
   productId: number,
 ) => {
-  await Axios.delete(
-    `/api/categories/${categoryId + 1}/products/${productId}`,
+  await Axios.delete(`/api/categories/${categoryId}/products/${productId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const buyProduct = async (
+  token: string,
+  categoryId: number,
+  productId: number,
+  price: number,
+) => {
+  await Axios.post(
+    `/api/categories/${categoryId}/products/${productId}`,
+    {
+      usingCouponIds: [],
+      productOriginalPrice: price,
+      productDiscountPrice: price,
+    },
     {
       headers: {
         Authorization: `Bearer ${token}`,
