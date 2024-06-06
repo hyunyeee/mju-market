@@ -175,7 +175,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
           >
             {places.map((place) => (
               <option key={place.id} value={place.name}>
-                {place.name}
+                {place.koName}
               </option>
             ))}
           </select>
