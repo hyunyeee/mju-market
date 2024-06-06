@@ -44,6 +44,7 @@ const LikePage = () => {
     <Container>
       <H1>좋아요한 상품 목록</H1>
       <LikeList>
+        {likeList?.length === 0 && <Box>데이터가 존재하지 않습니다.</Box>}
         {likeList?.map((product) => (
           <ProductListItem key={product.id} product={product} />
         ))}
@@ -53,6 +54,15 @@ const LikePage = () => {
 };
 
 const Container = styled.div``;
+const Box = styled.div`
+  width: calc(100% - 80px);
+  margin: 20px 40px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  color: white;
+  background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
+`;
 const H1 = styled.h1`
   padding: 20px;
   ${({ theme }) => theme.typographies.BIG_TXT};

@@ -43,6 +43,7 @@ const Market = () => {
     <Container>
       <SelectCategory />
       <ListContainer>
+        {productList?.length === 0 && <Box>데이터가 존재하지 않습니다.</Box>}
         {productList.map((product) => (
           <ProductListItem product={product} key={product.id} />
         ))}
@@ -58,6 +59,15 @@ const Market = () => {
 };
 
 const Container = styled.div``;
+const Box = styled.div`
+  width: calc(100% - 80px);
+  margin: 20px 40px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  color: white;
+  background-color: ${({ theme }) => theme.colors.LIGHT_GRAY};
+`;
 const ListContainer = styled.div`
   margin: 60px 0 90px;
 `;
