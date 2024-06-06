@@ -17,12 +17,12 @@ type NavItem = {
 };
 
 export const navList: NavItem[] = [
-  // {
-  //   path: '/likes',
-  //   filledImg: heartFilled,
-  //   emptyImg: heartEmpty,
-  //   label: '저장',
-  // },
+  {
+    path: '/likes',
+    filledImg: heartFilled,
+    emptyImg: heartEmpty,
+    label: '저장',
+  },
   {
     path: '/boards',
     filledImg: boardFilled,

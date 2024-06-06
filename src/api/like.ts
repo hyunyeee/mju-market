@@ -1,4 +1,5 @@
 import { Axios } from './Axios';
+import { Product } from '../types';
 
 type PatchLikeResponse = {
   boardId: number;
@@ -6,7 +7,7 @@ type PatchLikeResponse = {
 };
 
 export const getLikeList = async (token: string, categoryId: number) => {
-  const response = await Axios.get(
+  const response = await Axios.get<Product[]>(
     `/api/categories/${categoryId}/products/likes`,
     {
       headers: {
@@ -14,7 +15,7 @@ export const getLikeList = async (token: string, categoryId: number) => {
       },
     },
   );
-  return response;
+  return response.data;
 };
 
 export const patchLike = async (token: string, boardId: number) => {
@@ -37,7 +38,7 @@ export const patchMarketLike = async (
   categoryId: number,
   productId: number,
 ) => {
-  const response = await Axios.patch<PatchLikeResponse>(
+  const response = await Axios.patch<boolean>(
     `/api/categories/${categoryId}/products/${productId}/likes`,
     {},
     {
@@ -46,5 +47,5 @@ export const patchMarketLike = async (
       },
     },
   );
-  return response.data.likeStatus;
+  return response.data;
 };
