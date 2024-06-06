@@ -41,6 +41,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
     }
   };
 
+  const handleDelete = (index: number) => {
+    setFormData({
+      ...formData,
+      images: formData.images.filter((_, i) => i !== index),
+    });
+  };
+
   const onChange = (
     event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -121,10 +128,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
         <SubTitle>상품 이미지 등록</SubTitle>
         <ImageBox>
           <AddButton>
-            <label htmlFor="file-input">
+            <Label htmlFor="file-input">
               <img src={camera} alt="카메라 아이콘" />
-              5/10
-            </label>
+              {formData.images.length}/10
+            </Label>
             <input
               id="file-input"
               type="file"
@@ -137,11 +144,15 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
           {formData.images &&
             formData.images.map((image, index) => (
               <Image key={index}>
-                <img
+                <Img
                   src={URL.createObjectURL(image)}
                   alt={`이미지 ${index + 1}`}
                 />
-                <DeleteBtn src={deleteBtn} alt="삭제 버튼" />
+                <DeleteBtn
+                  onClick={() => handleDelete(index)}
+                  src={deleteBtn}
+                  alt="삭제 버튼"
+                />
               </Image>
             ))}
         </ImageBox>
@@ -243,6 +254,10 @@ const AddButton = styled.div`
     cursor: pointer;
   }
 `;
+const Label = styled.label`
+  display: flex;
+  flex-direction: column;
+`;
 const Image = styled.div`
   position: relative;
   width: 64px;
@@ -250,6 +265,12 @@ const Image = styled.div`
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
   flex-shrink: 0;
+`;
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  object-fit: cover;
 `;
 const DeleteBtn = styled.img`
   position: absolute;
