@@ -13,6 +13,7 @@ const BackButton = () => {
 };
 
 const Button = styled.button`
+  z-index: 1;
   position: fixed;
   top: 20px;
   left: 10px;

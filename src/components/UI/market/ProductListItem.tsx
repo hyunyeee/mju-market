@@ -49,7 +49,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
             </TrafficData>
             <OwnerName>{ownerName}</OwnerName>
           </ProductInfo>
-          <Price>{price}원</Price>
+          <Price>{price.toLocaleString()}원</Price>
         </Description>
       </Content>
       <StatusBox>

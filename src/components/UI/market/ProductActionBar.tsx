@@ -53,7 +53,7 @@ const ProductActionBar: React.FC<ProductActionBarProps> = ({
         initialClicked={isLikedAlreadyByMe}
       />
       <Line />
-      <PriceTag>{price}원</PriceTag>
+      <PriceTag>{price.toLocaleString()}원</PriceTag>
       {!isMyProduct && (
         <Buttons>
           <ChatButton onClick={buy}>구매하기</ChatButton>
