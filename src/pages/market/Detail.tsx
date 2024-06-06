@@ -17,7 +17,7 @@ import './customGallery.css';
 
 const Detail: React.FC = () => {
   const { productId } = useParams();
-  const { categoryIndex } = useContext(ProductContext);
+  const { categoryIndex, setProductName } = useContext(ProductContext);
   const [productObj, setProductObj] = useState<ProductDetail>();
   const [images, setImages] = useState<ImagesArr[]>([
     {
@@ -84,6 +84,7 @@ const Detail: React.FC = () => {
       }
       const response = await getProduct(token, categoryIndex, id);
       setProductObj(response.product);
+      setProductName(response.product.title);
       if (response.images.length !== 0) {
         const imageArray = response.images.map((image: Images) => ({
           original: image.url,
