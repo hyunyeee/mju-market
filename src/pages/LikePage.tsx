@@ -54,8 +54,13 @@ const LikePage = () => {
 
 const Container = styled.div``;
 const H1 = styled.h1`
+  padding: 20px;
   ${({ theme }) => theme.typographies.BIG_TXT};
 `;
-const LikeList = styled.div``;
+const LikeList = styled.div`
+  width: 100%;
+  height: calc(100vh - 60px - 90px);
+  overflow: scroll;
+`;
 
 export default LikePage;
