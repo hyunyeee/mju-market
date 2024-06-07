@@ -17,6 +17,7 @@ const LogIn: React.FC = () => {
       localStorage.setItem('token', token);
       if (token !== undefined) {
         navigate('/');
+        window.location.reload();
       } else {
         alert('로그인 정보가 유효하지 않습니다.');
       }
