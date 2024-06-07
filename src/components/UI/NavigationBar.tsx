@@ -11,6 +11,7 @@ const NavigationBar: React.FC = () => {
   const onClick = (path: string) => {
     navigate(path);
     setCurrentPath(path);
+    window.location.reload();
   };
 
   useEffect(() => {
