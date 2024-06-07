@@ -11,6 +11,16 @@ export interface Product {
   createDate: string;
 }
 
+export interface HistoryProps {
+  buyerName: string;
+  productDiscountPrice: number;
+  productOriginPrice: number;
+  productTitle: string;
+  sellerName: string;
+  tradeHistoryId: number;
+  usingCouponIds: string;
+}
+
 export interface ProductDetail {
   id: number;
   title: string;
