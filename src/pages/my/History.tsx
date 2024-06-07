@@ -62,8 +62,12 @@ const History = () => {
         {historyList?.map((history) => (
           <Box key={history.tradeHistoryId}>
             <Title>{history.productTitle}</Title>
-            <Price>{history.productOriginPrice}</Price>
-            <SellerName>{history.sellerName}</SellerName>
+            <Price>{history.productOriginPrice}원</Price>
+            <SellerName>
+              {isSeller
+                ? `구매자: ${history.buyerName}`
+                : `판매자: ${history.sellerName}`}
+            </SellerName>
           </Box>
         ))}
       </ListContainer>
@@ -107,6 +111,7 @@ const Box = styled.div`
 `;
 const Title = styled.p`
   ${({ theme }) => theme.typographies.BIG_TXT};
+  margin-bottom: 4px;
 `;
 const Price = styled.p`
   ${({ theme }) => theme.typographies.DEFAULT};

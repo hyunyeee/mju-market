@@ -27,6 +27,7 @@ export interface ProductDetail {
   content: string;
   location: string;
   price: number;
+  productStatus: string;
   categoryId?: number;
   visitedCount: number;
   isMyProduct: boolean;

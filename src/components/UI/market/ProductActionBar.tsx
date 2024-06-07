@@ -14,6 +14,7 @@ type ProductActionBarProps = {
   isMyProduct: boolean;
   likedCount: number;
   isLikedAlreadyByMe: boolean;
+  productStatus: boolean;
 };
 
 const ProductActionBar: React.FC<ProductActionBarProps> = ({
@@ -24,6 +25,7 @@ const ProductActionBar: React.FC<ProductActionBarProps> = ({
   isMyProduct,
   likedCount = 0,
   isLikedAlreadyByMe = false,
+  productStatus = false,
   ...attrProps
 }) => {
   const { categoryIndex } = useContext(ProductContext);
@@ -36,6 +38,7 @@ const ProductActionBar: React.FC<ProductActionBarProps> = ({
     }
     if (response) {
       await buyProduct(token, categoryIndex, id, price);
+      window.location.reload();
     }
   };
 
@@ -54,12 +57,13 @@ const ProductActionBar: React.FC<ProductActionBarProps> = ({
       />
       <Line />
       <PriceTag>{price.toLocaleString()}원</PriceTag>
-      {!isMyProduct && (
+      {!isMyProduct && !productStatus && (
         <Buttons>
           <ChatButton onClick={buy}>구매하기</ChatButton>
           <ChatButton onClick={createRoom}>1:1 채팅</ChatButton>
         </Buttons>
       )}
+      {productStatus && <ProductStatus>거래 완료</ProductStatus>}
     </Container>
   );
 };
@@ -96,6 +100,15 @@ const ChatButton = styled.button`
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
   color: white;
   background-color: ${({ theme }) => theme.colors.BLUE_2};
+`;
+const ProductStatus = styled.div`
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  ${({ theme }) => theme.typographies.MEDIUM_TXT};
+  color: white;
+  background-color: ${({ theme }) => theme.colors.BLUE_1};
+  border-radius: 4px;
 `;
 
 export default ProductActionBar;
