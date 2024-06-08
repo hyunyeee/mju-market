@@ -13,7 +13,7 @@ const Market = () => {
   const [productList, setProductList] = useState<Product[]>([]);
   const { categoryIndex } = useContext(ProductContext);
   const { ref, inView } = useInView();
-  const location = useLocation(); // 현재 경로 감지
+  const location = useLocation();
 
   const {
     data,

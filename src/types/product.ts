@@ -34,6 +34,7 @@ export interface ProductDetail {
   isMyProduct: boolean;
   createDate: string;
   ownerNickname: string;
+  categoryName: string;
   ownerId: number;
   likedCount: number;
   isLikedAlreadyByMe: boolean;
