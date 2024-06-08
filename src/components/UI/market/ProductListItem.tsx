@@ -7,6 +7,9 @@ import heartClicked from '../../../assets/img/heart_clicked.svg';
 import people from '../../../assets/img/people_icon.svg';
 import defaultImg from '../../../assets/img/defaultImg.svg';
 
+interface isVisibleProps {
+  $isVisible: boolean;
+}
 interface ProductListItemProps {
   product: Product;
 }
@@ -53,13 +56,13 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
         </Description>
       </Content>
       <StatusBox>
-        <ProductStatus>
-          {productStatus === 'WAITING' ? '대기중' : productStatus}
-        </ProductStatus>
         <Like>
           <img src={isAlreadyLikedByMe ? heartClicked : heartEmpty} />
           <div>{productLikesCount}</div>
         </Like>
+        <ProductStatus $isVisible={productStatus === 'COMPLETED'}>
+          거래 완료
+        </ProductStatus>
       </StatusBox>
     </ItemBox>
   );
@@ -78,6 +81,7 @@ const Content = styled.div`
   gap: 15px;
 `;
 const StatusBox = styled.div`
+  width: 56px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -85,12 +89,13 @@ const StatusBox = styled.div`
   align-items: center;
   gap: 10px;
 `;
-const ProductStatus = styled.div`
+const ProductStatus = styled.div<isVisibleProps>`
   padding: 3px 5px;
   ${({ theme }) => theme.typographies.SMALL_TXT};
   color: white;
   background-color: ${({ theme }) => theme.colors.BLUE_1};
   border-radius: 4px;
+  display: ${({ $isVisible }) => ($isVisible ? 'block' : 'none')};
 `;
 const Image = styled.img`
   width: 100px;

@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../../context/AuthContext';
 
 const LogoutButton = () => {
   const navigate = useNavigate();
+  const { setToken } = useContext(AuthContext);
   const onClick = () => {
     if (confirm('로그아웃 하시겠습니까?')) {
-      localStorage.removeItem('token');
+      localStorage.clear();
+      setToken(null);
       navigate('/login');
     }
   };

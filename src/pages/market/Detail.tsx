@@ -40,6 +40,7 @@ const Detail: React.FC = () => {
     isMyProduct = false,
     isLikedAlreadyByMe = false,
     createDate,
+    productStatus,
   } = productObj || {};
   const token = useToken();
   const navigate = useNavigate();
@@ -150,6 +151,7 @@ const Detail: React.FC = () => {
             isMyProduct={isMyProduct}
             likedCount={likedCount}
             isLikedAlreadyByMe={isLikedAlreadyByMe}
+            productStatus={productStatus === 'COMPLETED'}
           />
         </>
       )}
