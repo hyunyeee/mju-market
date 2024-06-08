@@ -19,6 +19,7 @@ export interface HistoryProps {
   sellerName: string;
   tradeHistoryId: number;
   usingCouponIds: string;
+  productId: number;
 }
 
 export interface ProductDetail {

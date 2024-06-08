@@ -5,6 +5,7 @@ import { getHistory } from '../../api/myHistory';
 import useToken from '../../hooks/useToken';
 import { getMyId } from '../../api/auth';
 import { HistoryProps } from '../../types';
+import { useNavigate } from 'react-router-dom';
 
 interface ClickStyle {
   $isClicked: boolean;
@@ -14,6 +15,7 @@ const History = () => {
   const [memberId, setMemberId] = useState<number>();
   const [historyList, setHistoryList] = useState<HistoryProps[]>([]);
   const token = useToken();
+  const navigate = useNavigate();
 
   const handleClick = (state: boolean) => {
     setIsSeller(state);
@@ -60,7 +62,10 @@ const History = () => {
       </Buttons>
       <ListContainer>
         {historyList?.map((history) => (
-          <Box key={history.tradeHistoryId}>
+          <Box
+            key={history.tradeHistoryId}
+            onClick={() => navigate(`/products/${history.productId}`)}
+          >
             <Title>{history.productTitle}</Title>
             <Price>{history.productOriginPrice}원</Price>
             <SellerName>
