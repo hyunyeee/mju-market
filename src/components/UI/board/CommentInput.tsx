@@ -39,6 +39,7 @@ const InputContainer = styled.form`
   display: flex;
   gap: 10px;
   background-color: white;
+  border-top: 1px solid ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
 `;
 const Input = styled.input`
   padding: 0 15px;

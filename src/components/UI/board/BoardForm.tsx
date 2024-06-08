@@ -85,7 +85,7 @@ const BoardForm: React.FC<BoardDetail> = ({ boardObj }) => {
         />
       </Content>
       <ProductInput
-        type="text"
+        type="textarea"
         name="content"
         placeholder="내용을 작성해주세요"
         value={formData.content}
