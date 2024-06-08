@@ -190,6 +190,7 @@ const Counts = styled.div`
   color: ${({ theme }) => theme.colors.TXT_LIGHT_GRAY};
 `;
 const Content = styled.section`
+  margin-bottom: 70px;
   padding: 20px;
 `;
 const Buttons = styled.div`
@@ -218,6 +219,7 @@ const Category = styled.p`
 const TextBody = styled.div`
   margin-top: 20px;
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
+  white-space: pre-wrap;
 `;
 const MenuBar = styled(ProductActionBar)`
   width: 100%;
