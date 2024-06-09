@@ -1,23 +1,32 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useLocation } from 'react-router-dom';
 import { ProductContext } from '../../context/ProductContext';
+import useCategoryProductQuery from '../../hooks/useCategoryProductQuery';
 import SelectCategory from '../../components/UI/market/SelectCategory';
 import ProductListItem from '../../components/UI/market/ProductListItem';
-import useCategoryProductQuery from '../../hooks/useCategoryProductQuery';
-import { Product } from '../../types';
 import WriteButton from '../../components/UI/WriteButton';
+import { Product } from '../../types';
 
 const Market = () => {
   const [productList, setProductList] = useState<Product[]>([]);
   const { categoryIndex } = useContext(ProductContext);
   const { ref, inView } = useInView();
+  const location = useLocation();
 
-  const { data, isLoading, isError, error, fetchNextPage, isFetchingNextPage } =
-    useCategoryProductQuery({
-      categoryId: categoryIndex,
-      pageSize: 10,
-    });
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    fetchNextPage,
+    isFetchingNextPage,
+    refetch,
+  } = useCategoryProductQuery({
+    categoryId: categoryIndex,
+    pageSize: 10,
+  });
 
   if (isError) {
     const errorMessage = (error as Error)?.message;
@@ -36,6 +45,10 @@ const Market = () => {
       setProductList(products);
     }
   }, [data, isLoading, isError, setProductList]);
+
+  useEffect(() => {
+    refetch();
+  }, [location, refetch]);
 
   const setRef = ref as React.RefCallback<HTMLDivElement>;
 

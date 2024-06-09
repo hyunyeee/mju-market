@@ -77,6 +77,7 @@ const Writer = styled.p`
 `;
 const CommentContent = styled.p`
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
+  white-space: pre-wrap;
 `;
 const Time = styled.p`
   ${({ theme }) => theme.typographies.SMALL_TXT};

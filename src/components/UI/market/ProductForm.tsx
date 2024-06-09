@@ -212,7 +212,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ productObj }) => {
         </Category>
       </Content>
       <ProductInput
-        type="text"
+        type="textarea"
         name="content"
         placeholder="제품 설명을 작성해주세요"
         value={formData.content}

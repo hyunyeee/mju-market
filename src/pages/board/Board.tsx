@@ -55,10 +55,6 @@ const Board = () => {
   };
 
   useEffect(() => {
-    console.log(boards);
-  }, [boards]);
-
-  useEffect(() => {
     if (token) {
       fetchData();
     }

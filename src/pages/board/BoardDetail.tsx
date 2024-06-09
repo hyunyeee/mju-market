@@ -258,6 +258,7 @@ const Title = styled.p`
 `;
 const Content = styled.p`
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
+  white-space: pre-wrap;
 `;
 const DefaultProfileImg = styled.img`
   width: 50px;

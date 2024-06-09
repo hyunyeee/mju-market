@@ -11,12 +11,9 @@ export const connectWebSocket = (
     brokerURL: `${process.env.REACT_APP_SOCKET_URL}/ws-stomp`,
     reconnectDelay: 5000,
     onConnect: () => {
-      console.log('WebSocket connected');
       subscribeToChatRoom(chattingRoomId, onMessageReceived);
     },
-    onDisconnect: () => {
-      console.log('WebSocket disconnected');
-    },
+    onDisconnect: () => {},
   });
 
   stompClient.activate();
@@ -47,7 +44,6 @@ export const sendWebSocketMessage = (
       destination: publishUrl,
       body: messageData,
     });
-    console.log(`Message sent to ${publishUrl}`);
   } else {
     console.error('WebSocket is not connected');
   }

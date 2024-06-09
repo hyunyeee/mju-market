@@ -14,10 +14,12 @@ import { calculateTime } from '../../hooks/calculateTime';
 import { getMyId } from '../../api/auth';
 import useToken from '../../hooks/useToken';
 import { ProductContext } from '../../context/ProductContext';
+import send from '../../assets/img/send.svg';
 
 type MessageProps = {
   $isMine: boolean;
 };
+
 const Chatting = () => {
   const { productName } = useContext(ProductContext);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -137,7 +139,9 @@ const Chatting = () => {
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
         />
-        <Button onClick={onClick}>Send</Button>
+        <Button onClick={onClick}>
+          <img src={send} />
+        </Button>
       </InputBox>
     </PageContainer>
   );
@@ -189,9 +193,11 @@ const Input = styled.input`
   height: 100%;
   padding: 10px;
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
+  border-top: 1px solid ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
 `;
 const Button = styled.button`
-  padding: 5px 10px;
+  padding: 10px;
+  border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.BLUE_1};
 `;
 export default Chatting;

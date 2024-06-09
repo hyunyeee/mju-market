@@ -17,7 +17,8 @@ import './customGallery.css';
 
 const Detail: React.FC = () => {
   const { productId } = useParams();
-  const { categoryIndex, setProductName } = useContext(ProductContext);
+  const { categoryIndex, setCategoryIndex, setProductName } =
+    useContext(ProductContext);
   const [productObj, setProductObj] = useState<ProductDetail>();
   const [images, setImages] = useState<ImagesArr[]>([
     {
@@ -36,6 +37,7 @@ const Detail: React.FC = () => {
     visitedCount,
     ownerNickname,
     likedCount = 0,
+    categoryName = '',
     ownerId,
     isMyProduct = false,
     isLikedAlreadyByMe = false,
@@ -45,6 +47,11 @@ const Detail: React.FC = () => {
   const token = useToken();
   const navigate = useNavigate();
   const parsedRelativeTime = calculateTime(createDate);
+
+  const handleCategory = () => {
+    setCategoryIndex(categoryIndex);
+    navigate('/');
+  };
 
   const handleDelete = async () => {
     try {
@@ -140,7 +147,7 @@ const Detail: React.FC = () => {
             <Time>{location}</Time>
             <Time>{parsedRelativeTime}</Time>
             <Title>{title}</Title>
-            <Category>Category {categoryIndex + 1}</Category>
+            <Category onClick={handleCategory}>{categoryName}</Category>
             <TextBody>{content}</TextBody>
           </Content>
           <MenuBar
@@ -183,6 +190,7 @@ const Counts = styled.div`
   color: ${({ theme }) => theme.colors.TXT_LIGHT_GRAY};
 `;
 const Content = styled.section`
+  margin-bottom: 70px;
   padding: 20px;
 `;
 const Buttons = styled.div`
@@ -206,10 +214,12 @@ const Category = styled.p`
   text-decoration: underline ${({ theme }) => theme.colors.LIGHT_GRAY} solid;
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
   color: ${({ theme }) => theme.colors.LIGHT_GRAY};
+  cursor: pointer;
 `;
 const TextBody = styled.div`
   margin-top: 20px;
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
+  white-space: pre-wrap;
 `;
 const MenuBar = styled(ProductActionBar)`
   width: 100%;
