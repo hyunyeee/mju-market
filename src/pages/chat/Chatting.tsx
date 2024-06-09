@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   connectWebSocket,
   disconnectWebSocket,
@@ -29,6 +29,7 @@ const Chatting = () => {
   const chattingRoomId = Number(params.get('chatRoomId'));
   const productId = Number(params.get('productId'));
 
+  const navigate = useNavigate();
   const token = useToken();
   const chatBoxRef = useRef<HTMLDivElement>(null);
   const { ref, inView } = useInView();
@@ -117,7 +118,9 @@ const Chatting = () => {
     <PageContainer>
       <RoomInfo>
         <BackButton />
-        {productName}
+        <Title onClick={() => navigate(`/products/${productId}`)}>
+          {productName}
+        </Title>
       </RoomInfo>
       <ChatBox ref={chatBoxRef}>
         {isFetchingNextPage ? (
@@ -155,6 +158,11 @@ const RoomInfo = styled.div`
   top: 0;
   text-align: center;
   ${({ theme }) => theme.typographies.BIG_TXT};
+  background-color: white;
+  box-shadow: 0 0 1px gray;
+`;
+const Title = styled.p`
+  cursor: pointer;
 `;
 const ChatBox = styled.div`
   height: calc(100vh - 80px - 50px);
@@ -188,12 +196,13 @@ const InputBox = styled.div`
   gap: 10px;
   position: fixed;
   bottom: 0;
+  background-color: white;
 `;
 const Input = styled.input`
   height: 100%;
   padding: 10px;
   ${({ theme }) => theme.typographies.MEDIUM_TXT};
-  border-top: 1px solid ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
+  border-top: 2px solid ${({ theme }) => theme.colors.BG_LIGHT_GRAY};
 `;
 const Button = styled.button`
   padding: 10px;
