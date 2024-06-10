@@ -19,6 +19,7 @@ const useCategoryProductQuery = ({
       if (!token) return Promise.reject(new Error('토큰이 없습니다.'));
       return getProducts(token, categoryId, pageParam, pageSize);
     },
+    gcTime: 100,
     getNextPageParam: (lastPage) => {
       if (!lastPage || lastPage.length < pageSize) {
         return undefined;
