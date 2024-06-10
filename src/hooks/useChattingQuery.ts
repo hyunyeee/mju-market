@@ -28,6 +28,7 @@ const useChattingQuery = ({
         pageSize,
       );
     },
+    gcTime: 100,
     getNextPageParam: (lastPage) => {
       if (!lastPage || lastPage.length < pageSize) {
         return undefined;
