@@ -27,6 +27,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
     isAlreadyLikedByMe,
     createDate,
     thumbnailUrl,
+    thumbnailId,
   } = product;
   const navigate = useNavigate();
 
@@ -39,7 +40,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
   return (
     <ItemBox onClick={onItemClick}>
       <Content>
-        <Image src={thumbnailUrl || defaultImg} />
+        <Image src={thumbnailId === -1 ? defaultImg : thumbnailUrl} />
         <Description>
           <ProductInfo>
             <Title>{title}</Title>
