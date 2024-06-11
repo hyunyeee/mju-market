@@ -217,8 +217,6 @@ const BoardDetail = () => {
             ))}
           </CommentList>
         )}
-        {/*TODO 수정 값 인지 여부를 알아야 함 */}
-        {/* 변경 값 없으면 취소 버튼만 가능하게*/}
         <CommentInput
           comment={comment}
           handleInputChange={handleInputChange}
