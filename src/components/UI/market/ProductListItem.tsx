@@ -34,7 +34,6 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
   const onItemClick = () => {
     navigate(`/products/${id}`);
   };
-
   const parsedRelativeTime = calculateTime(createDate);
 
   return (
