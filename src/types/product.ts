@@ -9,6 +9,7 @@ export interface Product {
   productLikesCount: number;
   isAlreadyLikedByMe: boolean;
   createDate: string;
+  thumbnailUrl: string;
 }
 
 export interface HistoryProps {
