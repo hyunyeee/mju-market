@@ -10,6 +10,7 @@ export interface Product {
   isAlreadyLikedByMe: boolean;
   createDate: string;
   thumbnailUrl: string;
+  thumbnailId: number;
 }
 
 export interface HistoryProps {
