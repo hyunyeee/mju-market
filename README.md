@@ -6,7 +6,7 @@
 
 <table>
   <caption>로그인 유효성 검사</caption>
-    <td><img src="src/assets/docs/login-validation.gif" alt="login" class="responsive-img"></td>
+    <td><img src="src/assets/docs/login-validation.gif" alt="login" class="responsive-img" style="height: 50vh;></td>
 </table>
 <table>
   <caption>마켓 기능</caption>
