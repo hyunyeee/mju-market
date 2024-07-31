@@ -1,12 +1,3 @@
-<style>
-  .responsive-img {
-    height: 50vh;
-  }
-  caption {
-    font-size: 22px;
-  }
-</style>
-
 # 서비스
 
 <a href="https://mju-market.vercel.app">MJU-market 서비스 바로가기</a>
